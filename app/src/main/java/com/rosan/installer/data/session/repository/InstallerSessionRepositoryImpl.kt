@@ -40,6 +40,8 @@ class InstallerSessionRepositoryImpl(override val id: String, private val onClos
     override var data: List<DataEntity> by mutableStateOf(emptyList())
     override var sourceUris: List<String> by mutableStateOf(emptyList())
     override var referrerUri: String? by mutableStateOf(null)
+    override var resignRequested: Boolean = false
+    override var resignedPackages: Set<String> = emptySet()
     override var analysisResults: List<PackageAnalysisResult> by mutableStateOf(emptyList())
     override val progress: MutableSharedFlow<ProgressEntity> = MutableStateFlow(ProgressEntity.Ready)
     override val toastEvents: MutableSharedFlow<String> = MutableSharedFlow(extraBufferCapacity = 16)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="resign">重新签名</string>
     <string name="warning">警告</string>
     <string name="open_source_license">开放源代码许可</string>
     <string name="open_source_license_settings_description">查看本应用所使用的第三方开源库及其许可证信息</string>

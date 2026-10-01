@@ -13,6 +13,7 @@ import com.rosan.installer.core.bitmask.addFlag
 import com.rosan.installer.core.bitmask.hasFlag
 import com.rosan.installer.core.bitmask.removeFlag
 import com.rosan.installer.domain.device.provider.DeviceCapabilityProvider
+import com.rosan.installer.domain.engine.model.install.ResigningPolicy
 import com.rosan.installer.domain.engine.model.install.SessionMode
 import com.rosan.installer.domain.engine.model.install.UninstallFlags
 import com.rosan.installer.domain.engine.model.install.sourcePath
@@ -199,6 +200,8 @@ class InstallerViewModel(
             is InstallerViewAction.InstallMultiple -> installMultiple()
 
             is InstallerViewAction.Install -> install()
+
+            is InstallerViewAction.Resign -> install(resign = true)
 
             is InstallerViewAction.RequestUnknownSourcePermission -> requestUnknownSourcePermission()
 
@@ -814,8 +817,14 @@ class InstallerViewModel(
         }
     }
 
-    private fun install() {
+    val canResign: Boolean
+        get() = !ResigningPolicy.isOfficialSource(_localState.value.config) && _localState.value.analysisResults.any { result ->
+            result.appEntities.any { it.selected && it.app is AppEntity.BaseEntity }
+        }
+
+    private fun install(resign: Boolean = false) {
         autoInstallJob?.cancel()
+        if (resign) session.resignRequested = true
         Timber.d("Standard foreground installation triggered. Contains Module: $isInstallingModule")
         session.install(true)
     }

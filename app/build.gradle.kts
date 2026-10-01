@@ -34,7 +34,7 @@ android {
     defaultConfig {
         // If you use InstallerX source code, package it into apk or other installation package format
         // Please change the applicationId to one that does not conflict with any official release.
-        applicationId = project.findProperty("APP_ID") as String? ?: "com.rosan.installer.x.revived"
+        applicationId = project.findProperty("APP_ID") as String? ?: "com.darkaxt.installerx.resign"
 
         // Version control retrieved from git, with a build-plugin fallback when git is unavailable.
         versionCode = project.getGitCommitCount()
@@ -200,6 +200,8 @@ room3 {
 }
 
 dependencies {
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.runner)
     testImplementation(libs.kotlin.test.junit)
     testImplementation(libs.kotlinx.coroutines.test)
 

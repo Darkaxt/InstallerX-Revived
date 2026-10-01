@@ -696,6 +696,13 @@ fun InstallPrepareContent(
                     modifier = Modifier.weight(1f),
                     interactionSource = interactionSource,
                 )
+                if (canInstall && viewModel.canResign) {
+                    TextButton(
+                        onClick = { viewModel.dispatch(InstallerViewAction.Resign) },
+                        text = stringResource(R.string.resign),
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
         }
     }

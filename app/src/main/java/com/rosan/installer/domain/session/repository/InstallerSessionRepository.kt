@@ -27,6 +27,8 @@ interface InstallerSessionRepository : Closeable {
     var data: List<DataEntity>
     var sourceUris: List<String>
     var referrerUri: String?
+    var resignRequested: Boolean
+    var resignedPackages: Set<String>
     var analysisResults: List<PackageAnalysisResult>
     val progress: Flow<ProgressEntity>
     val toastEvents: Flow<String>

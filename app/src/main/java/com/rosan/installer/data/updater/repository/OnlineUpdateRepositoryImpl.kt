@@ -32,7 +32,7 @@ class OnlineUpdateRepositoryImpl(
     private val appSettingsRepository: AppSettingsRepository,
 ) : UpdateRepository {
     companion object {
-        private const val REPO_OWNER = "wxxsfxyzm"
+        private const val REPO_OWNER = "Darkaxt"
         private const val REPO_NAME = "InstallerX-Revived"
     }
 

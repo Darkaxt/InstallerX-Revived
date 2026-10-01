@@ -1,0 +1,1 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.darkaxt.installerx.resigning.fixture" split="config.en" android:versionCode="2" android:versionName="2"><uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35"/><application android:hasCode="false" android:debuggable="true" android:label="Signing fixture"/></manifest>

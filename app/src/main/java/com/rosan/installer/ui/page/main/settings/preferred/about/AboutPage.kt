@@ -254,7 +254,7 @@ private fun BottomSheetContent(
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived/releases")
+                uriHandler.openUri("https://github.com/Darkaxt/InstallerX-Revived/releases")
             },
             modifier = Modifier.fillMaxWidth(),
         ) {

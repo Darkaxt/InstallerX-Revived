@@ -36,6 +36,7 @@ sealed interface InstallerViewAction {
      * @see com.rosan.installer.data.session.repository.InstallerSessionRepositoryImpl.Action.Install
      */
     data class Install(val triggerAuth: Boolean) : InstallerViewAction
+    data object Resign : InstallerViewAction
     data object RequestUnknownSourcePermission : InstallerViewAction
     data object Background : InstallerViewAction
     data object Cancel : InstallerViewAction

@@ -22,6 +22,7 @@ import com.rosan.installer.domain.engine.model.packageinfo.analyzePackageSignatu
 import com.rosan.installer.domain.engine.model.packageinfo.selectedSigningBlockCertificateStatus
 import com.rosan.installer.domain.engine.model.source.DataType
 import com.rosan.installer.domain.engine.provider.InstalledPackageSignatureProvider
+import com.rosan.installer.domain.engine.repository.ApkResigningRepository
 import com.rosan.installer.domain.engine.repository.AppInstallerRepository
 import com.rosan.installer.domain.engine.repository.ModuleInstallerRepository
 import com.rosan.installer.domain.history.model.InstallMethod
@@ -61,6 +62,7 @@ class ProcessInstallationUseCase(
     private val capabilityProvider: DeviceCapabilityProvider,
     private val installedPackageSignatureProvider: InstalledPackageSignatureProvider,
     private val recordOperationHistory: RecordOperationHistoryUseCase,
+    private val apkResigning: ApkResigningRepository,
 ) {
     companion object {
         private const val MODULE_INSTALL_BANNER = """
@@ -87,68 +89,81 @@ class ProcessInstallationUseCase(
         metadata: InstallMetadata = InstallMetadata.Empty,
         current: Int = 1,
         total: Int = 1,
+        explicitlyResign: Boolean = false,
+        rememberedResigningPackages: Set<String> = emptySet(),
+        onResignedPackages: (Set<String>) -> Unit = {},
     ): Flow<ProgressEntity> = flow {
-        val selected = analysisResults.flatMap { it.appEntities }.filter { it.selected }
-        if (selected.isEmpty()) {
-            Timber.w("ProcessInstallationUseCase: No entities selected for installation.")
-            throw IllegalStateException("No items selected")
+        if (analysisResults.any { result -> result.appEntities.any { it.selected && (it.app is AppEntity.BaseEntity || it.app is AppEntity.SplitEntity) } }) {
+            emit(ProgressEntity.Installing(current = current, total = total, appLabel = analysisResults.firstOrNull()?.packageName))
         }
-
-        val firstApp = selected.first().app
-
-        if (firstApp is AppEntity.ModuleEntity) {
-            installModule(config, firstApp).collect { emit(it) }
-        } else {
-            // 1. Get the label first
-            val appLabel = selected.firstOrNull()?.app?.let {
-                (it as? AppEntity.BaseEntity)?.label ?: it.packageName
+        val prepared = apkResigning.prepare(analysisResults, explicitlyResign, config, rememberedResigningPackages)
+        try {
+            onResignedPackages(prepared.resignedPackages)
+            val analysisResults = prepared.results
+            val selected = analysisResults.flatMap { it.appEntities }.filter { it.selected }
+            if (selected.isEmpty()) {
+                Timber.w("ProcessInstallationUseCase: No entities selected for installation.")
+                throw IllegalStateException("No items selected")
             }
 
-            // 2. Check profile policy before proceeding
-            checkBlockedByProfile(config, analysisResults)
+            val firstApp = selected.first().app
 
-            // 3. Emit the 'Installing' state BEFORE blocking the thread
-            Timber.d("installApp: Starting. AppLabel=$appLabel ($current/$total)")
-            var installingProgress = ProgressEntity.Installing(
-                current = current,
-                total = total,
-                appLabel = appLabel,
-            )
-            emit(installingProgress)
+            if (firstApp is AppEntity.ModuleEntity) {
+                installModule(config, firstApp).collect { emit(it) }
+            } else {
+                // 1. Get the label first
+                val appLabel = selected.firstOrNull()?.app?.let {
+                    (it as? AppEntity.BaseEntity)?.label ?: it.packageName
+                }
 
-            // 4. Now perform the heavy, blocking installation work
-            installApp(
-                config = config,
-                analysisResults = analysisResults,
-                selectedEntities = selected,
-                metadata = metadata,
-                onProgress = { writeProgress ->
-                    val fraction = writeProgress.fraction
-                    if (fraction != installingProgress.writeProgress) {
-                        installingProgress = installingProgress.copy(writeProgress = fraction)
-                        emit(installingProgress)
-                    }
-                },
-                onPhaseChanged = { phase ->
-                    val nextProgress = when (phase) {
-                        InstallPhase.WRITING -> installingProgress.copy(
-                            writeProgress = null,
-                            phase = phase,
-                        )
+                // 2. Check profile policy before proceeding
+                checkBlockedByProfile(config, analysisResults)
 
-                        InstallPhase.INSTALLING -> installingProgress.copy(phase = phase)
-                    }
-                    if (nextProgress != installingProgress) {
-                        installingProgress = nextProgress
-                        emit(installingProgress)
-                    }
-                },
-            )
+                // 3. Emit the 'Installing' state BEFORE blocking the thread
+                Timber.d("installApp: Starting. AppLabel=$appLabel ($current/$total)")
+                var installingProgress = ProgressEntity.Installing(
+                    current = current,
+                    total = total,
+                    appLabel = appLabel,
+                )
+                emit(installingProgress)
 
-            // 5. Emit success if it is a single task or the last task in a batch
-            if (total <= 1) {
-                emit(ProgressEntity.InstallSuccess)
+                // 4. Now perform the heavy, blocking installation work
+                installApp(
+                    config = config,
+                    analysisResults = analysisResults,
+                    selectedEntities = selected,
+                    metadata = metadata,
+                    onProgress = { writeProgress ->
+                        val fraction = writeProgress.fraction
+                        if (fraction != installingProgress.writeProgress) {
+                            installingProgress = installingProgress.copy(writeProgress = fraction)
+                            emit(installingProgress)
+                        }
+                    },
+                    onPhaseChanged = { phase ->
+                        val nextProgress = when (phase) {
+                            InstallPhase.WRITING -> installingProgress.copy(
+                                writeProgress = null,
+                                phase = phase,
+                            )
+
+                            InstallPhase.INSTALLING -> installingProgress.copy(phase = phase)
+                        }
+                        if (nextProgress != installingProgress) {
+                            installingProgress = nextProgress
+                            emit(installingProgress)
+                        }
+                    },
+                )
+
+                // 5. Emit success if it is a single task or the last task in a batch
+                if (total <= 1) {
+                    emit(ProgressEntity.InstallSuccess)
+                }
             }
+        } finally {
+            prepared.close()
         }
     }
 

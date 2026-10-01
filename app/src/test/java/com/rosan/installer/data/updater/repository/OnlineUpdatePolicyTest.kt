@@ -114,6 +114,8 @@ class OnlineUpdatePolicyTest {
 
     @Test
     fun `version comparison preserves release ordering rules`() {
+        assertTrue(OnlineUpdatePolicy.compareVersions("26.10.1002", "26.10.1001") > 0)
+        assertTrue(OnlineUpdatePolicy.compareVersions("26.11.1001", "26.10.1002") > 0)
         assertTrue(OnlineUpdatePolicy.compareVersions("26.09.abcdef0", "26.08.1234567") > 0)
         assertTrue(OnlineUpdatePolicy.compareVersions("26.08.01", "26.08") > 0)
         assertTrue(OnlineUpdatePolicy.compareVersions("26.08.abcdef0", "26.08") > 0)

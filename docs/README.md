@@ -1,5 +1,9 @@
 # InstallerX Revived (Community Edition)
 
+This fork adds [personal APK signing](resigning.md). See the
+[authoritative feature specification](resigning-spec.md) and
+[verification ledger](resigning-plan.md).
+
 **English** | [简体中文](README_CN.md) | [Español](README_ES.md) | [日本語](README_JA.md) | [Deutsch](README_DE.md)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

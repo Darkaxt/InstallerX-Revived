@@ -517,6 +517,9 @@ class ActionHandler(override val scope: CoroutineScope, override val session: In
                         processInstallation(
                             config = session.config,
                             analysisResults = tempResults,
+                            explicitlyResign = session.resignRequested,
+                            rememberedResigningPackages = session.resignedPackages,
+                            onResignedPackages = { session.resignedPackages = session.resignedPackages + it },
                             metadata = installMetadata(),
                             current = currentProgressIndex,
                             total = totalCount,
@@ -579,6 +582,9 @@ class ActionHandler(override val scope: CoroutineScope, override val session: In
             processInstallation(
                 config = session.config,
                 analysisResults = session.analysisResults,
+                explicitlyResign = session.resignRequested,
+                rememberedResigningPackages = session.resignedPackages,
+                onResignedPackages = { session.resignedPackages = session.resignedPackages + it },
                 metadata = installMetadata(),
             ).collect { progress ->
                 // Sync module logs back to the session repository if applicable

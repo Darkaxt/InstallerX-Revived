@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       version_tag:
-        description: 'Input version tag exactly (e.g. 26.03 or 26.03.01)'
+        description: 'Numeric fork version (e.g. 26.10.1002)'
         required: true
 
 jobs:
   build_and_release:
-    name: Build Draft Release
+    name: Verify and Build Draft Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,12 +37,16 @@ jobs:
           # Cache is read-only for manual stable releases
           cache-read-only: true
 
-      - name: Verify Keystore
+      - name: Install required Android SDK
         run: |
-          if [ -z "${{ secrets.SIGNING_KEY_STORE_BASE64 }}" ]; then
-            echo "ERROR: SIGNING_KEY_STORE_BASE64 secret is missing"
-            exit 1
-          fi
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.0" "build-tools;37.0.0"
+
+      - name: Validate release version
+        env:
+          VERSION_TAG: ${{ inputs.version_tag }}
+        run: |
+          [[ "$VERSION_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit 1
+          ! git rev-parse --verify "refs/tags/$VERSION_TAG"
 
       - name: Setup Signing Keys
         env:
@@ -52,7 +56,8 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         run: |
           if [ -z "${SIGNING_STORE_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_STORE_BASE64:-}" ] || [ -z "${SIGNING_KEY_PASSWORD:-}" ] || [ -z "${SIGNING_KEY_ALIAS:-}" ]; then
-            exit 0
+            echo "ERROR: Persistent fork release signing secrets are required"
+            exit 1
           fi
           mkdir -p keystore
           echo "${SIGNING_KEY_STORE_BASE64}" | base64 --decode > keystore/carlyu.jks
@@ -68,14 +73,15 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # Explicitly pass the user input to override the dynamic date version in Gradle
-        run: ./gradlew assembleStableRelease -PVERSION_NAME="${{ inputs.version_tag }}"
+          VERSION_TAG: ${{ inputs.version_tag }}
+        run: ./gradlew spotlessCheck testUnstableDebugUnitTest assemblePreviewDebug assembleStableRelease -PVERSION_NAME="$VERSION_TAG"
 
       - name: Find and Rename Universal APKs
         id: rename_apk
+        env:
+          VERSION_TAG: ${{ inputs.version_tag }}
         run: |
           PROJECT_NAME="InstallerX-Revived"
-          VERSION_TAG="${{ inputs.version_tag }}"
           
           APK_DIR=$(find app/build/outputs/apk -type d | grep -iE '/stable/release$' | head -n 1)
           if [ -z "$APK_DIR" ]; then
@@ -98,12 +104,30 @@ jobs:
           mv "$ORIGINAL_APK" "$NEW_APK_PATH"
           echo "apk=${NEW_APK_PATH}" >> "$GITHUB_OUTPUT"
 
+      - name: Verify signed fork artifact
+        env:
+          EXPECTED_CERT: ${{ vars.SIGNING_CERT_SHA256 }}
+          VERSION_TAG: ${{ inputs.version_tag }}
+          APK: ${{ steps.rename_apk.outputs.apk }}
+        run: |
+          test -n "$EXPECTED_CERT"
+          TOOLS="$ANDROID_HOME/build-tools/37.0.0"
+          "$TOOLS/apksigner" verify --verbose --print-certs "$APK" | tee signature.txt
+          ACTUAL_CERT=$(sed -n 's/.*certificate SHA-256 digest: //p' signature.txt | sort -u)
+          test "$ACTUAL_CERT" = "$EXPECTED_CERT"
+          "$TOOLS/zipalign" -c -P 16 -v 4 "$APK"
+          "$TOOLS/aapt2" dump badging "$APK" | sed -n '1p' | tee package.txt
+          grep -F "name='com.darkaxt.installerx.resign'" package.txt
+          grep -F "versionName='$VERSION_TAG'" package.txt
+          (cd "$(dirname "$APK")" && sha256sum "$(basename "$APK")" > SHA256SUMS.txt)
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          name: "InstallerX Revived stable ${{ inputs.version_tag }}"
+          name: "InstallerX Resign ${{ inputs.version_tag }}"
           # Use the exact input as the tag name
           tag_name: ${{ inputs.version_tag }}
+          target_commitish: ${{ github.sha }}
           # Publish as draft so you can manually write the changelog and publish it later
           draft: true
           prerelease: false
@@ -111,3 +135,4 @@ jobs:
           generate_release_notes: false
           files: |
             ${{ steps.rename_apk.outputs.apk }}
+            app/build/outputs/apk/Stable/release/SHA256SUMS.txt

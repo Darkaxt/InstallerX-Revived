@@ -515,6 +515,13 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
                     )
                 }
                 // Cancel button always shown
+                if (canInstall && viewModel.canResign) {
+                    add(
+                        DialogButton(stringResource(R.string.resign), 1f) {
+                            viewModel.dispatch(InstallerViewAction.Resign)
+                        },
+                    )
+                }
                 add(
                     DialogButton(stringResource(R.string.cancel), 1f) {
                         viewModel.dispatch(InstallerViewAction.Close)

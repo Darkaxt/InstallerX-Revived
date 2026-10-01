@@ -22,19 +22,23 @@ import com.rosan.installer.data.engine.policy.UnknownSourcePermissionChecker
 import com.rosan.installer.data.engine.provider.InstalledAppInfoProviderImpl
 import com.rosan.installer.data.engine.provider.InstalledModuleInfoProviderImpl
 import com.rosan.installer.data.engine.repository.AnalyserRepositoryImpl
+import com.rosan.installer.data.engine.repository.ApkResigningRepositoryImpl
 import com.rosan.installer.data.engine.repository.AppIconRepositoryImpl
 import com.rosan.installer.data.engine.repository.AppInstallerRepositoryImpl
 import com.rosan.installer.data.engine.repository.ModuleInstallerRepositoryImpl
+import com.rosan.installer.data.engine.signature.ApkResigner
 import com.rosan.installer.data.engine.signature.CertificateFormatter
 import com.rosan.installer.data.engine.signature.InstalledPackageSignatureReader
 import com.rosan.installer.data.engine.signature.LightweightApkSignatureReader
 import com.rosan.installer.data.engine.signature.PackageSignatureAnalyzer
 import com.rosan.installer.data.engine.signature.PendingApkSignatureAnalyzer
+import com.rosan.installer.data.engine.signature.PersonalSigningKey
 import com.rosan.installer.data.engine.signature.SignatureMatcher
 import com.rosan.installer.domain.engine.provider.InstalledAppInfoProvider
 import com.rosan.installer.domain.engine.provider.InstalledModuleInfoProvider
 import com.rosan.installer.domain.engine.provider.InstalledPackageSignatureProvider
 import com.rosan.installer.domain.engine.repository.AnalyserRepository
+import com.rosan.installer.domain.engine.repository.ApkResigningRepository
 import com.rosan.installer.domain.engine.repository.AppIconRepository
 import com.rosan.installer.domain.engine.repository.AppInstallerRepository
 import com.rosan.installer.domain.engine.repository.ModuleInstallerRepository
@@ -58,6 +62,9 @@ val engineModule = module {
     singleOf(::CommonsZipFileProvider)
 
     // Signature analysis
+    singleOf(::PersonalSigningKey)
+    singleOf(::ApkResigner)
+    singleOf(::ApkResigningRepositoryImpl) { bind<ApkResigningRepository>() }
     singleOf(::CertificateFormatter)
     singleOf(::LightweightApkSignatureReader)
     singleOf(::PendingApkSignatureAnalyzer)
