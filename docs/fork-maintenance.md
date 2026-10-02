@@ -58,6 +58,22 @@ upstream preview publishing is disabled for this fork.
    failure. Clean only reviewed task-generated expendable outputs, preserving
    deliverables, verification evidence and signing material.
 
+## Initial verified release
+
+`26.10.1001`, version code `1554`, was built from
+`deea0e9d7d3998e0ac56f93415e0030ad4dca876` and published as a normal release:
+https://github.com/Darkaxt/InstallerX-Revived/releases/tag/26.10.1001.
+The uploaded APK was downloaded independently and matched the local verified
+artifact, signing certificate and SHA-256:
+`ab519a718fbe1624680645b7babdde8568ebf9b884dad32ca9d4fbe0140f2f1c`.
+
+Local deliverable/evidence directory:
+`D:\Artifacts\InstallerX-Revived\26.10.1001`. It includes host test XML,
+emulator UI evidence, published feed, signature/identity/alignment checks and
+`r8-retrace.zip` for diagnosing crashes from this optimized release. The hosted
+manual workflow has YAML/Bash syntax verification; this initial release used the
+verified local build and direct GitHub publication path.
+
 ## Schedule
 
 The Codex task heartbeat runs weekly on Monday at 09:00 Europe/Berlin. It stays
