@@ -328,7 +328,6 @@ fun GithubUpdateChannelSelectionDialog(
 
     val options = mapOf(
         GithubUpdateChannel.OFFICIAL to stringResource(R.string.lab_update_github_proxy_official),
-        GithubUpdateChannel.PROXY_7ED to stringResource(R.string.lab_update_github_proxy_7ed),
         GithubUpdateChannel.CUSTOM to stringResource(R.string.lab_update_github_proxy_custom),
     )
 

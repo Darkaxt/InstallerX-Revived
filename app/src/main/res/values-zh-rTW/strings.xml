@@ -11,7 +11,7 @@
     <string name="menu">選單</string>
     <string name="about">關於</string>
     <string name="other">其他</string>
-    <string name="about_detail">關於 InstallerX Revived</string>
+    <string name="about_detail">關於 InstallerX Resigned</string>
     <string name="get_update_detail">檢查軟體更新和新功能</string>
     <string name="get_source_code">查看原始碼</string>
     <string name="get_source_code_detail">在 GitHub 上查看原始碼</string>
@@ -86,11 +86,11 @@
     <string name="ignore_battery_optimizations_desc">適用於背景限制較嚴格的 ROM。若通知卡住，請嘗試忽略電池最佳化</string>
     <string name="ignore_battery_optimizations_desc_disabled">已被忽略</string>
     <string name="lock_default_installer">鎖定為預設安裝程式</string>
-    <string name="lock_default_installer_desc">將 InstallerX Revived 設定為安裝 APKs 的預設應用程式</string>
+    <string name="lock_default_installer_desc">將 InstallerX Resigned 設定為安裝 APKs 的預設應用程式</string>
     <string name="lock_default_installer_success">鎖定成功</string>
     <string name="lock_default_installer_failed">鎖定失敗</string>
     <string name="unlock_default_installer">清除鎖定預設安裝程式</string>
-    <string name="unlock_default_installer_desc">取消將 InstallerX Revived 設定為安裝 APKs 的預設安裝程式</string>
+    <string name="unlock_default_installer_desc">取消將 InstallerX Resigned 設定為安裝 APKs 的預設安裝程式</string>
     <string name="unlock_default_installer_success">清除成功</string>
     <string name="unlock_default_installer_failed">清除失敗</string>
     <string name="details">詳細資訊</string>
@@ -294,7 +294,7 @@
     <string name="permission_access_mock_location">存取模擬定位</string>
     <string name="permission_dhizuku">使用 Dhizuku</string>
     <string name="permission_unknown">未知權限</string>
-    <string name="installer_running">InstallerX Revived 執行中</string>
+    <string name="installer_running">InstallerX Resigned 執行中</string>
     <string name="installer_version_short">版本：%1$s (%2$s)</string>
     <string name="version_with_prefix_format">%1$s%2$s</string>
     <string name="installer_version">版本：%1$s (%2$s)</string>
@@ -462,8 +462,8 @@
     <string name="suggestion_bypass_blacklist_set_by_user">本次允許安裝</string>
     <string name="suggestion_bypass_blacklist_set_by_user_desc">本次允許黑名單內應用程式安裝</string>
     <string name="suggestion_retry_install_desc">重新嘗試安裝</string>
-    <string name="uninstall_title">卸載 InstallerX Revived</string>
-    <string name="uninstall_content">卸載本應用程式後，您將無法再使用 InstallerX Revived 安裝應用程式。</string>
+    <string name="uninstall_title">卸載 InstallerX Resigned</string>
+    <string name="uninstall_content">卸載本應用程式後，您將無法再使用 InstallerX Resigned 安裝應用程式。</string>
     <string name="config_global_default">全域預設</string>
     <string name="config_label_install_options_desc">配置安裝參數，例如來源、使用者</string>
     <string name="collapse">收合</string>
@@ -504,7 +504,7 @@
     <string name="lab_module_flashing">啟用模組刷寫</string>
     <string name="lab_module_flashing_desc">在刷寫任何模組前務必再次確認！</string>
     <string name="lab_module_flashing_show_art">顯示字元畫</string>
-    <string name="lab_module_flashing_show_art_desc">安裝開始時顯示 InstallerX Revived 字元畫</string>
+    <string name="lab_module_flashing_show_art_desc">安裝開始時顯示 InstallerX Resigned 字元畫</string>
     <string name="lab_module_select_root_impl">選擇 Root 實現方式</string>
     <string name="lab">實驗室</string>
     <string name="lab_desc">訪問實驗性或開發中的新功能</string>
@@ -557,7 +557,6 @@
     <string name="lab_http_profile_all">允許所有（不安全）</string>
     <string name="lab_update_github_proxy">GitHub 更新通道</string>
     <string name="lab_update_github_proxy_official">官方</string>
-    <string name="lab_update_github_proxy_7ed">7ED 代理</string>
     <string name="lab_update_github_proxy_custom">自定義 GHProxy</string>
     <string name="lab_update_github_proxy_url">自定義 URL</string>
     <string name="lab_unstable_features">不穩定功能</string>
@@ -728,7 +727,7 @@
     <string name="backup_settings_restore_preview_desc">此備份包含 %1$d 個設定檔、%2$d 個適用範圍、%3$d 個設定項目，以及 %4$d 筆歷史紀錄。目前的設定檔和應用程式設定將會被覆寫。</string>
     <string name="history_initiator">初始化自</string>
     <string name="installer_signature_current_certificate">當前證書</string>
-    <string name="backup_settings_validation_invalid_file">所選的檔案並非有效的 InstallerX Revived 備份。</string>
+    <string name="backup_settings_validation_invalid_file">所選的檔案並非有效的 InstallerX Resigned 備份。</string>
     <string name="home_device_info_active_authorizer">正使用中的授權者</string>
     <string name="backup_settings_validation_invalid_profile_field">無效的設定檔欄位： %1$s</string>
     <string name="history_status_success">成功</string>
@@ -756,7 +755,7 @@
     <string name="history_operation_session_confirm">工作階段</string>
     <string name="backup_settings_restore">重設設定</string>
     <string name="config_allow_sig_unknown">封鎖未知簽名</string>
-    <string name="home_learn_more_installerx_title">深入瞭解 InstallerX Revived</string>
+    <string name="home_learn_more_installerx_title">深入瞭解 InstallerX Resigned</string>
     <string name="unavailable">不可用</string>
     <string name="suggestion_allow_unknown_source">允許此來源</string>
     <string name="history_operation_install">安裝</string>
@@ -769,7 +768,6 @@
     <string name="working_status_default_installer_desc">此應用目前為系統的預設套件安裝程式</string>
     <string name="shizuku_not_available">請啟用 Sui 或 Shizuku</string>
     <string name="config_allow_sig_mismatch_desc">封鎖相比已安裝版本簽名不同的應用程式安裝</string>
-    <string name="home_label_lsp_link">在尋找模組嗎？</string>
     <string name="history_unknown">未知</string>
     <string name="backup_settings_restore_confirm_desc">目前的設定檔和應用程式設定將被選定的備份所取代。</string>
     <string name="config_show_signature_info_on_match_desc">針對相符的簽名及新安裝，顯示簽名通知</string>
@@ -786,7 +784,7 @@
     <string name="installer_prepare_signature_candidate_rotation_unconfirmed">偵測到簽名輪替的跡象，但無法確認與已安裝應用程式的相容性。最終結果取決於系統驗證。</string>
     <string name="long_click_background_install">長按以在背景中安裝</string>
     <string name="install_confirm_pre_approval_tip">允許 %1$s 預先批准安裝此應用程式嗎？</string>
-    <string name="home_learn_more_installerx_desc">知曉如何配置並使用 InstallerX Revived</string>
+    <string name="home_learn_more_installerx_desc">知曉如何配置並使用 InstallerX Resigned</string>
     <string name="long_click_background_install_desc">長按「安裝」按鈕時的背景</string>
     <string name="working_status_default_installer">正作為預設安裝器運作</string>
     <string name="installer_prepare_signature_rotation_compatible">相容於簽名輪替。當前的套件憑證存在於已安裝的應用程式簽名憑證血統中。最終的更新相容性由系統決定。</string>
@@ -799,7 +797,7 @@
     <string name="home_learn_more_title">深入瞭解</string>
     <string name="history_none">無</string>
     <string name="dhizuku_not_available">請啟用 Dhizuku</string>
-    <string name="exception_initiator_not_visible">由於應用套件可見性限制，權限被拒絕。請求安裝的應用程式對 InstallerX Revived 是隱藏的。如果您使用「隱藏應用列表」等模組，請將 InstallerX Revived 加入白名單</string>
+    <string name="exception_initiator_not_visible">由於應用套件可見性限制，權限被拒絕。請求安裝的應用程式對 InstallerX Resigned 是隱藏的。如果您使用「隱藏應用列表」等模組，請將 InstallerX Resigned 加入白名單</string>
     <string name="unarchive_message">%1$s 將還原這個存檔應用程式。</string>
     <string name="unarchive_error_storage_title">儲存空間不足</string>
     <string name="home_device_info_system">系統</string>
@@ -923,7 +921,7 @@
     <string name="unarchive_error_action_required_message">在此應用程式能被還原之前需要額外操作</string>
     <string name="config_authorizer_command_desc">命令： %1$s</string>
     <string name="dhizuku_unsupported_desc">不支援 Dhizuku</string>
-    <string name="self_update_install_success">InstallerX Revived 更新安裝成功</string>
+    <string name="self_update_install_success">InstallerX Resigned 更新安裝成功</string>
     <string name="install_comparison_display_behavior">資料比對的顯示行為</string>
     <string name="install_comparison_show_all">顯示全部</string>
     <string name="install_comparison_show_all_desc">一律顯示新舊資料的值</string>
@@ -936,13 +934,13 @@
     <string name="config_check_split_package_signatures">檢查分割套件簽章</string>
     <string name="network_access">網路存取</string>
     <string name="allow_internet_access">允許網際網路存取</string>
-    <string name="allow_internet_access_desc">允許 InstallerX Revived檢查更新並透過網路連結下載 APK</string>
+    <string name="allow_internet_access_desc">允許 InstallerX Resigned檢查更新並透過網路連結下載 APK</string>
     <string name="network_settings">網路設定</string>
     <string name="network_settings_internet_access_enabled_desc">應用程式可以連線至網路</string>
     <string name="network_settings_internet_access_disabled_desc">應用程式無法連線至網路</string>
     <string name="config_network_source_mode">網路來源處理方式</string>
     <string name="network_source_mode_warning_title">簽署驗證限制</string>
-    <string name="network_source_mode_warning_desc">「智慧」與「低儲存空間」模式可能會以串流方式處理單一 APK。串流期間，InstallerX 無法執行完整的 APK 簽署驗證，因此封鎖簽署不符應用程式的設定檔將無法生效。InstallerX Revived 仍會讀取並比對簽署憑證：憑證吻合者予以允許；憑證不同或無法確認相容性者，將遵循封鎖未知簽署的設定檔設定。Android 系統仍會在安裝過程中執行最終的簽署驗證。</string>
+    <string name="network_source_mode_warning_desc">「智慧」與「低儲存空間」模式可能會以串流方式處理單一 APK。串流期間，InstallerX Resigned 無法執行完整的 APK 簽署驗證，因此封鎖簽署不符應用程式的設定檔將無法生效。InstallerX Resigned 仍會讀取並比對簽署憑證：憑證吻合者予以允許；憑證不同或無法確認相容性者，將遵循封鎖未知簽署的設定檔設定。Android 系統仍會在安裝過程中執行最終的簽署驗證。</string>
     <string name="config_network_source_cache">完整下載</string>
     <string name="config_network_source_cache_desc">分析前先下載完整來源，提供最佳相容性</string>
     <string name="config_network_source_smart">智慧</string>

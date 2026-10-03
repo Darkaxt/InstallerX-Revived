@@ -15,7 +15,7 @@
     <string name="lab">آزمایشگاه</string>
     <string name="lab_desc">دسترسی به ویژگی‌های آزمایشی و توسعه‌دهنده</string>
     <string name="debug">اشکال‌زدایی</string>
-    <string name="about_detail">درباره InstallerX Revived</string>
+    <string name="about_detail">درباره InstallerX Resigned</string>
     <string name="updating">درحال بروزرسانی…</string>
     <string name="get_update">دریافت بروزرسانی</string>
     <string name="get_update_detail">بررسی به‌روزرسانی نرم‌افزار و ویژگی‌های جدید</string>
@@ -30,8 +30,8 @@
     <string name="export_logs_desc">خروجی گرفتن از گزارش‌های برنامه</string>
     <string name="internet_access_enabled">آنلاین</string>
     <string name="internet_access_disabled">آفلاین</string>
-    <string name="uninstall_title">حذف InstallerX Revived</string>
-    <string name="uninstall_content">بعد از حذف این برنامه، دیگر قادر به استفاده از InstallerX Revived برای نصب برنامه‌ها نخواهید بود.</string>
+    <string name="uninstall_title">حذف InstallerX Resigned</string>
+    <string name="uninstall_content">بعد از حذف این برنامه، دیگر قادر به استفاده از InstallerX Resigned برای نصب برنامه‌ها نخواهید بود.</string>
     <string name="stable">پایدار</string>
     <string name="preview">پیش‌نمایش</string>
     <string name="unstable">ناپایدار</string>
@@ -114,11 +114,11 @@
     <string name="ignore_battery_optimizations_desc">در رام‌هایی با محدودیت‌های سخت‌گیرانه برای اجرای پس‌زمینه مفید است. اگر اعلان گیر کرد، نادیده گرفتن بهینه‌سازی باتری را امتحان کنید</string>
     <string name="ignore_battery_optimizations_desc_disabled">از قبل نادیده گرفته شده</string>
     <string name="lock_default_installer">تنظیم به‌عنوان نصب‌کننده پیش‌فرض</string>
-    <string name="lock_default_installer_desc">تنظیم InstallerX به‌عنوان برنامه پیش‌فرض برای نصب فایل‌های apk</string>
+    <string name="lock_default_installer_desc">تنظیم InstallerX Resigned به‌عنوان برنامه پیش‌فرض برای نصب فایل‌های apk</string>
     <string name="lock_default_installer_success">با موفقیت به‌عنوان نصب‌کننده پیش‌فرض تنظیم شد</string>
     <string name="lock_default_installer_failed">تنظیم به‌عنوان نصب‌کننده پیش‌فرض انجام نشد</string>
     <string name="unlock_default_installer">لغو تنظیم به‌عنوان نصب‌کننده پیش‌فرض</string>
-    <string name="unlock_default_installer_desc">لغو تنظیم InstallerX به‌عنوان نصب‌کننده پیش‌فرض برای نصب فایل‌های apk</string>
+    <string name="unlock_default_installer_desc">لغو تنظیم InstallerX Resigned به‌عنوان نصب‌کننده پیش‌فرض برای نصب فایل‌های apk</string>
     <string name="unlock_default_installer_success">با موفقیت لغو شد و دیگر به‌عنوان نصب‌کننده پیش‌فرض تنظیم نیست</string>
     <string name="unlock_default_installer_failed">لغو تنظیم به‌عنوان نصب‌کننده پیش‌فرض انجام نشد</string>
     <string name="details">جزئیات</string>
@@ -287,7 +287,6 @@
     <string name="working_status_system_installer_desc">این برنامه در حال اجرا است به عنوان نصب کننده ی سیستمی</string>
     <string name="working_status_not_default_installer_click_details">کلیک کن تا جزئیات را ببینی</string>
     <string name="home_stat_profiles">پروفایل ها</string>
-    <string name="home_label_lsp_link">دنبال یک ماژول هستی؟</string>
     <string name="shizuku_not_authorized">لطفا دسترسی به sui یا شیزوکو رو بدید</string>
     <string name="shizuku_not_available">لطفا sui یا شیزوکو رو فعال کنید</string>
     <string name="dhizuku_not_authorized">لطفا دسترسی به دیزوکو رو بدید</string>

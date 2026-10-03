@@ -38,6 +38,8 @@ upstream preview publishing is disabled for this fork.
    Also reconcile [signing-backup-spec.md](signing-backup-spec.md): preserve
    encrypted portable identity storage and both import/export UIs, keep existing
    legacy aliases unchanged, and verify password-protected backup round trips.
+   Reconcile `branding-spec.md`: preserve InstallerX Resigned branding, fork-owned
+   product links and the removal of unsupported community/helper/proxy presets.
    Never rotate either release or personal signing identities during a merge.
 3. Use JDK 25 and installed SDK/Build Tools 37.0.0. Export local credential
    values to the current process's `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`,
@@ -56,7 +58,7 @@ upstream preview publishing is disabled for this fork.
 6. Use numeric tags such as `26.10.1001`, then `26.10.1002`. When the date prefix
    advances, start its suffix at 1001. The version must compare greater than the
    latest fork release under `OnlineUpdatePolicy`; Git commit count must also
-   advance. Filename: `InstallerX-Revived-online-<version>.apk`, retaining the
+   advance. Filename: `InstallerX-Resigned-online-<version>.apk`, retaining the
    `online` token required by the existing updater.
 7. Leave tags/releases unchanged on unresolved conflicts or verification
    failure. Clean only reviewed task-generated expendable outputs, preserving

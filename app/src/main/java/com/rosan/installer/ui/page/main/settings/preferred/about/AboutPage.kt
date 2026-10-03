@@ -130,7 +130,7 @@ fun AboutPage(useBlur: Boolean, viewModel: AboutViewModel = koinViewModel()) {
                             icon = AppIcons.ViewSourceCode,
                             title = stringResource(R.string.get_source_code),
                             description = stringResource(R.string.get_source_code_detail),
-                            onClick = { uriHandler.openUri("https://github.com/wxxsfxyzm/InstallerX-Revived") },
+                            onClick = { uriHandler.openUri("https://github.com/Darkaxt/InstallerX-Revived") },
                         )
                     }
                     item {
@@ -265,21 +265,6 @@ private fun BottomSheetContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = "GitHub")
-        }
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.ContextClick)
-                uriHandler.openUri("https://t.me/installerx_revived")
-            },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_telegram),
-                contentDescription = "Telegram Icon",
-                modifier = Modifier.size(24.dp),
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Telegram")
         }
         Spacer(modifier = Modifier.size(60.dp))
     }

@@ -218,7 +218,7 @@ fun MiuixHomePage(
                                 contentDescription = null,
                             )
                         },
-                        onClick = { uriHandler.openUri("https://wxxsfxyzm.github.io/InstallerX-Revived-Website/") },
+                        onClick = { uriHandler.openUri("https://github.com/Darkaxt/InstallerX-Revived/blob/main/docs/resigning.md") },
                     )
                 }
             }

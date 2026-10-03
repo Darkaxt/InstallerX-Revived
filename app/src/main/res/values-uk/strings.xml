@@ -10,7 +10,7 @@
     <string name="menu">Меню</string>
     <string name="about">Про застосунок</string>
     <string name="other">Інше</string>
-    <string name="about_detail">Про InstallerX Revived</string>
+    <string name="about_detail">Про InstallerX Resigned</string>
     <string name="get_update">Отримати оновлення</string>
     <string name="get_update_detail">Перевірка наявності оновлень програмного забезпечення та нових функцій</string>
     <string name="internet_access_enabled">Онлайн</string>
@@ -36,11 +36,11 @@
     <string name="ignore_battery_optimizations_desc">Корисно для ROMs із суворою фоновою політикою. Якщо сповіщення зависає, спробуйте проігнорувати оптимізацію батареї</string>
     <string name="ignore_battery_optimizations_desc_disabled">Уже проігноровано</string>
     <string name="lock_default_installer">Встановити як встановлювач за замовчуванням</string>
-    <string name="lock_default_installer_desc">Встановіть InstallerX Revived як програму за замовчуванням для встановлення APKs</string>
+    <string name="lock_default_installer_desc">Встановіть InstallerX Resigned як програму за замовчуванням для встановлення APKs</string>
     <string name="lock_default_installer_success">Успішно встановлено як інсталятор за замовчуванням</string>
     <string name="lock_default_installer_failed">Не вдалося встановити як інсталятор за замовчуванням</string>
     <string name="unlock_default_installer">Скасувати встановлення як інсталятор за замовчуванням</string>
-    <string name="unlock_default_installer_desc">Скасувати встановлення InstallerX Revived як інсталятора за замовчуванням для встановлення APKs</string>
+    <string name="unlock_default_installer_desc">Скасувати встановлення InstallerX Resigned як інсталятора за замовчуванням для встановлення APKs</string>
     <string name="unlock_default_installer_success">Успішно скасовано як інсталятора за замовчуванням</string>
     <string name="unlock_default_installer_failed">Не вдалося скасувати як інсталятора за замовчуванням</string>
     <string name="details">Подробиці</string>
@@ -225,8 +225,8 @@
     <string name="save_logs_desc">Зберегти журнал у локальний файл для налагодження</string>
     <string name="export_logs">Експорт журналів</string>
     <string name="export_logs_desc">Експорт журналів програми</string>
-    <string name="uninstall_title">Деінсталювати InstallerX Revived</string>
-    <string name="uninstall_content">Після видалення цієї програми ви більше не зможете використовувати InstallerX Revived для встановлення програм.</string>
+    <string name="uninstall_title">Деінсталювати InstallerX Resigned</string>
+    <string name="uninstall_content">Після видалення цієї програми ви більше не зможете використовувати InstallerX Resigned для встановлення програм.</string>
     <string name="theme_settings_miuix_ui">Miuix</string>
     <string name="theme_settings_miuix_ui_desc">Схожі на HyperOS</string>
     <string name="theme_settings_miuix_custom_colors">Свої кольори</string>
@@ -385,7 +385,7 @@
     <string name="installer_uninstall_app">Видалити застосунок</string>
     <string name="installer_uninstalling">Видалення</string>
     <string name="uninstall_authorizer_tip">Деінсталятор завжди використовує авторизатор, заданий у профілі за замовчуванням</string>
-    <string name="installer_running">InstallerX Revived працює</string>
+    <string name="installer_running">InstallerX Resigned працює</string>
     <string name="installer_version_short">Вер. %1$s (%2$s)</string>
     <string name="installer_version_name_label">Ім\'я Версії:</string>
     <string name="installer_version_code_label">Код версії:</string>
@@ -438,7 +438,6 @@
     <string name="home_stat_authorizers">Доступні привілеї</string>
     <string name="dhizuku_not_authorized">Будь ласка, надайте дозвіл на доступ до Dhizuku</string>
     <string name="shizuku_not_available">Будь ласка, активуйте Sui або Shizuku</string>
-    <string name="home_label_lsp_link">Шукаєте модуль?</string>
     <string name="dhizuku_not_available">Будь ласка, активуйте Dhizuku</string>
     <string name="shizuku_not_authorized">Будь ласка, надайте дозвіл на доступ до Sui або Shizuku</string>
     <string name="home_stat_profiles">Профілі</string>
@@ -592,7 +591,7 @@
     <string name="lab_module_flashing">Увімкнути прошивання модуля</string>
     <string name="lab_module_flashing_desc">Завжди перевіряйте двічі, перш ніж прошивати будь-які модулі!</string>
     <string name="lab_module_flashing_show_art">Відображення ASCII-зображення</string>
-    <string name="lab_module_flashing_show_art_desc">Відображати InstallerX відновленого ASCII-зображення під час початку встановлення</string>
+    <string name="lab_module_flashing_show_art_desc">Відображати InstallerX Resigned відновленого ASCII-зображення під час початку встановлення</string>
     <string name="lab_module_select_root_impl">Виберіть root реалізацію</string>
     <string name="lab_http_profile">Політика безпеки HTTP</string>
     <string name="lab_http_profile_secure">Тільки безпечні з\'єднання (HTTPS)</string>
@@ -600,7 +599,6 @@
     <string name="lab_http_profile_all">Дозволити все (незахищено)</string>
     <string name="lab_update_github_proxy">Канал оновлень GitHub</string>
     <string name="lab_update_github_proxy_official">Офіційний</string>
-    <string name="lab_update_github_proxy_7ed">7ED проксі</string>
     <string name="lab_update_github_proxy_custom">Користувацький GHProky</string>
     <string name="lab_update_github_proxy_url">Користувацька URL</string>
     <string name="lab_unstable_features">Нестабільні функції</string>
@@ -633,8 +631,8 @@
     <string name="home_device_info_active_authorizer">Авторизатор використовується</string>
     <string name="home_device_info_default_installer">Активність інсталятора за замовчуванням</string>
     <string name="home_learn_more_title">Дізнатися більше</string>
-    <string name="home_learn_more_installerx_title">Дізнайтеся про InstallerX Revived</string>
-    <string name="home_learn_more_installerx_desc">Дізнайтеся, як налаштувати та використовувати InstallerX Revived</string>
+    <string name="home_learn_more_installerx_title">Дізнайтеся про InstallerX Resigned</string>
+    <string name="home_learn_more_installerx_desc">Дізнайтеся, як налаштувати та використовувати InstallerX Resigned</string>
     <string name="unarchive_restore">Відновити</string>
     <string name="unarchive_title">Відновити %1$s?</string>
     <string name="unarchive_message">%1$s відновить цю архівовану програму.</string>
@@ -686,7 +684,7 @@
     <string name="backup_settings_restore_ignored_settings">Проігноровані налаштування: %1$d</string>
     <string name="backup_settings_restore_warnings_title">Застререження</string>
     <string name="backup_settings_validation_failed_title">Неправильне резервування</string>
-    <string name="backup_settings_validation_invalid_file">Вибраний файл не є дійсним резервуванням InstallerX Revived.</string>
+    <string name="backup_settings_validation_invalid_file">Вибраний файл не є дійсним резервуванням InstallerX Resigned.</string>
     <string name="backup_settings_validation_unsupported_format">Непідтримувана версія формату резервування %1$s. Поточна версія підтримує до %2$s.</string>
     <string name="backup_settings_validation_empty">Резервна копія не містить профілів, областей, налаштувань або записів історії.</string>
     <string name="backup_settings_validation_invalid_profile_id">Недійсний id профілю: %1$s</string>
@@ -840,7 +838,7 @@
     <string name="installer_xposed_target_api">Цільовий API:</string>
     <string name="installer_install_pre_approval">Попереднє схвалення встановлення</string>
     <string name="installer_permissions_confirm">Підтвердження дозволів</string>
-    <string name="self_update_install_success">InstallerX Revived було успішно оновлено</string>
+    <string name="self_update_install_success">InstallerX Resigned було успішно оновлено</string>
     <string name="batch_install_result_message">Пакетна інсталяція: %1$d/%2$d успішна</string>
     <string name="install_confirm_question_update_owner_reminder">Зазвичай цей застосунок оновлюється з %1$s. Якщо ви оновите його з іншого джерела, ваш телефон зможе отримувати майбутні оновлення з будь-якого джерела. Функціональність застосунку може змінитися.</string>
     <string name="install_confirm_external_request_tip">Схвалити запит на встановлення від %1$s?</string>
@@ -860,7 +858,7 @@
     <string name="exception_install_failed_all_authorizers_failed">Усі авторизації не вдалося виконати</string>
     <string name="exception_resolve_failed">Не вдалося вирішити URI</string>
     <string name="exception_resolve_failed_link_not_valid">Це посилання не містить дійсного файлу</string>
-    <string name="exception_initiator_not_visible">Дозвіл відхилено через обмеження видимості пакета. Застосунок, що запитує встановлення, прихований від InstallerX Revived. Якщо ви використовуєте модулі, такі як \'Приховати мій список застосунків\', будь ласка, додайте InstallerX Revived до списку дозволених</string>
+    <string name="exception_initiator_not_visible">Дозвіл відхилено через обмеження видимості пакета. Застосунок, що запитує встановлення, прихований від InstallerX Resigned. Якщо ви використовуєте модулі, такі як \'Приховати мій список застосунків\', будь ласка, додайте InstallerX Resigned до списку дозволених</string>
     <string name="exception_resolve_failed_no_internet_access">У налаштуваннях програми вимкнено доступ до Інтернету. Щоб скористатися цією функцією, увімкніть його в настройках мережі.</string>
     <string name="exception_analyse_failed_all_files_unsupported">Файл не підтримується</string>
     <string name="exception_authentication_failed">Не вдалося автентифікацію користувача</string>
@@ -926,13 +924,13 @@
     <string name="config_check_split_package_signatures_desc">Аналізуйте APK сигнатури у APKS, APKM та XAPK пакетах. Це може значно збільшити час аналізу</string>
     <string name="network_access">Доступ до мережі</string>
     <string name="allow_internet_access">Дозволити доступ до Інтернету</string>
-    <string name="allow_internet_access_desc">Дозволити InstallerX Revived перевіряти наявність оновлень та завантажувати APK з мережевих посилань</string>
+    <string name="allow_internet_access_desc">Дозволити InstallerX Resigned перевіряти наявність оновлень та завантажувати APK з мережевих посилань</string>
     <string name="network_settings">Налаштування мережі</string>
     <string name="network_settings_internet_access_enabled_desc">Застосунок може отримати доступ до Інтернету</string>
     <string name="network_settings_internet_access_disabled_desc">Застосунок не може отримати доступ до Інтернету</string>
     <string name="config_network_source_mode">Керування мережевим джерелом</string>
     <string name="network_source_mode_warning_title">Обмеження перевірки підпису</string>
-    <string name="network_source_mode_warning_desc">Режими розумного та низького обсягу пам’яті можуть передавати окремі файли APKs. Під час трансляції InstallerX Revived не може виконати повну перевірку підпису APK, тому параметр профілю, який блокує програми з невідповідними підписами, не може діяти. InstallerX Revived все ще читає та порівнює сертифікати підпису: дозволені відповідні сертифікати, тоді як інші сертифікати або сумісність, які не можна підтвердити, відповідають налаштуванням профілю для блокування невідомих підписів. Android усе ще виконує остаточну перевірку підпису під час встановлення.</string>
+    <string name="network_source_mode_warning_desc">Режими розумного та низького обсягу пам’яті можуть передавати окремі файли APKs. Під час трансляції InstallerX Resigned не може виконати повну перевірку підпису APK, тому параметр профілю, який блокує програми з невідповідними підписами, не може діяти. InstallerX Resigned все ще читає та порівнює сертифікати підпису: дозволені відповідні сертифікати, тоді як інші сертифікати або сумісність, які не можна підтвердити, відповідають налаштуванням профілю для блокування невідомих підписів. Android усе ще виконує остаточну перевірку підпису під час встановлення.</string>
     <string name="config_network_source_cache">Повне завантаження</string>
     <string name="config_network_source_cache_desc">Завантажте повне джерело перед аналізом, Максимальна Сумісність</string>
     <string name="config_network_source_smart">Розумний</string>

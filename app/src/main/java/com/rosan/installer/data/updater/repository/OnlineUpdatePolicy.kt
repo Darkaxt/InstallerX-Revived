@@ -8,8 +8,6 @@ import com.rosan.installer.data.updater.model.GithubRelease
 import com.rosan.installer.domain.settings.model.preferences.GithubUpdateChannel
 
 internal object OnlineUpdatePolicy {
-    private const val PROXY_7ED = "https://gh.sevencdn.com/"
-
     fun canCheckUpdates(
         allowInternetAccess: Boolean,
         isDebug: Boolean,
@@ -34,7 +32,6 @@ internal object OnlineUpdatePolicy {
 
         val proxyUrl = when (channel) {
             GithubUpdateChannel.OFFICIAL -> ""
-            GithubUpdateChannel.PROXY_7ED -> PROXY_7ED
             GithubUpdateChannel.CUSTOM -> customProxyUrl
         }
         if (proxyUrl.isEmpty()) return browserDownloadUrl

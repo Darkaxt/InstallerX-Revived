@@ -7,7 +7,6 @@ package com.rosan.installer.domain.settings.model.preferences
  */
 enum class GithubUpdateChannel {
     OFFICIAL,
-    PROXY_7ED,
     CUSTOM,
     ;
 

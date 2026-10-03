@@ -15,7 +15,6 @@
     <string name="setting_lsposed_module_title">LSPosed модул активиран</string>
     <string name="home_stat_authorizers">Налични Привилегии</string>
     <string name="home_stat_profiles">Профили</string>
-    <string name="home_label_lsp_link">Търсиш модул?</string>
     <string name="config">Профили</string>
     <string name="preferred">Преференции</string>
     <string name="personalization">Персонализация</string>
@@ -28,7 +27,7 @@
     <string name="debug">Дебъг</string>
     <string name="app_version_info_format">%1$s %2$s (%3$s)</string>
     <string name="shizuku_not_available">Моля активирай Sui или Shizuku</string>
-    <string name="about_detail">Относно InstallerX Revived</string>
+    <string name="about_detail">Относно InstallerX Resigned</string>
     <string name="updating">Актуализиране…</string>
     <string name="get_update">Вземи актуализация</string>
     <string name="update_available">Актуализация Налична: %1$s</string>
@@ -55,7 +54,7 @@
     <string name="get_source_code_detail">Провери за ядрен код от GitHub</string>
     <string name="save_logs_desc">Запази лог в лоаклен файл за дебъгване</string>
     <string name="export_logs_desc">Изкарай логовете на приложението</string>
-    <string name="uninstall_title">Деинсталирай InstallerX Revived</string>
+    <string name="uninstall_title">Деинсталирай InstallerX Resigned</string>
     <string name="enable_notification_hint">Моля активирай право за нотификаций за да инсталирате!</string>
     <string name="enable_storage_permission_hint">Моля активирай All Files право за да инсталирате!</string>
     <string name="theme_settings">Настройки за Темата</string>
@@ -186,8 +185,8 @@
     <string name="notification_style">Стил на Нотификацията</string>
     <string name="priv_page_what_is_this_title">Какво е това?</string>
     <string name="lab_mi_island_outer_glow">Външен Блясък</string>
-    <string name="home_learn_more_installerx_title">Научи за InstallerX Revived</string>
-    <string name="home_learn_more_installerx_desc">Научи как да настроиш и използваш InstallerX</string>
+    <string name="home_learn_more_installerx_title">Научи за InstallerX Resigned</string>
+    <string name="home_learn_more_installerx_desc">Научи как да настроиш и използваш InstallerX Resigned</string>
     <string name="lab_show_apk_path_label">Файлова локация</string>
     <string name="lab_show_apk_path">Покажи файлова локация</string>
     <string name="lab_update_github_proxy_official">Официален</string>

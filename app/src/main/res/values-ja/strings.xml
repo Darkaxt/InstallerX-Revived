@@ -10,7 +10,7 @@
     <string name="menu">メニュー</string>
     <string name="about">このアプリについて</string>
     <string name="other">その他</string>
-    <string name="about_detail">InstallerX Revived について</string>
+    <string name="about_detail">InstallerX Resigned について</string>
     <string name="warning">警告</string>
     <string name="lab_desc">実験的機能と開発者向け機能にアクセスする</string>
     <string name="lab">実験的</string>
@@ -24,8 +24,8 @@
     <string name="get_source_code_detail">GitHub でソースコードを確認します</string>
     <string name="internet_access_enabled">オンライン</string>
     <string name="internet_access_disabled">オフライン</string>
-    <string name="uninstall_title">InstallerX Revived をアンインストール</string>
-    <string name="uninstall_content">このアプリをアンインストールすると、InstallerX Revived を使用してアプリをインストールできなくなります。</string>
+    <string name="uninstall_title">InstallerX Resigned をアンインストール</string>
+    <string name="uninstall_content">このアプリをアンインストールすると、InstallerX Resigned を使用してアプリをインストールできなくなります。</string>
     <string name="stable">安定版</string>
     <string name="preview">プレビュー</string>
     <string name="unstable">不安定版</string>
@@ -90,7 +90,7 @@
     <string name="ignore_battery_optimizations_desc">厳格なバックグラウンド ポリシーを持つ ROM で役立ちます。通知が表示され続ける場合は、「バッテリーの最適化を無視」を有効にしてみてください</string>
     <string name="ignore_battery_optimizations_desc_disabled">すでに無視されています</string>
     <string name="lock_default_installer">デフォルト インストーラーの設定</string>
-    <string name="lock_default_installer_desc">InstallerX Revived を APK のデフォルト インストーラーに設定します</string>
+    <string name="lock_default_installer_desc">InstallerX Resigned を APK のデフォルト インストーラーに設定します</string>
     <string name="lock_default_installer_success">デフォルトのインストーラーとして正常に設定されました</string>
     <string name="lock_default_installer_failed">デフォルトのインストーラーとして設定できませんでした</string>
     <string name="theme_settings_dynamic_color_follow_icon">カラフルなダイアログ</string>
@@ -118,7 +118,7 @@
     <string name="installer_select_multi_apk">一括インストール</string>
     <string name="installer_select_from_mixed_module_apk">インストール タイプを選択</string>
     <string name="unlock_default_installer">デフォルト インストーラーの設定を解除</string>
-    <string name="unlock_default_installer_desc">InstallerX Revived を APK のデフォルト インストーラーから解除します</string>
+    <string name="unlock_default_installer_desc">InstallerX Resigned を APK のデフォルト インストーラーから解除します</string>
     <string name="unlock_default_installer_success">デフォルトのインストーラーから正常に設定解除されました</string>
     <string name="unlock_default_installer_failed">デフォルトのインストーラーから設定解除できませんでした</string>
     <string name="details">詳細</string>
@@ -412,7 +412,7 @@
     <string name="permission_access_mock_location">模擬位置情報へのアクセス</string>
     <string name="permission_dhizuku">Dhizuku の使用</string>
     <string name="permission_unknown">不明な権限</string>
-    <string name="installer_running">InstallerX Revived が実行中です</string>
+    <string name="installer_running">InstallerX Resigned が実行中です</string>
     <string name="installer_version_short">バージョン: %1$s (%2$s)</string>
     <string name="installer_version_name_label">バージョン名:</string>
     <string name="installer_version_code_label">バージョン コード:</string>
@@ -545,7 +545,7 @@
     <string name="installer_live_channel_name_desc">インストールの進行状況をライブ アップデートとして表示します</string>
     <string name="exception_zip_exception">zip をファイルとして開けませんでした</string>
     <string name="lab_module_flashing_show_art">アスキーアートを表示</string>
-    <string name="lab_module_flashing_show_art_desc">インストール開始時に InstallerX Revived のアスキーアートを表示します</string>
+    <string name="lab_module_flashing_show_art_desc">インストール開始時に InstallerX Resigned のアスキーアートを表示します</string>
     <string name="config_grant_all_permissions_desc">パッケージが要求するすべての権限を自動的に付与します。ただし、これは実行時の権限にのみ適用されます。「すべてのファイルへのアクセス」や「アクセシビリティ」などの特別な権限は自動的に付与されません</string>
     <string name="config_split_choose_all">デフォルトですべての分割 APK を選択</string>
     <string name="config_split_choose_all_desc">最適な分割 APK を選択する代わりに、デフォルトですべての分割 APK を選択します</string>
@@ -680,7 +680,6 @@
     <string name="activate">有効</string>
     <string name="home_stat_authorizers">利用可能な権限</string>
     <string name="home_stat_profiles">プロファイル</string>
-    <string name="home_label_lsp_link">モジュールをお探しですか？</string>
     <string name="shizuku_not_authorized">Sui または Shizuku へのアクセスを許可してください</string>
     <string name="shizuku_not_available">Sui または Shizuku を有効にしてください</string>
     <string name="dhizuku_not_authorized">Dhizuku へのアクセスを許可してください</string>
@@ -699,7 +698,7 @@
     <string name="installer_temp_settings_tip">これらの設定は今回のセッションのみ有効です。設定を保存するには、「設定」に移動してください</string>
     <string name="install_confirm_question_update_owner_reminder">このアプリは通常、%1$s によって更新されます。他のソースから更新した場合、今後の更新はどのソースからでも受信される可能性があります。アプリの機能が変更される場合もあります。</string>
     <string name="install_confirm_external_request_tip">%1$s からのインストール リクエストを承認しますか？</string>
-    <string name="exception_initiator_not_visible">パッケージの表示制限により、アクセスが拒否されました。インストールを要求しているアプリは InstallerX Revived から非表示になっています。「Hide My Applist」などのモジュールを使用している場合は、InstallerX Revived を許可リストに追加してください</string>
+    <string name="exception_initiator_not_visible">パッケージの表示制限により、アクセスが拒否されました。インストールを要求しているアプリは InstallerX Resigned から非表示になっています。「Hide My Applist」などのモジュールを使用している場合は、InstallerX Resigned を許可リストに追加してください</string>
     <string name="exception_install_failed_blocked_by_profile">プロファイル ポリシーによりインストールがブロックされました</string>
     <string name="dialog_settings">ダイアログ設定</string>
     <string name="dialog_settings_desc">インストール ダイアログの外観と動作をカスタマイズします</string>
@@ -725,7 +724,6 @@
     <string name="suggestion_install_anyway_desc">プロファイル制限を一時的に回避して再度実行します</string>
     <string name="lab_update_github_proxy">GitHub 更新チャンネル</string>
     <string name="lab_update_github_proxy_official">公式</string>
-    <string name="lab_update_github_proxy_7ed">7ED Proxy</string>
     <string name="lab_update_github_proxy_custom">カスタム GHProxy</string>
     <string name="lab_update_github_proxy_url">カスタム URL</string>
     <string name="lab_show_apk_path">ファイルパスを表示</string>
@@ -794,7 +792,7 @@
     <string name="config_show_signature_details_desc">署名通知に証明書の概要、検証済みスキーム、警告、およびエラーを表示します</string>
     <string name="backup_settings_restore_warnings_title">警告</string>
     <string name="backup_settings_validation_failed_title">無効なバックアップ</string>
-    <string name="backup_settings_validation_invalid_file">選択されたファイルは、InstallerX Revived による有効なバックアップではありません。</string>
+    <string name="backup_settings_validation_invalid_file">選択されたファイルは、InstallerX Resigned による有効なバックアップではありません。</string>
     <string name="backup_settings_validation_unsupported_format">バックアップ形式のバージョン %1$s はサポートされていません。現在のバージョンでは、%2$s までをサポートしています。</string>
     <string name="backup_settings_validation_empty">バックアップには、プロファイル、スコープ、設定、および履歴レコードは含まれていません。</string>
     <string name="backup_settings_validation_invalid_profile_id">無効なプロファイル ID: %1$s</string>
@@ -805,8 +803,8 @@
     <string name="suggestion_allow_unknown_source">このソースを許可</string>
     <string name="suggestion_allow_unknown_source_desc">Android の設定を開いて、このアプリがパッケージのインストールを要求することを許可してください</string>
     <string name="home_learn_more_title">詳細はこちら</string>
-    <string name="home_learn_more_installerx_title">InstallerX Revived について詳しく知る</string>
-    <string name="home_learn_more_installerx_desc">InstallerX Revived の設定方法と使用方法を学ぶ</string>
+    <string name="home_learn_more_installerx_title">InstallerX Resigned について詳しく知る</string>
+    <string name="home_learn_more_installerx_desc">InstallerX Resigned の設定方法と使用方法を学ぶ</string>
     <string name="unarchive_restore">復元</string>
     <string name="unarchive_title">%1$s を復元しますか？</string>
     <string name="unarchive_message">%1$s は、このアーカイブされたアプリを復元します。</string>
@@ -895,7 +893,7 @@
     <string name="config_smart_authorizer_fallback_list_desc">代替承認者を選択して並べ替えます。\n選択された承認順序: %1$s</string>
     <string name="config_auto_approve_session">セッション インストールの自動承認</string>
     <string name="config_auto_approve_session_desc">対象アプリからのセッション インストール要求をサイレントに承認します</string>
-    <string name="self_update_install_success">InstallerX Revived は正常に更新されました</string>
+    <string name="self_update_install_success">InstallerX Resigned は正常に更新されました</string>
     <string name="uninstall_archive_message">このデバイスからアーカイブされたアプリをアンインストールします</string>
     <string name="exception_install_failed_all_authorizers_failed">すべての承認者が失敗しました</string>
     <string name="exception_install_failed_blocked_by_profile_signature_mismatch">プロファイルは、署名が異なるアプリのインストールをブロックします</string>
@@ -920,13 +918,13 @@
     <string name="history_version_self_update">自動更新</string>
     <string name="network_access">ネットワーク アクセス</string>
     <string name="allow_internet_access">インターネット アクセスを許可</string>
-    <string name="allow_internet_access_desc">InstallerX Revived が更新を確認し、ネットワーク リンクから APK をダウンロードすることを許可します</string>
+    <string name="allow_internet_access_desc">InstallerX Resigned が更新を確認し、ネットワーク リンクから APK をダウンロードすることを許可します</string>
     <string name="network_settings">ネットワーク設定</string>
     <string name="network_settings_internet_access_enabled_desc">このアプリはインターネットにアクセスできます</string>
     <string name="network_settings_internet_access_disabled_desc">このアプリはインターネットにアクセスできません</string>
     <string name="config_network_source_mode">ネットワーク ソースの処理</string>
     <string name="network_source_mode_warning_title">署名検証の制限</string>
-    <string name="network_source_mode_warning_desc">スマートモードと低ストレージ モードでは、単一の APK をストリーミングする場合があります。ストリーミング中は、InstallerX Revived は完全な APK 署名検証を実行できないため、署名が一致しないアプリをブロックするプロファイル設定は有効になりません。InstallerX Revived は引き続き署名証明書を読み取って比較します。証明書が一致する場合は許可されますが、証明書が異なる場合や証明書の互換性が確認できない場合は、不明な署名をブロックするプロファイル設定に従います。Android はインストール中に最終的な署名検証を実行します。</string>
+    <string name="network_source_mode_warning_desc">スマートモードと低ストレージ モードでは、単一の APK をストリーミングする場合があります。ストリーミング中は、InstallerX Resigned は完全な APK 署名検証を実行できないため、署名が一致しないアプリをブロックするプロファイル設定は有効になりません。InstallerX Resigned は引き続き署名証明書を読み取って比較します。証明書が一致する場合は許可されますが、証明書が異なる場合や証明書の互換性が確認できない場合は、不明な署名をブロックするプロファイル設定に従います。Android はインストール中に最終的な署名検証を実行します。</string>
     <string name="theme_settings_predictive_back_exit_direction">退出方向</string>
     <string name="theme_settings_predictive_back_exit_direction_desc">予測型「戻る」ジェスチャーの退出方向を選択してください</string>
     <string name="config_network_source_cache">完全ダウンロード</string>

@@ -154,19 +154,6 @@ fun MiuixUpdateDialog(showState: MutableState<Boolean>, onDismiss: () -> Unit) {
                             )
                         },
                     )
-                    BasicComponent(
-                        title = "Telegram",
-                        onClick = {
-                            uriHandler.openUri("https://t.me/installerx_revived")
-                            onDismiss()
-                        },
-                        endActions = {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_link_icon),
-                                contentDescription = null,
-                            )
-                        },
-                    )
                 }
                 TextButton(
                     modifier = Modifier.fillMaxWidth(),
@@ -476,7 +463,6 @@ fun MiuixGithubUpdateChannelSelectionDialog(
     val channels = remember {
         listOf(
             GithubUpdateChannel.OFFICIAL,
-            GithubUpdateChannel.PROXY_7ED,
             GithubUpdateChannel.CUSTOM,
         )
     }
@@ -484,7 +470,6 @@ fun MiuixGithubUpdateChannelSelectionDialog(
     val channelNames = remember {
         mapOf(
             GithubUpdateChannel.OFFICIAL to R.string.lab_update_github_proxy_official,
-            GithubUpdateChannel.PROXY_7ED to R.string.lab_update_github_proxy_7ed,
             GithubUpdateChannel.CUSTOM to R.string.lab_update_github_proxy_custom,
         )
     }

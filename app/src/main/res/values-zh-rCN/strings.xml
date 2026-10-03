@@ -23,7 +23,6 @@
     <string name="setting_lsposed_module_desc">若已通过第三方 Xposed 模块强制接管了默认安装器，请开启此项以停用应用内的状态检测。启用后，首页将始终显示为“已激活”</string>
     <string name="home_stat_authorizers">可用特权</string>
     <string name="home_stat_profiles">配置数量</string>
-    <string name="home_label_lsp_link">在寻找模块吗？</string>
     <string name="shizuku_not_authorized">请授予本应用访问 Sui 或 Shizuku 的权限</string>
     <string name="shizuku_not_available">请激活 Sui 或 Shizuku</string>
     <string name="dhizuku_not_authorized">请授予本应用访问 Dhizuku 的权限</string>
@@ -81,7 +80,7 @@
     <string name="debug">调试</string>
     <string name="lab">实验室</string>
     <string name="lab_desc">访问实验性或开发中的新功能</string>
-    <string name="about_detail">关于 InstallerX Revived</string>
+    <string name="about_detail">关于 InstallerX Resigned</string>
     <string name="app_version_info_format">%1$s %2$s (%3$s)</string>
     <string name="updating">正在更新…</string>
     <string name="get_update_detail">检查软件更新和新功能</string>
@@ -98,9 +97,9 @@
     <string name="internet_access_disabled">离线</string>
     <string name="network_access">网络访问</string>
     <string name="allow_internet_access">允许访问互联网</string>
-    <string name="allow_internet_access_desc">允许 InstallerX 检查更新并从网络链接下载 APK</string>
-    <string name="uninstall_title">卸载 InstallerX Revived</string>
-    <string name="uninstall_content">卸载以后，你将不能再使用 InstallerX Revived 来安装应用。</string>
+    <string name="allow_internet_access_desc">允许 InstallerX Resigned 检查更新并从网络链接下载 APK</string>
+    <string name="uninstall_title">卸载 InstallerX Resigned</string>
+    <string name="uninstall_content">卸载以后，你将不能再使用 InstallerX Resigned 来安装应用。</string>
     <string name="stable">正式版</string>
     <string name="preview">预览版</string>
     <string name="unstable">测试版</string>
@@ -229,7 +228,7 @@
     <string name="backup_settings_restore_ignored_settings">将忽略的设置：%1$d</string>
     <string name="backup_settings_restore_warnings_title">警告</string>
     <string name="backup_settings_validation_failed_title">备份无效</string>
-    <string name="backup_settings_validation_invalid_file">所选文件不是有效的 InstallerX 备份。</string>
+    <string name="backup_settings_validation_invalid_file">所选文件不是有效的 InstallerX Resigned 备份。</string>
     <string name="backup_settings_validation_unsupported_format">不支持备份格式版本 %1$s。当前最高支持 %2$s。</string>
     <string name="backup_settings_validation_empty">备份不包含配置文件、作用域、设置或历史记录。</string>
     <string name="backup_settings_validation_invalid_profile_id">配置文件 ID 无效：%1$s</string>
@@ -369,7 +368,7 @@
     <string name="config_auto_delete_zip_desc">不仅删除安装包，还删除包含安装包的压缩文件。</string>
     <string name="config_network_source_mode">网络源处理</string>
     <string name="network_source_mode_warning_title">签名验证限制</string>
-    <string name="network_source_mode_warning_desc">“智能”和“低存储占用”模式可能流式处理单个 APK。流式处理时，InstallerX 无法执行完整 APK 验签，因此配置中的“禁止安装签名不匹配的应用”无法生效。InstallerX 仍会读取并比较签名证书：证书一致时放行；证书不同或无法确认兼容性时，按“禁止安装签名未知的应用”设置处理。Android 系统仍会在安装时执行最终签名验证。</string>
+    <string name="network_source_mode_warning_desc">“智能”和“低存储占用”模式可能流式处理单个 APK。流式处理时，InstallerX Resigned 无法执行完整 APK 验签，因此配置中的“禁止安装签名不匹配的应用”无法生效。InstallerX Resigned 仍会读取并比较签名证书：证书一致时放行；证书不同或无法确认兼容性时，按“禁止安装签名未知的应用”设置处理。Android 系统仍会在安装时执行最终签名验证。</string>
     <string name="config_network_source_cache">完整下载</string>
     <string name="config_network_source_cache_desc">分析前完整下载，兼容性最好</string>
     <string name="config_network_source_smart">智能</string>
@@ -539,7 +538,7 @@
     <string name="installer_installing_module">安装模块中</string>
     <string name="installer_install_failed">安装失败</string>
     <string name="installer_install_success">安装成功</string>
-    <string name="self_update_install_success">InstallerX 更新安装成功</string>
+    <string name="self_update_install_success">InstallerX Resigned 更新安装成功</string>
     <string name="installer_install_complete">安装完成</string>
     <string name="batch_install_result_message">批量安装：%1$d/%2$d 成功</string>
     <string name="installer_move_to_background">后台运行</string>
@@ -643,7 +642,7 @@
     <string name="permission_access_mock_location">访问模拟定位</string>
     <string name="permission_dhizuku">使用 Dhizuku</string>
     <string name="permission_unknown">未知权限</string>
-    <string name="installer_running">InstallerX 运行中</string>
+    <string name="installer_running">InstallerX Resigned 运行中</string>
     <string name="installer_version_short">版本：%1$s (%2$s)</string>
     <string name="version_with_prefix_format">%1$s%2$s</string>
     <string name="installer_version_name_label">版本名称：</string>
@@ -665,7 +664,7 @@
     <string name="exception_resolve_failed_strong_etag_required">低存储占用模式需要服务器提供强 HTTP ETag</string>
     <string name="exception_resolve_failed_low_storage_unsupported">网络源低存储占用模式需要 Android 9 或更高版本</string>
     <string name="exception_resolve_failed_streaming_probe">低存储占用模式无法通过 HTTP Range 请求检查此安装包</string>
-    <string name="exception_initiator_not_visible">InstallerX 对发起安装的应用不可见。如果使用了“隐藏应用列表”等模块，请对 InstallerX 放行</string>
+    <string name="exception_initiator_not_visible">InstallerX Resigned 对发起安装的应用不可见。如果使用了“隐藏应用列表”等模块，请对 InstallerX Resigned 放行</string>
     <string name="exception_resolve_failed_no_internet_access">应用内网络访问已关闭。请在网络设置中开启后再使用此功能。</string>
     <string name="exception_analyse_failed_all_files_unsupported">不支持的文件格式</string>
     <string name="exception_analyse_failed_streaming_source_unsupported">此来源无法在低存储占用模式下完成分析，请改用“智能”或“完整下载”模式。</string>
@@ -911,7 +910,7 @@
     <string name="lab_module_flashing">启用模块刷写</string>
     <string name="lab_module_flashing_desc">在刷写任何模块前务必再次确认！</string>
     <string name="lab_module_flashing_show_art">显示字符画</string>
-    <string name="lab_module_flashing_show_art_desc">安装开始时显示 InstallerX 字符画</string>
+    <string name="lab_module_flashing_show_art_desc">安装开始时显示 InstallerX Resigned 字符画</string>
     <string name="lab_module_select_root_impl">选择 Root 实现方式</string>
     <string name="lab_http_profile">HTTP 安全策略</string>
     <string name="lab_http_profile_secure">仅允许安全连接 (HTTPS)</string>
@@ -919,7 +918,6 @@
     <string name="lab_http_profile_all">允许所有 (不安全)</string>
     <string name="lab_update_github_proxy">GitHub 更新通道</string>
     <string name="lab_update_github_proxy_official">官方</string>
-    <string name="lab_update_github_proxy_7ed">7ED 代理</string>
     <string name="lab_update_github_proxy_custom">自定义 GHProxy</string>
     <string name="lab_update_github_proxy_url">自定义 URL</string>
     <string name="lab_unstable_features">不稳定功能</string>
@@ -958,8 +956,8 @@
     <string name="home_device_info_active_authorizer">正在使用的特权</string>
     <string name="home_device_info_default_installer">当前系统使用的安装活动</string>
     <string name="home_learn_more_title">了解更多</string>
-    <string name="home_learn_more_installerx_title">了解 InstallerX Revived</string>
-    <string name="home_learn_more_installerx_desc">了解如何配置和使用 InstallerX</string>
+    <string name="home_learn_more_installerx_title">了解 InstallerX Resigned</string>
+    <string name="home_learn_more_installerx_desc">了解如何配置和使用 InstallerX Resigned</string>
     <string name="unarchive_restore">恢复</string>
     <string name="unarchive_title">恢复 %1$s？</string>
     <string name="unarchive_message">%1$s 将恢复这个已归档应用</string>

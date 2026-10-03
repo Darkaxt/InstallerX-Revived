@@ -10,7 +10,7 @@
     <string name="menu">القائمة</string>
     <string name="about">حول</string>
     <string name="other">أخرى</string>
-    <string name="about_detail">حول InstallerX Revived</string>
+    <string name="about_detail">حول InstallerX Resigned</string>
     <string name="get_update">الحصول على تحديث</string>
     <string name="get_update_detail">التحقق من وجود تحديثات للبرنامج وميزات جديدة</string>
     <string name="internet_access_enabled">متصل بالإنترنت</string>
@@ -36,11 +36,11 @@
     <string name="ignore_battery_optimizations_desc">مفيد في بعض الرومات المخصصة التي تفرض سياسة صارمة على العمل في الخلفية</string>
     <string name="ignore_battery_optimizations_desc_disabled">تم التجاهل بالفعل</string>
     <string name="lock_default_installer">تعيين كمُثبِّت افتراضي</string>
-    <string name="lock_default_installer_desc">تعيين InstallerX كتطبيق افتراضي لتثبيت حزم APK</string>
+    <string name="lock_default_installer_desc">تعيين InstallerX Resigned كتطبيق افتراضي لتثبيت حزم APK</string>
     <string name="lock_default_installer_success">تم التعيين كمُثبِّت افتراضي بنجاح</string>
     <string name="lock_default_installer_failed">تعذر التعيين كمُثبِّت افتراضي</string>
     <string name="unlock_default_installer">إلغاء التعيين كمُثبِّت افتراضي</string>
-    <string name="unlock_default_installer_desc">إلغاء تعيين InstallerX كمُثبِّت افتراضي لحزم APK</string>
+    <string name="unlock_default_installer_desc">إلغاء تعيين InstallerX Resigned كمُثبِّت افتراضي لحزم APK</string>
     <string name="unlock_default_installer_success">تم إلغاء التعيين كمُثبِّت افتراضي بنجاح</string>
     <string name="unlock_default_installer_failed">تعذر إلغاء التعيين كمُثبِّت افتراضي</string>
     <string name="details">تفاصيل</string>
@@ -202,7 +202,7 @@
     <string name="permission_access_mock_location">الوصول إلى الموقع الوهمي</string>
     <string name="permission_dhizuku">استخدام Dhizuku</string>
     <string name="permission_unknown">إذن غير معروف</string>
-    <string name="installer_running">InstallerX قيد التشغيل</string>
+    <string name="installer_running">InstallerX Resigned قيد التشغيل</string>
     <string name="installer_version_short">إصدار %1$s (%2$s)</string>
     <string name="installer_version">الإصدار: %1$s (%2$s)</string>
     <string name="installer_version2">%1$s (%2$s)</string>
@@ -356,8 +356,8 @@
     <string name="theme_settings_prefer_system_icon">تفضيل ايقونة النظام لتنزيل التطبيق</string>
     <string name="theme_settings_prefer_system_icon_desc">محاولة الحصول على ايقونة من النطام٫ مفيد عند استخدام حزمة ايقونات. تعطيل لعرض ايقونة من حزمة التنزيل</string>
     <string name="theme_settings_hide_launcher_icon">اخفاء ايقونة الـ launcher</string>
-    <string name="uninstall_title">إلغاء تثبيت InstallerX Revived</string>
-    <string name="uninstall_content">بعد إلغاء تثبيت هذا التطبيق، لن تستطيع إستخدام InstallerX Revived لتثبيت التطبيقات</string>
+    <string name="uninstall_title">إلغاء تثبيت InstallerX Resigned</string>
+    <string name="uninstall_content">بعد إلغاء تثبيت هذا التطبيق، لن تستطيع إستخدام InstallerX Resigned لتثبيت التطبيقات</string>
     <string name="theme_settings_theme_mode">وضع الثيم</string>
     <string name="theme_settings_theme_mode_desc">تحديد وضع السمة</string>
     <string name="theme_settings_theme_mode_light">الوضع الفاتح</string>
@@ -426,7 +426,6 @@
     <string name="setting_lsposed_module_desc">فعّل هذا الخيار إذا كنت قد فرضت استخدام المثبّت الافتراضي عبر وحدة LSPosed خارجية. سيؤدي ذلك إلى تعطيل التحقق من الحالة الداخلية، وستظهر الصفحة الرئيسية دائمًا على أنها مُفعّلة</string>
     <string name="home_stat_authorizers">الامتيازات المتاحة</string>
     <string name="home_stat_profiles">الملفات الشخصية</string>
-    <string name="home_label_lsp_link">هل تبحث عن وحدة دراسية؟</string>
     <string name="shizuku_not_authorized">يرجى منح الإذن بالوصول إلى Sui أو Shizuku</string>
     <string name="shizuku_not_available">يرجى تفعيل Sui أو Shizuku</string>
     <string name="dhizuku_not_authorized">يرجى منح الإذن بوصول Dhizuku</string>

@@ -95,10 +95,6 @@ class OnlineUpdatePolicyTest {
             OnlineUpdatePolicy.resolveDownloadUrl(asset, GithubUpdateChannel.OFFICIAL, ""),
         )
         assertEquals(
-            "https://gh.sevencdn.com/${asset.browserDownloadUrl}",
-            OnlineUpdatePolicy.resolveDownloadUrl(asset, GithubUpdateChannel.PROXY_7ED, ""),
-        )
-        assertEquals(
             "https://proxy.example/${asset.browserDownloadUrl}",
             OnlineUpdatePolicy.resolveDownloadUrl(
                 asset,
@@ -110,6 +106,21 @@ class OnlineUpdatePolicyTest {
             "",
             OnlineUpdatePolicy.resolveDownloadUrl(null, GithubUpdateChannel.OFFICIAL, ""),
         )
+    }
+
+    @Test
+    fun `removed built in proxy falls back to direct GitHub while custom remains`() {
+        assertEquals(GithubUpdateChannel.OFFICIAL, GithubUpdateChannel.fromValueOrDefault("PROXY_7ED"))
+        assertEquals(GithubUpdateChannel.CUSTOM, GithubUpdateChannel.fromValueOrDefault("CUSTOM"))
+    }
+
+    @Test
+    fun `resigned release filename keeps update selection and version ordering`() {
+        val online = asset("InstallerX-Resigned-online-26.10.1003.apk")
+        val remote = GithubRelease(tagName = "26.10.1003", assets = listOf(asset("SHA256SUMS.txt"), online))
+        assertSame(online, OnlineUpdatePolicy.selectOnlineApkAsset(remote))
+        assertEquals("26.10.1003", OnlineUpdatePolicy.resolveRemoteVersion(remote, online))
+        assertTrue(OnlineUpdatePolicy.compareVersions("26.10.1003", "26.10.1002") > 0)
     }
 
     @Test

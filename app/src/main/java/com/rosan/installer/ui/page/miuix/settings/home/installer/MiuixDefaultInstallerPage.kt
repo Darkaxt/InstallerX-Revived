@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,14 +48,12 @@ import com.rosan.installer.ui.theme.installerMiuixBlurEffect
 import com.rosan.installer.ui.theme.rememberMiuixBlurBackdrop
 import org.koin.androidx.compose.koinViewModel
 import top.yukonga.miuix.kmp.basic.BasicComponent
-import top.yukonga.miuix.kmp.basic.BasicComponentColors
 import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.SmallTitle
 import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.blur.layerBackdrop
-import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 
@@ -64,7 +61,6 @@ import top.yukonga.miuix.kmp.utils.scrollEndHaptic
 fun MiuixDefaultInstallerPage(useBlur: Boolean, viewModel: HomePageViewModel = koinViewModel()) {
     val navigator = LocalNavigator.current
     val context = LocalContext.current
-    val uriHandler = LocalUriHandler.current
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val scrollBehavior = MiuixScrollBehavior()
 
@@ -186,24 +182,6 @@ fun MiuixDefaultInstallerPage(useBlur: Boolean, viewModel: HomePageViewModel = k
                             description = stringResource(R.string.setting_lsposed_module_desc),
                             checked = uiState.userSetLSPosedActive,
                             onCheckedChange = { viewModel.dispatch(HomePageViewAction.ChangeUserSetLSPosedActive(it)) },
-                        )
-                    }
-                }
-
-                item { SmallTitle(stringResource(R.string.home_label_lsp_link)) }
-                item {
-                    Card(
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp)
-                            .padding(bottom = 12.dp),
-                    ) {
-                        BasicComponent(
-                            title = stringResource(R.string.home_lsp_inxlocker_title),
-                            titleColor = BasicComponentColors(
-                                color = MiuixTheme.colorScheme.primary,
-                                disabledColor = MiuixTheme.colorScheme.disabledOnSecondaryVariant,
-                            ),
-                            onClick = { uriHandler.openUri("https://github.com/Chimioo/InxLocker") },
                         )
                     }
                 }

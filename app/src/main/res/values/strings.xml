@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="resign">Resign</string>
-    <string name="app_name" translatable="false">InstallerX Resign</string>
-    <!--<string name="agreement_text">Here is our user policy, Please read and agree to it. &lt;a href="https://iamr0s.github.io/InstallerXDocs/terms"&gt;User Policy&lt;/a&gt;, &lt;a href="https://iamr0s.github.io/InstallerXDocs/privacy"&gt;Privacy Policy&lt;/a&gt; This message won\'t show up again after you agree.</string>-->
+    <string name="app_name" translatable="false">InstallerX Resigned</string>
     <string name="warning">Warning</string>
     <string name="open_source_license">Open Source License</string>
     <string name="open_source_license_settings_description">View third-party open-source libraries and their licenses</string>
@@ -25,8 +24,6 @@
     <string name="setting_lsposed_module_desc">Enable this if you have forced the default installer takeover via a third-party Xposed module. This disables internal status checking, and the home page will constantly show as "Activated"</string>
     <string name="home_stat_authorizers">Available Privileges</string>
     <string name="home_stat_profiles">Profiles</string>
-    <string name="home_label_lsp_link">Looking for a module?</string>
-    <string name="home_lsp_inxlocker_title" translatable="false">InxLocker</string>
     <string name="shizuku_not_authorized">Please grant permission to access Sui or Shizuku</string>
     <string name="shizuku_not_available">Please activate Sui or Shizuku</string>
     <string name="dhizuku_not_authorized">Please grant permission to access Dhizuku</string>
@@ -84,7 +81,7 @@
     <string name="lab">Laboratory</string>
     <string name="lab_desc">Access experimental and developer features</string>
     <string name="debug">Debug</string>
-    <string name="about_detail">About InstallerX Revived</string>
+    <string name="about_detail">About InstallerX Resigned</string>
     <string name="app_version_info_format">%1$s %2$s (%3$s)</string>
     <string name="updating">Updating…</string>
     <string name="get_update">Get update</string>
@@ -102,9 +99,9 @@
     <string name="internet_access_disabled">Offline</string>
     <string name="network_access">Network access</string>
     <string name="allow_internet_access">Allow Internet access</string>
-    <string name="allow_internet_access_desc">Allow InstallerX Revived to check for updates and download APKs from network links</string>
-    <string name="uninstall_title">Uninstall InstallerX Revived</string>
-    <string name="uninstall_content">After uninstalling this app, you will no longer be able to use InstallerX Revived to install apps.</string>
+    <string name="allow_internet_access_desc">Allow InstallerX Resigned to check for updates and download APKs from network links</string>
+    <string name="uninstall_title">Uninstall InstallerX Resigned</string>
+    <string name="uninstall_content">After uninstalling this app, you will no longer be able to use InstallerX Resigned to install apps.</string>
     <string name="stable">Stable</string>
     <string name="preview">Preview</string>
     <string name="unstable">Unstable</string>
@@ -236,7 +233,7 @@
     <string name="backup_settings_restore_ignored_settings">Ignored settings: %1$d</string>
     <string name="backup_settings_restore_warnings_title">Warnings</string>
     <string name="backup_settings_validation_failed_title">Invalid backup</string>
-    <string name="backup_settings_validation_invalid_file">The selected file is not a valid InstallerX Revived backup.</string>
+    <string name="backup_settings_validation_invalid_file">The selected file is not a valid InstallerX Resigned backup.</string>
     <string name="backup_settings_validation_unsupported_format">Unsupported backup format version %1$s. Current version supports up to %2$s.</string>
     <string name="backup_settings_validation_empty">The backup does not contain profiles, scopes, settings, or history records.</string>
     <string name="backup_settings_validation_invalid_profile_id">Invalid profile id: %1$s</string>
@@ -264,11 +261,11 @@
     <string name="ignore_battery_optimizations_desc_disabled">Already Ignored</string>
     <string name="default_installer">Default Installer</string>
     <string name="lock_default_installer">Set as default installer</string>
-    <string name="lock_default_installer_desc">Set InstallerX Revived as the default app to install APKs</string>
+    <string name="lock_default_installer_desc">Set InstallerX Resigned as the default app to install APKs</string>
     <string name="lock_default_installer_success">Successfully set as default installer</string>
     <string name="lock_default_installer_failed">Couldn\'t set as default installer</string>
     <string name="unlock_default_installer">Unset as default installer</string>
-    <string name="unlock_default_installer_desc">Unset InstallerX Revived as the default installer to install APKs</string>
+    <string name="unlock_default_installer_desc">Unset InstallerX Resigned as the default installer to install APKs</string>
     <string name="unlock_default_installer_success">Successfully unset as default installer</string>
     <string name="unlock_default_installer_failed">Couldn\'t unset as default installer</string>
     <string name="locking_default_installer">Setting as default installer…</string>
@@ -380,7 +377,7 @@
     <string name="config_auto_delete_zip_desc">In addition to deleting the installation package, also delete the compressed file containing the installation package.</string>
     <string name="config_network_source_mode">Network source handling</string>
     <string name="network_source_mode_warning_title">Signature verification limitations</string>
-    <string name="network_source_mode_warning_desc">Smart and Low storage modes may stream single APKs. While streaming, InstallerX Revived cannot perform full APK signature verification, so the profile setting that blocks apps with mismatched signatures cannot take effect. InstallerX Revived still reads and compares signing certificates: matching certificates are allowed, while different certificates or compatibility that cannot be confirmed follow the profile setting for blocking unknown signatures. Android still performs final signature verification during installation.</string>
+    <string name="network_source_mode_warning_desc">Smart and Low storage modes may stream single APKs. While streaming, InstallerX Resigned cannot perform full APK signature verification, so the profile setting that blocks apps with mismatched signatures cannot take effect. InstallerX Resigned still reads and compares signing certificates: matching certificates are allowed, while different certificates or compatibility that cannot be confirmed follow the profile setting for blocking unknown signatures. Android still performs final signature verification during installation.</string>
     <string name="config_network_source_cache">Full download</string>
     <string name="config_network_source_cache_desc">Download the complete source before analysis, Maximum Compatibility</string>
     <string name="config_network_source_smart">Smart</string>
@@ -555,7 +552,7 @@
     <string name="installer_installing_module">Installing Module</string>
     <string name="installer_install_failed">Install failed</string>
     <string name="installer_install_success">Install success</string>
-    <string name="self_update_install_success">InstallerX Revived was updated successfully</string>
+    <string name="self_update_install_success">InstallerX Resigned was updated successfully</string>
     <string name="installer_install_complete">Install complete</string>
     <string name="batch_install_result_message">Batch installation: %1$d/%2$d successful</string>
     <string name="installer_move_to_background">Run in background</string>
@@ -659,7 +656,7 @@
     <string name="permission_access_mock_location">Access mock location</string>
     <string name="permission_dhizuku">Use Dhizuku</string>
     <string name="permission_unknown">Unknown permission</string>
-    <string name="installer_running">InstallerX Revived is running</string>
+    <string name="installer_running">InstallerX Resigned is running</string>
     <string name="installer_version_short">Ver. %1$s (%2$s)</string>
     <string name="version_with_prefix_format">%1$s %2$s</string>
     <string name="installer_version_name_label">Version Name:</string>
@@ -687,7 +684,7 @@
     <string name="exception_resolve_failed_strong_etag_required">Low storage mode requires a strong HTTP ETag from the server</string>
     <string name="exception_resolve_failed_low_storage_unsupported">Low storage network sources require Android 9 or newer</string>
     <string name="exception_resolve_failed_streaming_probe">Low storage mode could not inspect this package through HTTP range requests</string>
-    <string name="exception_initiator_not_visible">Permission denied due to package visibility restrictions. The app requesting the installation is hidden from InstallerX Revived. If you are using modules like \'Hide My Applist\', please allowlist InstallerX Revived</string>
+    <string name="exception_initiator_not_visible">Permission denied due to package visibility restrictions. The app requesting the installation is hidden from InstallerX Resigned. If you are using modules like \'Hide My Applist\', please allowlist InstallerX Resigned</string>
     <string name="exception_resolve_failed_no_internet_access">Internet access is disabled in the app\'s settings. Enable it in Network settings to use this feature.</string>
     <string name="exception_analyse_failed_all_files_unsupported">File not supported</string>
     <string name="exception_analyse_failed_streaming_source_unsupported">This source cannot be analyzed in Low storage mode. Choose Smart or Full download.</string>
@@ -932,7 +929,7 @@
     <string name="lab_module_flashing">Enable module flashing</string>
     <string name="lab_module_flashing_desc">Always check twice before flashing any modules!</string>
     <string name="lab_module_flashing_show_art">Display ASCII art</string>
-    <string name="lab_module_flashing_show_art_desc">Display InstallerX Revived ASCII art when installation starts</string>
+    <string name="lab_module_flashing_show_art_desc">Display InstallerX Resigned ASCII art when installation starts</string>
     <string name="lab_module_select_root_impl">Choose root implementation</string>
     <string name="lab_http_profile">HTTP Security Policy</string>
     <string name="lab_http_profile_secure">Secure connections only (HTTPS)</string>
@@ -940,7 +937,6 @@
     <string name="lab_http_profile_all">Allow all (Insecure)</string>
     <string name="lab_update_github_proxy">GitHub Update Channel</string>
     <string name="lab_update_github_proxy_official">Official</string>
-    <string name="lab_update_github_proxy_7ed">7ED Proxy</string>
     <string name="lab_update_github_proxy_custom">Custom GHProxy</string>
     <string name="lab_update_github_proxy_url">Custom URL</string>
     <string name="lab_unstable_features">Unstable features</string>
@@ -979,8 +975,8 @@
     <string name="home_device_info_active_authorizer">Authorizer in use</string>
     <string name="home_device_info_default_installer">Default Installer Activity</string>
     <string name="home_learn_more_title">Learn More</string>
-    <string name="home_learn_more_installerx_title">Learn about InstallerX Revived</string>
-    <string name="home_learn_more_installerx_desc">Learn how to configure and use InstallerX Revived</string>
+    <string name="home_learn_more_installerx_title">Learn about InstallerX Resigned</string>
+    <string name="home_learn_more_installerx_desc">Learn how to configure and use InstallerX Resigned</string>
     <string name="unarchive_restore">Restore</string>
     <string name="unarchive_title">Restore %1$s?</string>
     <string name="unarchive_message">%1$s will restore this archived app.</string>

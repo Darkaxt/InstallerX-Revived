@@ -81,7 +81,7 @@ jobs:
         env:
           VERSION_TAG: ${{ inputs.version_tag }}
         run: |
-          PROJECT_NAME="InstallerX-Revived"
+          PROJECT_NAME="InstallerX-Resigned"
           
           APK_DIR=$(find app/build/outputs/apk -type d | grep -iE '/stable/release$' | head -n 1)
           if [ -z "$APK_DIR" ]; then
@@ -124,7 +124,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          name: "InstallerX Resign ${{ inputs.version_tag }}"
+          name: "InstallerX Resigned ${{ inputs.version_tag }}"
           # Use the exact input as the tag name
           tag_name: ${{ inputs.version_tag }}
           target_commitish: ${{ github.sha }}

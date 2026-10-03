@@ -20,7 +20,7 @@
     <string name="lab">Laboratorio</string>
     <string name="lab_desc">Accedi alle funzionalità sperimentali e per sviluppatori</string>
     <string name="debug">Debug</string>
-    <string name="about_detail">Informazioni su InstallerX Revived</string>
+    <string name="about_detail">Informazioni su InstallerX Resigned</string>
     <string name="get_update_detail">Verifica la disponibilità di aggiornamenti software e nuove funzionalità</string>
     <string name="get_update_directly">Verifica la disponibilità di aggiornamenti software e nuove funzionalità</string>
     <string name="get_update_directly_desc">Ottieni l’aggiornamento direttamente da GitHub e installalo, senza cache residua</string>
@@ -33,7 +33,7 @@
     <string name="internet_access_enabled">Online</string>
     <string name="internet_access_disabled">Offline</string>
     <string name="uninstall_title">Verifica la disponibilità di aggiornamenti software e nuove funzionalità</string>
-    <string name="uninstall_content">Dopo aver disinstallato questa app, non potrai più utilizzare InstallerX Revived per installare applicazioni.</string>
+    <string name="uninstall_content">Dopo aver disinstallato questa app, non potrai più utilizzare InstallerX Resigned per installare applicazioni.</string>
     <string name="unstable">Instabile</string>
     <string name="enable_notification_hint">Abilita le autorizzazioni per le notifiche per poter installare!</string>
     <string name="enable_storage_permission_hint">Abilita l’accesso a tutti i file per poter installare!</string>
@@ -58,7 +58,6 @@
     <string name="unavailable">Non disponibile</string>
     <string name="history_operation_install">Installa</string>
     <string name="shizuku_not_available">Attiva Sui o Shizuku</string>
-    <string name="home_label_lsp_link">Cerchi un modulo?</string>
     <string name="working_status_default_installer">Impostato come installer predefinito</string>
     <string name="dhizuku_not_available">Attiva Dhizuku</string>
     <string name="shizuku_not_authorized">Concedi il permesso di accedere a Sui o Shizuku</string>

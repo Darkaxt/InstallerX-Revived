@@ -13,7 +13,7 @@
     <string name="other">Egyéb</string>
     <string name="lab">Kísérleti részleg</string>
     <string name="lab_desc">Hozzáférés kísérleti és fejlesztői funkciókhoz</string>
-    <string name="about_detail">Az InstallerX Revived-ról</string>
+    <string name="about_detail">Az InstallerX Resigned-ról</string>
     <string name="updating">Frissítés…</string>
     <string name="get_update">Frissítések lekérése</string>
     <string name="get_update_detail">Szoftverfrissítések keresése</string>
@@ -24,8 +24,8 @@
     <string name="get_source_code_detail">Forráskód ellenőrzése a GitHubon</string>
     <string name="internet_access_enabled">Online</string>
     <string name="internet_access_disabled">Offline</string>
-    <string name="uninstall_title">Az InstallerX Revived eltávolítása</string>
-    <string name="uninstall_content">Az alkalmazás eltávolítása után nem fogod tudni használni az InstallerX Revived alkalmazást alkalmazások telepítéséhez.</string>
+    <string name="uninstall_title">Az InstallerX Resigned eltávolítása</string>
+    <string name="uninstall_content">Az alkalmazás eltávolítása után nem fogod tudni használni az InstallerX Resigned alkalmazást alkalmazások telepítéséhez.</string>
     <string name="stable">Stabil</string>
     <string name="preview">Előzetes verzió</string>
     <string name="unstable">Instabil</string>
@@ -107,11 +107,11 @@
     <string name="ignore_battery_optimizations_desc">Hasznos néhány olyan egyéni ROM-on, amelyek karakterláncos háttérpolitikával rendelkeznek.</string>
     <string name="ignore_battery_optimizations_desc_disabled">Már figyelmen kívül hagyva</string>
     <string name="lock_default_installer">Beállítás alapértelmezett telepítőként</string>
-    <string name="lock_default_installer_desc">Az InstallerX beállítása alapértelmezett alkalmazásként az apk-k telepítéséhez</string>
+    <string name="lock_default_installer_desc">Az InstallerX Resigned beállítása alapértelmezett alkalmazásként az apk-k telepítéséhez</string>
     <string name="lock_default_installer_success">Sikeresen beállítva alapértelmezett telepítőként</string>
     <string name="lock_default_installer_failed">Nem sikerült alapértelmezett telepítőként beállítani</string>
     <string name="unlock_default_installer">Alapértelmezett telepítőként való beállítás törlése</string>
-    <string name="unlock_default_installer_desc">Töröld az InstallerX alapértelmezett telepítőként való beállítását az apk-k telepítéséhez</string>
+    <string name="unlock_default_installer_desc">Töröld az InstallerX Resigned alapértelmezett telepítőként való beállítását az apk-k telepítéséhez</string>
     <string name="unlock_default_installer_success">Sikeresen törölve az alapértelmezett telepítőként való beállításból</string>
     <string name="unlock_default_installer_failed">Nem sikerült törölni az alapértelmezett telepítőként való beállítást</string>
     <string name="details">Részletek</string>
@@ -370,7 +370,7 @@
     <string name="permission_access_mock_location">Hozzáférés ál-helyszínhez</string>
     <string name="permission_dhizuku">Dhizuku használata</string>
     <string name="permission_unknown">Ismeretlen engedély</string>
-    <string name="installer_running">Az InstallerX fut</string>
+    <string name="installer_running">Az InstallerX Resigned fut</string>
     <string name="installer_version_short">%1$s verzió (%2$s)</string>
     <string name="installer_version_name_label">Verzió neve:</string>
     <string name="installer_version_code_label">Verziókód:</string>
@@ -574,7 +574,7 @@
     <string name="lab_module_flashing">Modulok flash-elésének engedélyezése</string>
     <string name="lab_module_flashing_desc">Mindig kétszer ellenőrizd, mielőtt bármilyen modult flash-elsz!</string>
     <string name="lab_module_flashing_show_art">ASCII grafika megjelenítése</string>
-    <string name="lab_module_flashing_show_art_desc">Az InstallerX ASCII grafikájának megjelenítése a telepítés megkezdésekor</string>
+    <string name="lab_module_flashing_show_art_desc">Az InstallerX Resigned ASCII grafikájának megjelenítése a telepítés megkezdésekor</string>
     <string name="lab_module_select_root_impl">Root implementáció kiválasztása</string>
     <string name="lab_http_profile">HTTP biztonsági szabályzat</string>
     <string name="lab_http_profile_secure">Csak biztonságos kapcsolatok (HTTPS)</string>

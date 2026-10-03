@@ -248,10 +248,6 @@ fun NetworkPage(useBlur: Boolean, viewModel: NetworkSettingsViewModel = koinView
                                     R.string.lab_update_github_proxy_official,
                                 )
 
-                                GithubUpdateChannel.PROXY_7ED -> stringResource(
-                                    R.string.lab_update_github_proxy_7ed,
-                                )
-
                                 GithubUpdateChannel.CUSTOM -> uiState.customGithubProxyUrl.ifBlank {
                                     stringResource(R.string.lab_update_github_proxy_custom)
                                 }
