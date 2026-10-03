@@ -35,8 +35,9 @@ Keystore. The original installation, provenance and conflict requirements remain
 - B6: Verify meaningful host crypto tests, Android encrypted persistence and
   export/import/sign/update integration, both settings interfaces, Preview debug
   compilation and optimized Stable packaging. Document the legacy limitation and
-  recovery procedure. Commit the verified result. No new external release is
-  requested in this extension.
+  recovery procedure. Commit the verified result. The initial implementation
+  excluded publication; the user's subsequent instruction on 2026-10-03 authorizes
+  publishing the verified release APK under `fork-maintenance.md` procedures.
 
 ## Scope
 
