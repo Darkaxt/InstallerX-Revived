@@ -333,6 +333,11 @@ fun MiuixPreferredPage(
                         .padding(bottom = 12.dp),
                 ) {
                     BasicComponent(
+                        title = stringResource(R.string.signing_settings),
+                        summary = stringResource(R.string.signing_settings_desc),
+                        onClick = { navigator.push(Route.Signing) },
+                    )
+                    BasicComponent(
                         title = stringResource(R.string.backup_settings_export),
                         summary = stringResource(R.string.backup_settings_export_desc),
                         enabled = !uiState.backupBusy,

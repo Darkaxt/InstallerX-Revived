@@ -28,7 +28,8 @@ class PersonalResigningTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val context = instrumentation.targetContext
     private val formatter = CertificateFormatter()
-    private val key = PersonalSigningKey()
+    private val codec = SigningIdentityCodec()
+    private val key = PersonalSigningKey(context, codec)
     private val installedReader = InstalledPackageSignatureReader(context, formatter)
     private val analyzer = PendingApkSignatureAnalyzer(formatter, LightweightApkSignatureReader(formatter))
     private val repository = ApkResigningRepositoryImpl(context, key, ApkResigner(), analyzer, installedReader)
@@ -40,7 +41,7 @@ class PersonalResigningTest {
         val originalBytes = original.readBytes()
         try {
             val firstIdentity = formatter.format(key.getOrCreate().signingCertificate).sha256
-            assertEquals(firstIdentity, formatter.format(PersonalSigningKey().getOrCreate().signingCertificate).sha256)
+            assertEquals(firstIdentity, formatter.format(PersonalSigningKey(context, codec).getOrCreate().signingCertificate).sha256)
             var signedFile: File? = null
             repository.prepare(listOf(result(original)), true).use { prepared ->
                 val app = prepared.results.single().appEntities.single().app as AppEntity.BaseEntity

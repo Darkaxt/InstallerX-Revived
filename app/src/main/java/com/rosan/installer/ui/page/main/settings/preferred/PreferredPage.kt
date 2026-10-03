@@ -335,6 +335,14 @@ fun PreferredPage(
                 ) {
                     item {
                         BaseWidget(
+                            icon = AppIcons.DisableAdbVerify,
+                            title = stringResource(R.string.signing_settings),
+                            description = stringResource(R.string.signing_settings_desc),
+                            onClick = { navigator.push(Route.Signing) },
+                        )
+                    }
+                    item {
+                        BaseWidget(
                             icon = AppIcons.Save,
                             title = stringResource(R.string.backup_settings_export),
                             description = stringResource(R.string.backup_settings_export_desc),

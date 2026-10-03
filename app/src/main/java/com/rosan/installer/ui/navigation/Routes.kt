@@ -27,6 +27,9 @@ sealed interface Route : NavKey {
     data object Network : Route
 
     @Serializable
+    data object Signing : Route
+
+    @Serializable
     data object InstallerGlobal : Route
 
     @Serializable

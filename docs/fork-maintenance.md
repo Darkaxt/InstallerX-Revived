@@ -35,6 +35,10 @@ upstream preview publishing is disabled for this fork.
    signing, incoming-store exclusion, actual-current-signer detection,
    per-package retry retention, original-source handling and both UI actions.
    Keep the fork ID, update endpoint, version ordering and release identity.
+   Also reconcile [signing-backup-spec.md](signing-backup-spec.md): preserve
+   encrypted portable identity storage and both import/export UIs, keep existing
+   legacy aliases unchanged, and verify password-protected backup round trips.
+   Never rotate either release or personal signing identities during a merge.
 3. Use JDK 25 and installed SDK/Build Tools 37.0.0. Export local credential
    values to the current process's `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`,
    `KEY_ALIAS` and `KEY_PASSWORD`; never put them in tracked Gradle properties.

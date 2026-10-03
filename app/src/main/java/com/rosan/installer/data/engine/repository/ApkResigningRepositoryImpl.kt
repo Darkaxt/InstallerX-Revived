@@ -66,7 +66,7 @@ class ApkResigningRepositoryImpl(
             )
         }.mapTo(mutableSetOf()) { it.packageName }
         if (packagesToSign.isEmpty()) return PreparedResigning(results)
-        val entry = personalKey.getOrCreate()
+        val entry = existingKey ?: personalKey.getOrCreate()
         val certificate = entry.signingCertificate
         val directory = Files.createTempDirectory(context.cacheDir.toPath(), "resign-").toFile()
         return try {

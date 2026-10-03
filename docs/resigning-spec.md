@@ -8,8 +8,9 @@ the authoritative specification; the execution ledger does not override it.
 - R1: Generate an RSA private key and self-signed certificate locally on first
   signing use. Reuse the same identity across app restarts and fork updates.
   No mandatory import and no bundled universal APK re-signing key. Keep private
-  material in Android Keystore. Clearing InstallerX data/uninstalling it or
-  changing devices loses this identity; explain this limitation in user docs.
+  material protected by Android Keystore. Optional portable backups and legacy
+  identity preservation are specified by `signing-backup-spec.md` (authorized
+  extension on 2026-10-03).
 - R2: Add a third action named `Resign` in both Material and Miuix install
   preparation UIs for eligible APK selections whose incoming request is not
   from a known official store. Unknown origin is eligible. The explicit action
@@ -67,5 +68,5 @@ the authoritative specification; the execution ledger does not override it.
 ## Staged execution
 
 See [resigning-plan.md](resigning-plan.md). Required blockers/deferrals must be
-resolved before overall completion. No optional import/export feature is
-required for this initial version.
+resolved before overall completion. The initial version did not require optional
+import/export; the authorized extension is in `signing-backup-spec.md`.

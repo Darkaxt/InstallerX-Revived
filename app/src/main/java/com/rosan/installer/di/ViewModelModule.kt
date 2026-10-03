@@ -18,6 +18,7 @@ import com.rosan.installer.ui.page.main.settings.preferred.installer.dialog.Dial
 import com.rosan.installer.ui.page.main.settings.preferred.installer.notification.NotificationSettingsViewModel
 import com.rosan.installer.ui.page.main.settings.preferred.lab.LabSettingsViewModel
 import com.rosan.installer.ui.page.main.settings.preferred.network.NetworkSettingsViewModel
+import com.rosan.installer.ui.page.main.settings.preferred.signing.SigningSettingsViewModel
 import com.rosan.installer.ui.page.main.settings.preferred.theme.ThemeSettingsViewModel
 import com.rosan.installer.ui.page.main.settings.preferred.uninstaller.UninstallerSettingsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -30,6 +31,7 @@ val viewModelModule = module {
     viewModelOf(::AllViewModel)
     viewModelOf(::HistoryViewModel)
     viewModelOf(::PreferredViewModel)
+    viewModelOf(::SigningSettingsViewModel)
     viewModelOf(::ThemeSettingsViewModel)
     viewModelOf(::InstallerSettingsViewModel)
     viewModelOf(::AuthorizerCustViewModel)

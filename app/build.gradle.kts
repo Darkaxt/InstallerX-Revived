@@ -70,6 +70,7 @@ android {
             optimization.enable = false
         }
         getByName("release") {
+            proguardFiles("signing-proguard-rules.pro")
             signingConfig = if (hasCustomSigning) {
                 println("Applying custom signing to release build.")
                 signingConfigs.getByName("releaseCustom")
@@ -206,6 +207,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     implementation(libs.commons.compress)
+    implementation(libs.bouncycastle.prov)
+    implementation(libs.bouncycastle.pkix)
     implementation(libs.androidx.profileinstaller)
     implementation(files(apksignerJar))
     "baselineProfile"(project(":baselineprofile"))

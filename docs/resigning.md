@@ -31,11 +31,51 @@ have incompatible saved data or certificate checks.
 
 ## Keeping the identity
 
-Each installer installation creates its own key in Android Keystore. Updating
-this fork retains the key. Clearing its data, uninstalling it, or changing devices
-removes access to the identity. This initial version has no export/import UI.
-Do not uninstall or clear this installer if you want to keep updating apps that
-it has personally signed.
+New installations generate an exportable key and self-signed certificate locally
+on first signing use, without requiring import. The private key is encrypted with
+AES-256-GCM in app-private non-backed-up storage. Its encryption key stays in
+Android Keystore. Updating this fork retains the identity.
+
+Open **Preferences → Backup & Restore → APK signing certificate** in either UI.
+The screen shows the active certificate's SHA-256 fingerprint.
+
+- **Export signing backup** saves both the private key and certificate as a
+  password-protected PKCS#12 `.p12` file. Choose a strong password, keep it
+  separately, and store the file somewhere that survives clearing this app or
+  replacing the device. Exports use AES-256 with PBKDF2-HMAC-SHA256 (100,000
+  iterations) and a SHA-256 PKCS#12 MAC. Anyone with the file and password can
+  sign APKs as this identity; do not publish it.
+- **Import signing backup** accepts `.p12`/`.pfx` files containing exactly one
+  RSA private key of at least 2048 bits with its matching X.509 certificate.
+  Enter the backup password, check the fingerprint, then confirm activation.
+  Invalid files, wrong passwords and cancellation do not replace the identity.
+  Backups are limited to 1 MiB and certificate chains to 16 certificates.
+- **Export public certificate** saves a PEM `.pem` certificate for inspection
+  or identification. It contains no private key and cannot restore signing.
+- **Generate exportable identity** creates a new candidate and asks for
+  confirmation before activating it. Changing keys affects updates to apps
+  signed with the previous key. Back up the current exportable identity first.
+
+After reinstalling or changing devices, import your signing backup before
+updating personally signed apps. Check that its fingerprint matches your old
+identity. Automatic update signing then uses that restored key. Without a
+backup, clearing app data or uninstalling the installer loses the identity.
+
+### Identities created by the first release
+
+Version `26.10.1001` generated a non-exportable Android Keystore private key.
+Updating the installer preserves that original identity and keeps it active.
+Android does not allow recovering its private key for a backup; importing or
+generating a new key cannot make the old one exportable. Its public certificate
+can still be exported. **Do not clear data or uninstall this installer while
+you need the original device-only key.**
+
+You may explicitly activate an imported or newly generated exportable identity.
+The original device-only key stays in Android Keystore, and **Use original
+device-only key** switches back after confirmation. This replaces the current
+exportable identity, so export that identity first if you will need it again.
+Existing mismatch warnings and uninstall/retry remain authoritative; switching
+keys never automatically uninstalls an app.
 
 The installer APK's release signing certificate is separate from this personal
 key. Release builds never contain a shared personal APK signing key.
