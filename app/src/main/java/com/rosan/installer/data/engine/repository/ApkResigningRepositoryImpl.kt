@@ -35,6 +35,28 @@ class ApkResigningRepositoryImpl(
     private val analyzer: PendingApkSignatureAnalyzer,
     private val installedReader: InstalledPackageSignatureReader,
 ) : ApkResigningRepository {
+    override suspend fun explicitEligiblePackages(results: List<PackageAnalysisResult>, config: ConfigModel): Set<String> = withContext(Dispatchers.IO) {
+        if (ResigningPolicy.isOfficialSource(config)) return@withContext emptySet()
+        results.mapNotNull { result ->
+            currentCoroutineContext().ensureActive()
+            val base = result.appEntities.firstOrNull { it.selected && it.app is AppEntity.BaseEntity }?.app as? AppEntity.BaseEntity
+                ?: return@mapNotNull null
+            if (result.installedAppInfo == null) return@mapNotNull result.packageName
+            val pending = try {
+                base.signatureInfo?.takeIf { it.verified }
+                    ?: analyzer.analyzeForResignEligibility(base.data, context.cacheDir.path)
+            } catch (cancelled: kotlinx.coroutines.CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                return@mapNotNull null
+            }
+            val installed = installedReader.read(result.packageName)
+            result.packageName.takeIf {
+                ResigningPolicy.canExplicitlyResign(config, true, pending.takeIf { it.verified }?.signerSha256Set, installed?.signerSha256Set)
+            }
+        }.toSet()
+    }
+
     override suspend fun prepare(results: List<PackageAnalysisResult>, explicitlyResign: Boolean, config: ConfigModel, rememberedPackages: Set<String>): PreparedResigning {
         var prepared: PreparedResigning? = null
         try {

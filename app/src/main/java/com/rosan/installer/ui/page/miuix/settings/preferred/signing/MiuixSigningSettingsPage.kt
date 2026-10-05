@@ -65,7 +65,7 @@ fun MiuixSigningSettingsPage(viewModel: SigningSettingsViewModel = koinViewModel
             item {
                 Card(Modifier.padding(horizontal = 12.dp)) {
                     BasicComponent(title = stringResource(R.string.signing_export_backup), summary = stringResource(R.string.signing_export_backup_desc), enabled = !state.busy && info?.exportable == true, onClick = { exportPassword = true })
-                    BasicComponent(title = stringResource(R.string.signing_import_backup), summary = stringResource(R.string.signing_import_backup_desc), enabled = !state.busy, onClick = importBackup)
+                    BasicComponent(title = stringResource(R.string.signing_import_backup), summary = stringResource(R.string.signing_import_supported_desc), enabled = !state.busy, onClick = importBackup)
                     BasicComponent(title = stringResource(R.string.signing_export_certificate), summary = stringResource(R.string.signing_export_certificate_desc), enabled = !state.busy && info != null, onClick = { viewModel.export() })
                 }
             }
@@ -80,7 +80,15 @@ fun MiuixSigningSettingsPage(viewModel: SigningSettingsViewModel = koinViewModel
             }
         }
     }
-    if (exportPassword || state.importPasswordRequired) {
+    if (state.importPasswordRequired && state.importIsBks) {
+        MiuixMorpheCredentialsDialog(
+            busy = state.busy,
+            error = state.message?.takeIf { it == SigningMessage.IMPORT_FAILED },
+            onDismiss = viewModel::cancelImport,
+            onConfirm = viewModel::inspectMorpheImport,
+        )
+    }
+    if (exportPassword || (state.importPasswordRequired && !state.importIsBks)) {
         MiuixSigningPasswordDialog(
             export = exportPassword,
             busy = state.busy,
@@ -164,6 +172,37 @@ private fun MiuixSigningReplacementDialog(current: String?, next: String, busy: 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextButton(text = stringResource(R.string.cancel), modifier = Modifier.weight(1f), enabled = !busy, onClick = onDismiss)
                     TextButton(text = stringResource(R.string.confirm), modifier = Modifier.weight(1f), enabled = !busy, colors = ButtonDefaults.textButtonColorsPrimary(), onClick = onConfirm)
+                }
+            }
+        },
+    )
+}
+
+@Composable
+private fun MiuixMorpheCredentialsDialog(busy: Boolean, error: SigningMessage?, onDismiss: () -> Unit, onConfirm: (String, CharArray, CharArray) -> Unit) {
+    var alias by remember { mutableStateOf("Morphe") }
+    var storePassword by remember { mutableStateOf("") }
+    var keyPassword by remember { mutableStateOf("") }
+    WindowDialog(
+        show = true,
+        onDismissRequest = onDismiss,
+        title = stringResource(R.string.signing_morphe_import),
+        content = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(stringResource(R.string.signing_morphe_credentials_desc))
+                TextField(value = alias, onValueChange = { alias = it }, label = stringResource(R.string.signing_key_alias), modifier = Modifier.fillMaxWidth(), singleLine = true, enabled = !busy)
+                TextField(value = keyPassword, onValueChange = { keyPassword = it }, label = stringResource(R.string.signing_key_password), modifier = Modifier.fillMaxWidth(), singleLine = true, visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), enabled = !busy)
+                TextField(value = storePassword, onValueChange = { storePassword = it }, label = stringResource(R.string.signing_store_password), modifier = Modifier.fillMaxWidth(), singleLine = true, visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), enabled = !busy)
+                error?.let { Text(stringResource(it.stringResourceId())) }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(text = stringResource(R.string.cancel), modifier = Modifier.weight(1f), enabled = !busy, onClick = onDismiss)
+                    TextButton(text = stringResource(R.string.confirm), modifier = Modifier.weight(1f), enabled = !busy && alias.isNotBlank() && keyPassword.isNotEmpty(), colors = ButtonDefaults.textButtonColorsPrimary(), onClick = {
+                        val keyChars = keyPassword.toCharArray()
+                        val storeChars = storePassword.toCharArray()
+                        keyPassword = ""
+                        storePassword = ""
+                        onConfirm(alias, storeChars, keyChars)
+                    })
                 }
             }
         },

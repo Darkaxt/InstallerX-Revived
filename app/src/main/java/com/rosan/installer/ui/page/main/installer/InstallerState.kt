@@ -35,6 +35,7 @@ data class InstallerState(
     val displayIcons: Map<String, ImageBitmap?> = emptyMap(),
     val seedColor: Color? = null,
 
+    val canResign: Boolean = false,
     val analysisResults: List<PackageAnalysisResult> = emptyList(),
     val config: ConfigModel = ConfigModel.generateOptimalDefault(),
 

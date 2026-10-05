@@ -6,6 +6,8 @@ import com.rosan.installer.domain.settings.model.config.ConfigModel
 import java.io.Closeable
 
 interface ApkResigningRepository {
+    suspend fun explicitEligiblePackages(results: List<PackageAnalysisResult>, config: ConfigModel): Set<String>
+
     suspend fun prepare(
         results: List<PackageAnalysisResult>,
         explicitlyResign: Boolean,

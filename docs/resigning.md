@@ -3,7 +3,11 @@
 Choose **Resign** on the installation preparation screen to sign a copy of the
 selected APKs with a key generated locally by this installer, verify the result,
 and continue through the normal installation workflow. No import is needed.
-The action is available in both Material and Miuix interfaces.
+The action is available in both Material and Miuix interfaces only for a first
+installation or a confirmed certificate conflict. It is hidden when the incoming
+APK matches the installed certificate or when comparison is unavailable. Modules
+and split-only selections do not offer this action. Optional signature-display
+settings do not disable the actual signer comparison.
 
 When an installed app's actual current certificate matches the generated key,
 incoming updates are re-signed automatically. This also works for notification,
@@ -60,6 +64,18 @@ After reinstalling or changing devices, import your signing backup before
 updating personally signed apps. Check that its fingerprint matches your old
 identity. Automatic update signing then uses that restored key. Without a
 backup, clearing app data or uninstalling the installer loses the identity.
+
+### Use the existing Morphe Extended certificate
+
+Export the signing keystore from Morphe Extended's settings. In InstallerX,
+choose **Preferences → Backup & Restore → APK signing certificate → Import
+signing backup**, then select the exported `.keystore`/`.bks`. Enter the same
+key alias and key password used in Morphe, plus its store password if one is set
+(otherwise leave that field empty). Review the candidate SHA-256 fingerprint
+against Morphe's signing key, then confirm activation. InstallerX encrypts its
+own copy; Morphe keeps its existing key unchanged. PKCS#12 export remains available
+for portable backups of the imported identity. A public certificate alone cannot
+restore a signing key. No key or credential is automatically read from Morphe.
 
 ### Identities created by the first release
 

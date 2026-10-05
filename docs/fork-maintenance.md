@@ -38,13 +38,20 @@ upstream preview publishing is disabled for this fork.
    Also reconcile [signing-backup-spec.md](signing-backup-spec.md): preserve
    encrypted portable identity storage and both import/export UIs, keep existing
    legacy aliases unchanged, and verify password-protected backup round trips.
+   Reconcile `morphe-signing-spec.md`: retain BKS import with separate key/store
+   credentials, explicit activation, and actual signer comparison for Resign
+   visibility in both interfaces. Verify matching signers hide the action even
+   when optional signature checks are disabled.
    Reconcile `branding-spec.md`: preserve InstallerX Resigned branding, fork-owned
    product links and the removal of unsupported community/helper/proxy presets.
    Never rotate either release or personal signing identities during a merge.
 3. Use JDK 25 and installed SDK/Build Tools 37.0.0. Export local credential
    values to the current process's `KEYSTORE_FILE`, `KEYSTORE_PASSWORD`,
    `KEY_ALIAS` and `KEY_PASSWORD`; never put them in tracked Gradle properties.
-4. Run `spotlessCheck`, `testUnstableDebugUnitTest`, `assemblePreviewDebug` and
+4. Run every Gradle command through the shared `gradle-build-gate` launcher
+   (`Local\Darka.AndroidGradleBuildGate`), with two workers, no parallel projects,
+   and initial 3 GB Gradle/Kotlin heaps. Inspect acquisition and effective profile.
+   Run `spotlessCheck`, `testUnstableDebugUnitTest`, `assemblePreviewDebug` and
    `assembleStableRelease -PVERSION_NAME=<next numeric fork version>`. Run
    focused Android signing/update tests on an isolated emulator when available,
    especially after signing/session/source-boundary changes. Never target Thor

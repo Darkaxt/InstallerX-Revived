@@ -18,7 +18,9 @@ Keystore. The original installation, provenance and conflict requirements remain
   certificate separately as PEM (`.pem`), including for legacy identities.
   Clearly label certificate-only export as insufficient for restoring signing.
   No private export is possible for a legacy Android Keystore key.
-- B3: Import password-protected PKCS#12 (`.p12`/`.pfx`) containing exactly one
+- B3: The authorized 2026-10-05 `morphe-signing-spec.md` extension also accepts
+  Morphe BKS keystores with separate store/key credentials and explicit alias.
+  Import password-protected PKCS#12 (`.p12`/`.pfx`) containing exactly one
   RSA private key (at least 2048 bits) and matching X.509 certificate chain.
   Validate the key/certificate pair before proposing replacement. Wrong password,
   malformed, oversized, ambiguous or certificate-only input leaves the identity

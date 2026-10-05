@@ -1030,4 +1030,10 @@
     <string name="signing_exported">Signing file exported</string>
     <string name="signing_changed">Signing identity activated</string>
     <string name="signing_busy">Working…</string>
+    <string name="signing_import_supported_desc">Choose a PKCS#12 .p12/.pfx backup or Morphe BKS .keystore/.bks signing key</string>
+    <string name="signing_morphe_import">Import Morphe signing key</string>
+    <string name="signing_morphe_credentials_desc">Enter the credentials used by Morphe. Leave the store password empty if Morphe has none. Review the certificate fingerprint before activating the key.</string>
+    <string name="signing_key_alias">Key alias</string>
+    <string name="signing_key_password">Key password</string>
+    <string name="signing_store_password">Store password (optional)</string>
 </resources>

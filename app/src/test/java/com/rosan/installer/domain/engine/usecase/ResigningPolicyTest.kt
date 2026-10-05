@@ -10,6 +10,20 @@ import kotlin.test.assertTrue
 
 class ResigningPolicyTest {
     @Test
+    fun explicitActionAppearsOnlyForFreshInstallOrConfirmedConflict() {
+        val config = ConfigModel.default
+        assertTrue(ResigningPolicy.canExplicitlyResign(config, false, null, null))
+        assertFalse(ResigningPolicy.canExplicitlyResign(config, true, setOf("Morphe"), setOf("Morphe")))
+        assertTrue(ResigningPolicy.canExplicitlyResign(config, true, setOf("new"), setOf("old")))
+        assertFalse(ResigningPolicy.canExplicitlyResign(config, true, null, setOf("old")))
+        assertFalse(ResigningPolicy.canExplicitlyResign(config, true, emptySet(), setOf("old")))
+        assertFalse(ResigningPolicy.canExplicitlyResign(config, true, setOf("new"), null))
+        val store = config.copy(initiatorPackageName = "com.android.vending", installSourceConfidence = InstallSourceConfidence.EXACT_CALLER)
+        assertFalse(ResigningPolicy.canExplicitlyResign(store, false, null, null))
+        assertFalse(ResigningPolicy.canExplicitlyResign(store, true, setOf("new"), setOf("old")))
+    }
+
+    @Test
     fun `only exact current personal signer enables automatic signing`() {
         assertTrue(decide(installed = setOf("personal")))
         assertFalse(decide(installed = setOf("other")))

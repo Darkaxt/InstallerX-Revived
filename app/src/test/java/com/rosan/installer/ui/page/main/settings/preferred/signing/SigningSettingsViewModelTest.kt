@@ -92,6 +92,37 @@ class SigningSettingsViewModelTest {
         }
     }
 
+    @Test
+    fun morpheImportRoutesCredentialsAndRequiresExplicitActivation() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            val repository = Repository()
+            val model = SigningSettingsViewModel(repository)
+            model.state.first { !it.busy }
+            model.loadImport { byteArrayOf(0, 0, 0, 2, 1) }
+            model.state.first { !it.busy }
+            assertTrue(model.state.value.importIsBks)
+            val wrong = "wrong".toCharArray()
+            val emptyStore = charArrayOf()
+            model.inspectMorpheImport("Morphe", emptyStore, wrong)
+            model.state.first { !it.busy }
+            assertTrue(wrong.all { it == '\u0000' })
+            assertEquals(SigningMessage.IMPORT_FAILED, model.state.value.message)
+            assertEquals(0, repository.activations)
+            val password = "password".toCharArray()
+            model.inspectMorpheImport("Morphe", charArrayOf(), password)
+            model.state.first { !it.busy }
+            assertTrue(password.all { it == '\u0000' })
+            assertNotNull(model.state.value.candidate)
+            assertEquals(0, repository.activations)
+            model.confirmCandidate()
+            model.state.first { !it.busy }
+            assertEquals(1, repository.activations)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     private class Repository : SigningIdentityRepository {
         var activations = 0
         private var current = "original"
@@ -100,6 +131,10 @@ class SigningSettingsViewModelTest {
         override fun exportCertificate() = byteArrayOf(4, 5)
         override fun inspectBackup(bytes: ByteArray, password: CharArray): SigningIdentityCandidate {
             require(password.concatToString() == "password")
+            return generateCandidate()
+        }
+        override fun inspectMorpheBackup(bytes: ByteArray, storePassword: CharArray, keyPassword: CharArray, alias: String): SigningIdentityCandidate {
+            require(alias == "Morphe" && keyPassword.concatToString() == "password" && storePassword.isEmpty())
             return generateCandidate()
         }
         override fun generateCandidate() = object : SigningIdentityCandidate {

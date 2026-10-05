@@ -19,6 +19,8 @@ class SigningIdentityRepositoryImpl(private val key: PersonalSigningKey, private
 
     override fun inspectBackup(bytes: ByteArray, password: CharArray): SigningIdentityCandidate = candidate(codec.import(bytes, password))
 
+    override fun inspectMorpheBackup(bytes: ByteArray, storePassword: CharArray, keyPassword: CharArray, alias: String): SigningIdentityCandidate = candidate(codec.importBks(bytes, storePassword, keyPassword, alias))
+
     override fun generateCandidate(): SigningIdentityCandidate = candidate(codec.generate())
 
     override fun activate(candidate: SigningIdentityCandidate) {

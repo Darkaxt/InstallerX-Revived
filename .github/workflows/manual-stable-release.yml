@@ -136,3 +136,11 @@ jobs:
           files: |
             ${{ steps.rename_apk.outputs.apk }}
             app/build/outputs/apk/Stable/release/SHA256SUMS.txt
+
+      - name: Upload mapping
+        uses: actions/upload-artifact@v7
+        with:
+          name: mapping
+          path: app/build/outputs/mapping/**/mapping.txt
+          retention-days: 15
+          archive: false

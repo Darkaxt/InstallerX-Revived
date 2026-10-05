@@ -8,6 +8,7 @@ import com.rosan.installer.domain.engine.model.error.AnalyseErrorType
 import com.rosan.installer.domain.engine.model.source.DataEntity
 import com.rosan.installer.domain.engine.model.source.RawDeflateInputStream
 import com.rosan.installer.domain.engine.model.source.SeekableZipEntry
+import com.rosan.installer.domain.engine.model.source.ZIP_COMPRESSION_XZ
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -27,6 +28,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.tukaani.xz.LZMA2Options
+import org.tukaani.xz.XZOutputStream
 
 class SeekableZipReaderTest {
     private lateinit var tempDirectory: File
@@ -227,7 +230,7 @@ class SeekableZipReaderTest {
             dataOffset = 0,
             compressedSize = 0,
             uncompressedSize = 0,
-            compressionMethod = XZ_METHOD,
+            compressionMethod = ZSTANDARD_METHOD,
             crc = 0,
         )
 
@@ -330,6 +333,18 @@ class SeekableZipReaderTest {
         )
     }
 
+    @Test
+    fun `XZ module payload round trips through seekable source with CRC verification`() {
+        val payload = "module payload ".repeat(1024).toByteArray()
+        val file = writeArchive(listOf(TestEntry("module.prop", payload, compressionMethod = ZIP_COMPRESSION_XZ)), false)
+        val entry = reader.read(file).entries.single()
+        assertEquals(ZIP_COMPRESSION_XZ, entry.compressionMethod)
+        assertContentEquals(payload, entry.toDataEntity(file).getInputStream().use { it.readBytes() })
+        val corrupt = writeArchive(listOf(TestEntry("module.prop", payload, compressionMethod = ZIP_COMPRESSION_XZ, crcOverride = 1)), false)
+        val corruptEntry = reader.read(corrupt).entries.single()
+        assertFailsWith<ZipException> { corruptEntry.toDataEntity(corrupt).getInputStream().use { it.readBytes() } }
+    }
+
     private fun apkSigningBlock(
         totalSize: Int,
         leadingSize: Long = totalSize.toLong() - Long.SIZE_BYTES,
@@ -353,7 +368,13 @@ class SeekableZipReaderTest {
         entries.forEach { entry ->
             val compressedPayload = when (entry.compressionMethod) {
                 ZipEntry.STORED -> entry.payload
+
                 ZipEntry.DEFLATED -> entry.payload.rawDeflate()
+
+                ZIP_COMPRESSION_XZ -> ByteArrayOutputStream().also { output ->
+                    XZOutputStream(output, LZMA2Options()).use { it.write(entry.payload) }
+                }.toByteArray()
+
                 else -> error("Unsupported test compression method")
             }
             val crc = entry.crcOverride ?: CRC32().apply { update(entry.payload) }.value
@@ -442,7 +463,7 @@ class SeekableZipReaderTest {
         const val END_OF_CENTRAL_DIRECTORY_SIGNATURE = 0x06054B50L
         const val UTF8_FLAG = 1 shl 11
         const val DATA_DESCRIPTOR_FLAG = 1 shl 3
-        const val XZ_METHOD = 95
+        const val ZSTANDARD_METHOD = 93
         const val ZIP64_EXTRA_FIELD_ID = 0x0001
         const val UINT32_MAX = 0xFFFF_FFFFL
         const val APK_SIGNING_BLOCK_MIN_TOTAL_SIZE = 32

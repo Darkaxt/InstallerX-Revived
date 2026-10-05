@@ -13,6 +13,7 @@ interface SigningIdentityRepository {
     fun exportBackup(password: CharArray): ByteArray
     fun exportCertificate(): ByteArray
     fun inspectBackup(bytes: ByteArray, password: CharArray): SigningIdentityCandidate
+    fun inspectMorpheBackup(bytes: ByteArray, storePassword: CharArray, keyPassword: CharArray, alias: String): SigningIdentityCandidate
     fun generateCandidate(): SigningIdentityCandidate
     fun activate(candidate: SigningIdentityCandidate)
     fun useLegacy()

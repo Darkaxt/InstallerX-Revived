@@ -11,7 +11,9 @@ the authoritative specification; the execution ledger does not override it.
   material protected by Android Keystore. Optional portable backups and legacy
   identity preservation are specified by `signing-backup-spec.md` (authorized
   extension on 2026-10-03).
-- R2: Add a third action named `Resign` in both Material and Miuix install
+- R2: The authorized 2026-10-05 visibility extension in `morphe-signing-spec.md`
+  restricts the action to first installs or confirmed certificate conflicts.
+  Add a third action named `Resign` in both Material and Miuix install
   preparation UIs for eligible APK selections whose incoming request is not
   from a known official store. Unknown origin is eligible. The explicit action
   signs, verifies, and installs using the existing installation flow.

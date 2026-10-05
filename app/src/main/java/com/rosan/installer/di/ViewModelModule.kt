@@ -52,6 +52,7 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
+            apkResigningRepository = get(),
         )
     }
 

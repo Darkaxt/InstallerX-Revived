@@ -21,6 +21,14 @@ object ResigningPolicy {
                 config.installSourceConfidence == InstallSourceConfidence.PROVIDER_OWNER
             )
 
+    fun canExplicitlyResign(
+        config: ConfigModel,
+        installed: Boolean,
+        pendingSigners: Set<String>?,
+        installedSigners: Set<String>?,
+    ): Boolean = !isOfficialSource(config) &&
+        (!installed || (!pendingSigners.isNullOrEmpty() && !installedSigners.isNullOrEmpty() && pendingSigners != installedSigners))
+
     fun shouldResign(
         config: ConfigModel,
         explicitlyResign: Boolean,

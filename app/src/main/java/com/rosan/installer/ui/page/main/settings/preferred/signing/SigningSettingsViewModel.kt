@@ -20,6 +20,7 @@ data class SigningSettingsState(
     val info: SigningIdentityInfo? = null,
     val busy: Boolean = false,
     val importPasswordRequired: Boolean = false,
+    val importIsBks: Boolean = false,
     val candidate: SigningIdentityCandidate? = null,
     val message: SigningMessage? = null,
 )
@@ -48,7 +49,9 @@ class SigningSettingsViewModel(private val repository: SigningIdentityRepository
     fun loadImport(read: () -> ByteArray) = operation(SigningMessage.READ_FAILED) {
         clearImport()
         importBytes = withContext(Dispatchers.IO) { read() }
-        mutableState.update { it.copy(importPasswordRequired = true) }
+        val bytes = requireNotNull(importBytes)
+        val isBks = bytes.size >= 4 && bytes[0] == 0.toByte() && bytes[1] == 0.toByte() && bytes[2] == 0.toByte() && bytes[3].toInt() in 1..2
+        mutableState.update { it.copy(importPasswordRequired = true, importIsBks = isBks) }
     }
 
     fun inspectImport(password: CharArray) {
@@ -64,6 +67,25 @@ class SigningSettingsViewModel(private val repository: SigningIdentityRepository
                 mutableState.update { it.copy(candidate = candidate, importPasswordRequired = false) }
             } finally {
                 password.fill('\u0000')
+            }
+        }
+    }
+
+    fun inspectMorpheImport(alias: String, storePassword: CharArray, keyPassword: CharArray) {
+        if (state.value.busy) {
+            storePassword.fill('\u0000')
+            keyPassword.fill('\u0000')
+            return
+        }
+        operation(SigningMessage.IMPORT_FAILED) {
+            try {
+                val bytes = requireNotNull(importBytes)
+                val candidate = withContext(Dispatchers.IO) { repository.inspectMorpheBackup(bytes, storePassword, keyPassword, alias) }
+                clearImport()
+                mutableState.update { it.copy(candidate = candidate, importPasswordRequired = false, importIsBks = false) }
+            } finally {
+                storePassword.fill('\u0000')
+                keyPassword.fill('\u0000')
             }
         }
     }

@@ -7,9 +7,11 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rosan.installer.data.engine.repository.SigningIdentityRepositoryImpl
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.security.KeyPairGenerator
 import java.security.KeyStore
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -87,6 +89,48 @@ class SigningIdentityBackupTest {
                 error("Regenerated a corrupt identity")
             } catch (_: javax.crypto.AEADBadTagException) { }
             assertArrayEquals(damaged, localFile.readBytes())
+        } finally {
+            shell("pm uninstall $PACKAGE")
+        }
+    }
+
+    @Test
+    fun morpheBksImportPreservesSignerAndUpdatesRealInstallation() = withStorage { context ->
+        val morpheIdentity = codec.generate()
+        val password = "Morphe fixture password".toCharArray()
+        val store = KeyStore.getInstance("BKS", BouncyCastleProvider()).apply {
+            load(null, charArrayOf())
+            setKeyEntry("Morphe", morpheIdentity.privateKey, password, morpheIdentity.certificateChain)
+        }
+        val bytes = ByteArrayOutputStream().also { store.store(it, charArrayOf()) }.toByteArray()
+        val key = PersonalSigningKey(context, codec)
+        val repository = SigningIdentityRepositoryImpl(key, codec)
+        val base = asset(context.noBackupFilesDir, "base")
+        val update = asset(context.noBackupFilesDir, "update")
+        val signedBase = File(context.noBackupFilesDir, "morphe-base.apk")
+        val signedUpdate = File(context.noBackupFilesDir, "morphe-update.apk")
+        val signer = ApkResigner()
+        try {
+            shell("pm uninstall $PACKAGE")
+            signer.sign(base, signedBase, morpheIdentity.signingKey, morpheIdentity.signingCertificate, 35)
+            install(signedBase)
+            shell("run-as $PACKAGE mkdir -p files")
+            val descriptors = instrumentation.uiAutomation.executeShellCommandRwe("run-as $PACKAGE tee files/preserved")
+            ParcelFileDescriptor.AutoCloseOutputStream(descriptors[1]).use { it.write("Morphe saved data".toByteArray()) }
+            ParcelFileDescriptor.AutoCloseInputStream(descriptors[0]).use { it.readBytes() }
+            descriptors[2].close()
+            val candidate = repository.inspectMorpheBackup(bytes, charArrayOf(), password, "Morphe")
+            assertNull(repository.info())
+            assertEquals(codec.fingerprint(morpheIdentity), candidate.fingerprint)
+            repository.activate(candidate)
+            val restored = PersonalSigningKey(context, codec).getOrCreate()
+            assertEquals(codec.fingerprint(morpheIdentity), codec.fingerprint(restored))
+            val backup = repository.exportBackup(password)
+            assertEquals(candidate.fingerprint, repository.inspectBackup(backup, password).fingerprint)
+            signer.sign(update, signedUpdate, restored.signingKey, restored.signingCertificate, 35)
+            install(signedUpdate)
+            assertTrue(shell("dumpsys package $PACKAGE").contains("versionCode=2"))
+            assertEquals("Morphe saved data", shell("run-as $PACKAGE cat files/preserved").trim())
         } finally {
             shell("pm uninstall $PACKAGE")
         }

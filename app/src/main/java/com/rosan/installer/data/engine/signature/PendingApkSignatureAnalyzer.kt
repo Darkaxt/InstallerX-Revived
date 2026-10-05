@@ -68,6 +68,13 @@ class PendingApkSignatureAnalyzer(
         }
     }
 
+    /** Explicit action visibility requires actual signers regardless of optional display settings. */
+    fun analyzeForResignEligibility(data: DataEntity, cacheDirectory: String): AppSignatureInfo = when (data) {
+        is DataEntity.FileDescriptorEntity -> analyze(data)
+        is DataEntity.FileEntity -> analyze(File(data.path), data.path)
+        else -> analyzeStream(data, cacheDirectory)
+    }
+
     private fun analyze(file: File, displayName: String): AppSignatureInfo = verify(displayName) {
         ApkVerifier.Builder(file)
             .setMinCheckedPlatformVersion(Build.VERSION.SDK_INT)

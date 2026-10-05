@@ -19,6 +19,29 @@ class SigningIdentityCodecTest {
     private val codec = SigningIdentityCodec()
 
     @Test
+    fun importsMorpheBksWithSeparatePasswordsWithoutChangingIdentity() {
+        val identity = codec.generate()
+        val keyPassword = "existing Morphe key password".toCharArray()
+        for (storePassword in listOf(charArrayOf(), "outer store password".toCharArray())) {
+            val store = KeyStore.getInstance("BKS", BouncyCastleProvider()).apply {
+                load(null, storePassword)
+                setKeyEntry("Morphe", identity.privateKey, keyPassword, identity.certificateChain)
+            }
+            val bytes = ByteArrayOutputStream().also { store.store(it, storePassword) }.toByteArray()
+            assertEquals(true, codec.isBks(bytes))
+            val imported = codec.importBks(bytes, storePassword, keyPassword, "Morphe")
+            assertContentEquals(identity.privateKey.encoded, imported.privateKey.encoded)
+            assertContentEquals(identity.certificate.encoded, imported.certificate.encoded)
+            assertEquals(codec.fingerprint(identity), codec.fingerprint(codec.import(codec.export(imported, keyPassword), keyPassword)))
+            assertFails { codec.importBks(bytes, "wrong".toCharArray(), keyPassword, "Morphe") }
+            assertFails { codec.importBks(bytes, storePassword, "wrong".toCharArray(), "Morphe") }
+            assertFails { codec.importBks(bytes, storePassword, keyPassword, "missing") }
+            assertFails { codec.importBks(bytes, storePassword, charArrayOf(), "Morphe") }
+            assertFails { codec.importBks(bytes.copyOf().also { it[it.lastIndex] = (it.last().toInt() xor 1).toByte() }, storePassword, keyPassword, "Morphe") }
+        }
+    }
+
+    @Test
     fun backupRestoresExactlyTheSameSigningIdentity() {
         val identity = codec.generate()
         val password = "my private backup password".toCharArray()

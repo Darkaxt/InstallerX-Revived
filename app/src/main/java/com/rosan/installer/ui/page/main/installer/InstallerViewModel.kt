@@ -13,7 +13,6 @@ import com.rosan.installer.core.bitmask.addFlag
 import com.rosan.installer.core.bitmask.hasFlag
 import com.rosan.installer.core.bitmask.removeFlag
 import com.rosan.installer.domain.device.provider.DeviceCapabilityProvider
-import com.rosan.installer.domain.engine.model.install.ResigningPolicy
 import com.rosan.installer.domain.engine.model.install.SessionMode
 import com.rosan.installer.domain.engine.model.install.UninstallFlags
 import com.rosan.installer.domain.engine.model.install.sourcePath
@@ -23,6 +22,7 @@ import com.rosan.installer.domain.engine.model.packageinfo.analyzePackageSignatu
 import com.rosan.installer.domain.engine.model.packageinfo.analyzePackageSignatureSelection
 import com.rosan.installer.domain.engine.model.source.DataType
 import com.rosan.installer.domain.engine.provider.InstalledPackageSignatureProvider
+import com.rosan.installer.domain.engine.repository.ApkResigningRepository
 import com.rosan.installer.domain.engine.usecase.GetAppIconColorUseCase
 import com.rosan.installer.domain.engine.usecase.GetAppIconUseCase
 import com.rosan.installer.domain.engine.usecase.GetAppLabelUseCase
@@ -49,7 +49,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -64,6 +67,7 @@ class InstallerViewModel(
     private val getAppLabel: GetAppLabelUseCase,
     private val deviceCapabilityProvider: DeviceCapabilityProvider,
     private val installedPackageSignatureProvider: InstalledPackageSignatureProvider,
+    private val apkResigningRepository: ApkResigningRepository,
 ) : ViewModel() {
 
     // Event channel for one-off side effects (e.g. Toasts)
@@ -86,13 +90,22 @@ class InstallerViewModel(
         ),
     )
 
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    private val resignEligibility = _localState
+        .map { it.analysisResults to it.config }
+        .distinctUntilChanged()
+        .mapLatest { input -> input to apkResigningRepository.explicitEligiblePackages(input.first, input.second) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+
     // The single source of truth for the UI.
     // Combines dynamic local state with reactive global app settings.
     val uiState: StateFlow<InstallerState> = combine(
         _localState,
         appSettingsRepo.preferencesFlow,
-    ) { local, prefs ->
+        resignEligibility,
+    ) { local, prefs, eligibility ->
         local.copy(
+            canResign = eligibility != null && eligibility.first == (local.analysisResults to local.config) && eligibility.second.isNotEmpty(),
             viewSettings = local.viewSettings.copy(
                 useBlur = prefs.useBlur,
                 closeSessionCountDown = prefs.closeSessionCountDown,
@@ -816,11 +829,6 @@ class InstallerViewModel(
             toast(R.string.error_dialog_install_menu_not_available)
         }
     }
-
-    val canResign: Boolean
-        get() = !ResigningPolicy.isOfficialSource(_localState.value.config) && _localState.value.analysisResults.any { result ->
-            result.appEntities.any { it.selected && it.app is AppEntity.BaseEntity }
-        }
 
     private fun install(resign: Boolean = false) {
         autoInstallJob?.cancel()

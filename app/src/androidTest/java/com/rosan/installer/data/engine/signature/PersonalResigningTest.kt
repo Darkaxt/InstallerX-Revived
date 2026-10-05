@@ -146,6 +146,66 @@ class PersonalResigningTest {
     }
 
     @Test
+    fun explicitActionUsesActualSignersEvenWhenOptionalChecksAreDisabled() = runBlocking {
+        val directory = File(context.cacheDir, "resign-eligibility-test").apply { mkdirs() }
+        val original = asset(directory, "base")
+        shell("pm uninstall $PACKAGE")
+        try {
+            assertEquals(setOf(PACKAGE), repository.explicitEligiblePackages(listOf(result(original)), ConfigModel.default))
+            val split = AppEntity.SplitEntity(
+                packageName = PACKAGE,
+                data = DataEntity.FileEntity(asset(directory, "split").path),
+                splitName = "config.en",
+                minSdk = "26",
+                targetSdk = "35",
+                arch = null,
+                sourceType = DataType.APKS,
+            )
+            val splitOnly = result(original).copy(appEntities = listOf(SelectInstallEntity(split, true)))
+            assertTrue(repository.explicitEligiblePackages(listOf(splitOnly), ConfigModel.default).isEmpty())
+            val deselected = result(original).copy(appEntities = result(original).appEntities.map { it.copy(selected = false) })
+            assertTrue(repository.explicitEligiblePackages(listOf(deselected), ConfigModel.default).isEmpty())
+            install(original)
+            val installed = InstalledAppInfo(PACKAGE, null, "Fixture", 1, "1", null, 26, 35)
+            fun pending(file: File): PackageAnalysisResult {
+                val source = DataEntity.FileDescriptorEntity(
+                    path = file.path,
+                    startOffset = 0,
+                    length = file.length(),
+                    channelFactory = { java.nio.channels.FileChannel.open(file.toPath(), java.nio.file.StandardOpenOption.READ) },
+                    descriptorFactory = {
+                        val descriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+                        DataEntity.OwnedFileDescriptor(descriptor.fileDescriptor) { descriptor.close() }
+                    },
+                    preInstallSignatureAnalysis = false,
+                    preInstallSigningBlockAnalysis = false,
+                )
+                val base = (result(file).appEntities.single().app as AppEntity.BaseEntity).copy(data = source, signatureInfo = null)
+                return result(file).copy(
+                    installedAppInfo = installed,
+                    signatureCheckPerformed = false,
+                    appEntities = listOf(SelectInstallEntity(base, true)),
+                )
+            }
+            assertTrue(repository.explicitEligiblePackages(listOf(pending(original)), ConfigModel.default).isEmpty())
+            val identity = codec.generate()
+            val conflicting = File(directory, "conflict.apk")
+            ApkResigner().sign(original, conflicting, identity.signingKey, identity.signingCertificate, 35)
+            assertEquals(setOf(PACKAGE), repository.explicitEligiblePackages(listOf(pending(conflicting)), ConfigModel.default))
+            val official = ConfigModel.default.copy(
+                initiatorPackageName = "com.android.vending",
+                installSourceConfidence = InstallSourceConfidence.EXACT_CALLER,
+            )
+            assertTrue(repository.explicitEligiblePackages(listOf(pending(conflicting)), official).isEmpty())
+            val invalid = File(directory, "invalid.apk").apply { writeText("invalid") }
+            assertTrue(repository.explicitEligiblePackages(listOf(pending(invalid)), ConfigModel.default).isEmpty())
+        } finally {
+            shell("pm uninstall $PACKAGE")
+            directory.deleteRecursively()
+        }
+    }
+
+    @Test
     fun failedSigningRemovesCopiesAndKeepsSource() = runBlocking {
         val input = File(context.cacheDir, "invalid-signing-test.apk").apply { writeText("invalid") }
         val previous = context.cacheDir.listFiles().orEmpty().filter { it.name.startsWith("resign-") }.toSet()

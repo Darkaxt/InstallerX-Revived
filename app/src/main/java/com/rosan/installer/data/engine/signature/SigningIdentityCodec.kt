@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 package com.rosan.installer.data.engine.signature
 
+import java.io.DataInputStream
 import java.math.BigInteger
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -17,6 +18,11 @@ import org.bouncycastle.asn1.x509.AlgorithmIdentifier
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder
+import org.bouncycastle.crypto.PBEParametersGenerator
+import org.bouncycastle.crypto.digests.SHA1Digest
+import org.bouncycastle.crypto.generators.PKCS12ParametersGenerator
+import org.bouncycastle.crypto.macs.HMac
+import org.bouncycastle.crypto.params.KeyParameter
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder
 import org.bouncycastle.pkcs.PKCS12PfxPdu
@@ -85,6 +91,56 @@ class SigningIdentityCodec {
         }
         validate(entry)
         return entry
+    }
+
+    fun isBks(bytes: ByteArray): Boolean = bytes.size >= 4 && bytes[0] == 0.toByte() &&
+        bytes[1] == 0.toByte() && bytes[2] == 0.toByte() && bytes[3].toInt() in 1..2
+
+    fun importBks(bytes: ByteArray, storePassword: CharArray, keyPassword: CharArray, alias: String): KeyStore.PrivateKeyEntry {
+        require(bytes.size in 1..MAX_ARCHIVE_BYTES && isBks(bytes)) { "Invalid BKS signing backup" }
+        require(keyPassword.isNotEmpty() && alias.isNotBlank()) { "Key password and alias are required" }
+        // Bouncy Castle skips integrity for empty passwords. Verify the BKS MAC before parsing.
+        verifyBksIntegrity(bytes, storePassword)
+        val store = KeyStore.getInstance("BKS", provider).apply { load(bytes.inputStream(), storePassword) }
+        require(store.isKeyEntry(alias)) { "The selected alias does not contain a private key" }
+        val protection = KeyStore.PasswordProtection(keyPassword)
+        val entry = try {
+            store.getEntry(alias, protection) as? KeyStore.PrivateKeyEntry
+                ?: error("The selected entry is not a signing private key")
+        } finally {
+            protection.destroy()
+        }
+        validate(entry)
+        return entry
+    }
+
+    private fun verifyBksIntegrity(bytes: ByteArray, password: CharArray) {
+        val header = DataInputStream(bytes.inputStream())
+        require(header.readInt() == 2) { "A BKS version 2 signing backup is required" }
+        val saltLength = header.readInt()
+        require(saltLength in 1..(bytes.size - 33)) { "Invalid BKS salt" }
+        val salt = ByteArray(saltLength).also(header::readFully)
+        val iterations = header.readInt()
+        require(iterations in 1..1_048_576) { "Invalid BKS iteration count" }
+        val offset = 12 + saltLength
+        val mac = HMac(SHA1Digest())
+        val payloadLength = bytes.size - offset - mac.macSize
+        require(payloadLength >= 1) { "Invalid BKS payload" }
+        val passwordBytes = PBEParametersGenerator.PKCS12PasswordToBytes(password)
+        var key: KeyParameter? = null
+        try {
+            val generator = PKCS12ParametersGenerator(SHA1Digest()).apply { init(passwordBytes, salt, iterations) }
+            key = generator.generateDerivedMacParameters(mac.macSize * 8) as KeyParameter
+            mac.init(key)
+            mac.update(bytes, offset, payloadLength)
+            val expected = ByteArray(mac.macSize).also { mac.doFinal(it, 0) }
+            require(MessageDigest.isEqual(expected, bytes.copyOfRange(offset + payloadLength, bytes.size))) {
+                "BKS integrity check failed"
+            }
+        } finally {
+            passwordBytes.fill(0)
+            key?.key?.fill(0)
+        }
     }
 
     fun validate(entry: KeyStore.PrivateKeyEntry) {

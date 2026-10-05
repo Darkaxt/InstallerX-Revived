@@ -535,6 +535,10 @@ class InstallerSelectionTest {
                 true
             },
             installedPackageSignatureProvider = stub(),
+            apkResigningRepository = stub { name, _ ->
+                check(name == "explicitEligiblePackages")
+                emptySet<String>()
+            },
         )
 
         fun load(results: List<PackageAnalysisResult>) {
@@ -634,6 +638,7 @@ class InstallerSelectionTest {
             useMiuixMonet = false,
             useAppleFloatingBar = false,
             seedColorInt = 0,
+            wallpaperSeedColorInt = 0,
             useDynColorFollowPkgIcon = false,
             useDynColorFollowPkgIconForLiveActivity = false,
             useBlur = false,
