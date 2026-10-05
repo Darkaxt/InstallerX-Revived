@@ -48,9 +48,30 @@ class SigningSettingsViewModel(private val repository: SigningIdentityRepository
 
     fun loadImport(read: () -> ByteArray) = operation(SigningMessage.READ_FAILED) {
         clearImport()
+        mutableState.update { it.copy(candidate = null, importPasswordRequired = false, importIsBks = false) }
         importBytes = withContext(Dispatchers.IO) { read() }
         val bytes = requireNotNull(importBytes)
         val isBks = bytes.size >= 4 && bytes[0] == 0.toByte() && bytes[1] == 0.toByte() && bytes[2] == 0.toByte() && bytes[3].toInt() in 1..2
+        if (isBks && bytes[3] == 2.toByte()) {
+            val storePassword = charArrayOf()
+            val keyPassword = "Morphe".toCharArray()
+            val candidate = try {
+                withContext(Dispatchers.IO) { repository.inspectMorpheBackup(bytes, storePassword, keyPassword, "Morphe") }
+            } catch (cancelled: CancellationException) {
+                clearImport()
+                throw cancelled
+            } catch (_: Exception) {
+                null
+            } finally {
+                storePassword.fill('\u0000')
+                keyPassword.fill('\u0000')
+            }
+            if (candidate != null) {
+                clearImport()
+                mutableState.update { it.copy(candidate = candidate) }
+                return@operation
+            }
+        }
         mutableState.update { it.copy(importPasswordRequired = true, importIsBks = isBks) }
     }
 
@@ -93,7 +114,7 @@ class SigningSettingsViewModel(private val repository: SigningIdentityRepository
     fun cancelImport() {
         if (state.value.busy) return
         clearImport()
-        mutableState.update { it.copy(importPasswordRequired = false, message = null) }
+        mutableState.update { it.copy(importPasswordRequired = false, importIsBks = false, message = null) }
     }
 
     fun generateCandidate() = operation(SigningMessage.CHANGE_FAILED) {

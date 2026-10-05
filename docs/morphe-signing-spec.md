@@ -22,6 +22,13 @@ resigning-spec.md and B3 of signing-backup-spec.md; other R/B/N requirements rem
   review the candidate fingerprint and require explicit activation. Passwords
   and pending private material are never logged or saved through UI restoration.
   Existing encrypted persistence, PKCS12 export/import and legacy keys remain.
+- M5: On BKS v2 selection, first inspect with alias `Morphe`, key password
+  `Morphe` and empty store password. Success goes directly to fingerprint review,
+  never activation. Failure quietly opens the existing separate-credentials
+  dialog and retains the selected bytes for retry. Cancellation is propagated;
+  temporary password arrays are cleared on every outcome. PKCS12 continues to
+  request its password; unsupported BKS v1 never receives the default attempt.
+  Both native interfaces must exhibit this behavior, including optimized builds.
 - M4: Prove matching/new/conflicting/store/split visibility contracts; BKS imports
   for empty and nonempty store passwords, separate key passwords, wrong
   credentials/tampering; unchanged fingerprint and APK signatures through BKS

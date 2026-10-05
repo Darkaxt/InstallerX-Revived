@@ -39,7 +39,8 @@ upstream preview publishing is disabled for this fork.
    encrypted portable identity storage and both import/export UIs, keep existing
    legacy aliases unchanged, and verify password-protected backup round trips.
    Reconcile `morphe-signing-spec.md`: retain BKS import with separate key/store
-   credentials, explicit activation, and actual signer comparison for Resign
+   credentials, automatic Morphe-default inspection with manual fallback,
+   explicit activation, and actual signer comparison for Resign
    visibility in both interfaces. Verify matching signers hide the action even
    when optional signature checks are disabled.
    Reconcile `branding-spec.md`: preserve InstallerX Resigned branding, fork-owned

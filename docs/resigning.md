@@ -69,9 +69,12 @@ backup, clearing app data or uninstalling the installer loses the identity.
 
 Export the signing keystore from Morphe Extended's settings. In InstallerX,
 choose **Preferences → Backup & Restore → APK signing certificate → Import
-signing backup**, then select the exported `.keystore`/`.bks`. Enter the same
-key alias and key password used in Morphe, plus its store password if one is set
-(otherwise leave that field empty). Review the candidate SHA-256 fingerprint
+signing backup**, then select the exported `.keystore`/`.bks`. InstallerX first
+tries Morphe's defaults: alias `Morphe`, private-key password `Morphe`, and an empty
+store password. When these work, it goes directly to fingerprint confirmation.
+If they fail, enter the same key alias and key password used in Morphe, plus its
+store password if one is set (otherwise leave that field empty).
+Review the candidate SHA-256 fingerprint
 against Morphe's signing key, then confirm activation. InstallerX encrypts its
 own copy; Morphe keeps its existing key unchanged. PKCS#12 export remains available
 for portable backups of the imported identity. A public certificate alone cannot

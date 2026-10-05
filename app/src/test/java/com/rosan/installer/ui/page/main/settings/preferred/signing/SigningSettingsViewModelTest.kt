@@ -10,6 +10,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -20,6 +21,80 @@ import kotlinx.coroutines.test.setMain
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SigningSettingsViewModelTest {
+    @Test
+    fun morpheDefaultsSkipCredentialsButRequireFingerprintConfirmation() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            val repository = Repository(morphePassword = "Morphe")
+            val model = SigningSettingsViewModel(repository)
+            model.state.first { !it.busy }
+            val bytes = byteArrayOf(0, 0, 0, 2, 1)
+            model.loadImport { bytes }
+            model.state.first { !it.busy }
+            assertEquals(1, repository.morpheAttempts)
+            assertTrue(repository.lastKeyPassword!!.all { it == '\u0000' })
+            assertTrue(bytes.all { it == 0.toByte() })
+            assertFalse(model.state.value.importPasswordRequired)
+            assertFalse(model.state.value.importIsBks)
+            assertNull(model.state.value.message)
+            assertEquals("selected", model.state.value.candidate!!.fingerprint)
+            assertEquals("original", model.state.value.info!!.fingerprint)
+            assertEquals(0, repository.activations)
+            model.cancelCandidate()
+            assertNull(model.state.value.candidate)
+            assertEquals(0, repository.activations)
+            model.loadImport { byteArrayOf(0, 0, 0, 2, 1) }
+            model.state.first { !it.busy }
+            model.confirmCandidate()
+            model.state.first { !it.busy }
+            assertEquals(1, repository.activations)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun cancelledDefaultInspectionDoesNotOpenCredentials() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            val repository = Repository(cancelInspection = true)
+            val model = SigningSettingsViewModel(repository)
+            model.state.first { !it.busy }
+            model.loadImport { byteArrayOf(0, 0, 0, 2, 1) }
+            model.state.first { !it.busy }
+            assertEquals(1, repository.morpheAttempts)
+            assertTrue(repository.lastKeyPassword!!.all { it == '\u0000' })
+            assertFalse(model.state.value.importPasswordRequired)
+            assertNull(model.state.value.candidate)
+            assertNull(model.state.value.message)
+            assertEquals(0, repository.activations)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun pkcs12AndLegacyBksDoNotTryMorpheDefaults() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        try {
+            val repository = Repository()
+            val model = SigningSettingsViewModel(repository)
+            model.state.first { !it.busy }
+            model.loadImport { byteArrayOf(1, 2, 3) }
+            model.state.first { !it.busy }
+            assertTrue(model.state.value.importPasswordRequired)
+            assertFalse(model.state.value.importIsBks)
+            model.cancelImport()
+            model.loadImport { byteArrayOf(0, 0, 0, 1, 1) }
+            model.state.first { !it.busy }
+            assertTrue(model.state.value.importPasswordRequired)
+            assertTrue(model.state.value.importIsBks)
+            assertEquals(0, repository.morpheAttempts)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     @Test
     fun importAndGenerationDoNotReplaceIdentityBeforeConfirmation() = runTest {
         Dispatchers.setMain(StandardTestDispatcher(testScheduler))
@@ -102,6 +177,10 @@ class SigningSettingsViewModelTest {
             model.loadImport { byteArrayOf(0, 0, 0, 2, 1) }
             model.state.first { !it.busy }
             assertTrue(model.state.value.importIsBks)
+            assertTrue(model.state.value.importPasswordRequired)
+            assertNull(model.state.value.message)
+            assertEquals(1, repository.morpheAttempts)
+            assertTrue(repository.lastKeyPassword!!.all { it == '\u0000' })
             val wrong = "wrong".toCharArray()
             val emptyStore = charArrayOf()
             model.inspectMorpheImport("Morphe", emptyStore, wrong)
@@ -123,8 +202,10 @@ class SigningSettingsViewModelTest {
         }
     }
 
-    private class Repository : SigningIdentityRepository {
+    private class Repository(private val morphePassword: String = "password", private val cancelInspection: Boolean = false) : SigningIdentityRepository {
         var activations = 0
+        var morpheAttempts = 0
+        var lastKeyPassword: CharArray? = null
         private var current = "original"
         override fun info() = SigningIdentityInfo(current, true, null)
         override fun exportBackup(password: CharArray) = byteArrayOf(1, 2, 3)
@@ -134,7 +215,11 @@ class SigningSettingsViewModelTest {
             return generateCandidate()
         }
         override fun inspectMorpheBackup(bytes: ByteArray, storePassword: CharArray, keyPassword: CharArray, alias: String): SigningIdentityCandidate {
-            require(alias == "Morphe" && keyPassword.concatToString() == "password" && storePassword.isEmpty())
+            morpheAttempts++
+            lastKeyPassword = keyPassword
+            if (cancelInspection) throw CancellationException("Inspection cancelled")
+            require(bytes.contentEquals(byteArrayOf(0, 0, 0, 2, 1)))
+            require(alias == "Morphe" && keyPassword.concatToString() == morphePassword && storePassword.isEmpty())
             return generateCandidate()
         }
         override fun generateCandidate() = object : SigningIdentityCandidate {
