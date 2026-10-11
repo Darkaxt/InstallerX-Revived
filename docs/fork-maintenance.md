@@ -8,7 +8,7 @@ Application ID: `com.darkaxt.installerx.resign` (coexists with upstream).
 
 The fork's installer-release identity is persistent and different from the
 personal APK identity generated separately on each device. Local release
-credentials are stored outside Git in `D:\Keys\InstallerX-Revived\signing.json`
+credentials are stored outside Git in `D:\Artifacts\_private-signing\InstallerX-Revived\signing.json`
 and `installerx-release.jks`. This directory is restricted to the current user
 and SYSTEM. Never print, commit or replace this material during synchronization.
 Future releases must use the same certificate to retain the installer UID and
