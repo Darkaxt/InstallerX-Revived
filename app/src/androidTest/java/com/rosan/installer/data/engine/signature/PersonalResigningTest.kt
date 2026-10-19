@@ -3,6 +3,7 @@ package com.rosan.installer.data.engine.signature
 
 import android.os.ParcelFileDescriptor
 import androidx.test.platform.app.InstrumentationRegistry
+import com.rosan.installer.data.engine.parser.CommonsZipFileProvider
 import com.rosan.installer.data.engine.repository.ApkResigningRepositoryImpl
 import com.rosan.installer.domain.engine.model.install.SessionMode
 import com.rosan.installer.domain.engine.model.packageinfo.AppEntity
@@ -31,7 +32,8 @@ class PersonalResigningTest {
     private val codec = SigningIdentityCodec()
     private val key = PersonalSigningKey(context, codec)
     private val installedReader = InstalledPackageSignatureReader(context, formatter)
-    private val analyzer = PendingApkSignatureAnalyzer(formatter, LightweightApkSignatureReader(formatter))
+    private val stampReader = ApkSourceStampReader(CommonsZipFileProvider(), formatter)
+    private val analyzer = PendingApkSignatureAnalyzer(formatter, LightweightApkSignatureReader(formatter, stampReader), stampReader)
     private val repository = ApkResigningRepositoryImpl(context, key, ApkResigner(), analyzer, installedReader)
 
     @Test

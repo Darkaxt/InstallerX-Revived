@@ -534,7 +534,6 @@ class InstallerSelectionTest {
                 check(name == "isSystemApp")
                 true
             },
-            installedPackageSignatureProvider = stub(),
             apkResigningRepository = stub { name, _ ->
                 check(name == "explicitEligiblePackages")
                 emptySet<String>()
@@ -589,6 +588,7 @@ class InstallerSelectionTest {
             sdkCompareInMultiLine = false,
             showOPPOSpecial = false,
             checkAppSignature = false,
+            checkSourceStamp = true,
             checkSplitPackageSignatures = false,
             showSignatureInfoOnMatch = false,
             showSignatureDetails = false,
@@ -630,6 +630,8 @@ class InstallerSelectionTest {
             labShowInstallInitiator = false,
             labInstallWithoutUserAction = false,
             labRespectPlatformInstallPolicy = false,
+            labEnableAbiOverride = false,
+            labTryDifferentArchitecture = false,
             enableFileLogging = false,
             themeMode = com.rosan.installer.domain.settings.model.preferences.theme.ThemeMode.entries.first(),
             paletteStyle = com.rosan.installer.domain.settings.model.preferences.theme.PaletteStyle.entries.first(),

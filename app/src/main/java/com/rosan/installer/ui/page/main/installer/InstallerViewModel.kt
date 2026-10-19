@@ -21,7 +21,6 @@ import com.rosan.installer.domain.engine.model.packageinfo.PackageAnalysisResult
 import com.rosan.installer.domain.engine.model.packageinfo.analyzePackageSignatureMatch
 import com.rosan.installer.domain.engine.model.packageinfo.analyzePackageSignatureSelection
 import com.rosan.installer.domain.engine.model.source.DataType
-import com.rosan.installer.domain.engine.provider.InstalledPackageSignatureProvider
 import com.rosan.installer.domain.engine.repository.ApkResigningRepository
 import com.rosan.installer.domain.engine.usecase.GetAppIconColorUseCase
 import com.rosan.installer.domain.engine.usecase.GetAppIconUseCase
@@ -66,7 +65,6 @@ class InstallerViewModel(
     private val getAppIconColor: GetAppIconColorUseCase,
     private val getAppLabel: GetAppLabelUseCase,
     private val deviceCapabilityProvider: DeviceCapabilityProvider,
-    private val installedPackageSignatureProvider: InstalledPackageSignatureProvider,
     private val apkResigningRepository: ApkResigningRepository,
 ) : ViewModel() {
 
@@ -743,7 +741,6 @@ class InstallerViewModel(
                     signatureMatchStatus = if (result.signatureCheckPerformed) {
                         clearedEntities.analyzePackageSignatureMatch(
                             installedInfo = result.installedAppInfo,
-                            hasSigningCertificate = installedPackageSignatureProvider::hasSigningCertificate,
                         )
                     } else {
                         result.signatureMatchStatus
@@ -920,7 +917,6 @@ class InstallerViewModel(
                     signatureMatchStatus = if (result.signatureCheckPerformed) {
                         entities.analyzePackageSignatureMatch(
                             installedInfo = result.installedAppInfo,
-                            hasSigningCertificate = installedPackageSignatureProvider::hasSigningCertificate,
                         )
                     } else {
                         result.signatureMatchStatus

@@ -160,7 +160,6 @@ class ApkResigningRepositoryImpl(
                     signatureAnalysis = entities.analyzePackageSignatureSelection(installedInfo),
                     signatureMatchStatus = entities.analyzePackageSignatureMatch(
                         installedInfo,
-                        installedReader::hasSigningCertificate,
                     ),
                 )
             }

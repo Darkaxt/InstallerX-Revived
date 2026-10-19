@@ -28,6 +28,7 @@ import com.rosan.installer.data.engine.repository.AppInstallerRepositoryImpl
 import com.rosan.installer.data.engine.repository.ModuleInstallerRepositoryImpl
 import com.rosan.installer.data.engine.repository.SigningIdentityRepositoryImpl
 import com.rosan.installer.data.engine.signature.ApkResigner
+import com.rosan.installer.data.engine.signature.ApkSourceStampReader
 import com.rosan.installer.data.engine.signature.CertificateFormatter
 import com.rosan.installer.data.engine.signature.InstalledPackageSignatureReader
 import com.rosan.installer.data.engine.signature.LightweightApkSignatureReader
@@ -71,6 +72,7 @@ val engineModule = module {
     singleOf(::ApkResigner)
     singleOf(::ApkResigningRepositoryImpl) { bind<ApkResigningRepository>() }
     singleOf(::CertificateFormatter)
+    singleOf(::ApkSourceStampReader)
     singleOf(::LightweightApkSignatureReader)
     singleOf(::PendingApkSignatureAnalyzer)
     singleOf(::InstalledPackageSignatureReader) { bind<InstalledPackageSignatureProvider>() }
