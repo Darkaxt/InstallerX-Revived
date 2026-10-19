@@ -43,6 +43,11 @@ upstream preview publishing is disabled for this fork.
    explicit activation, and actual signer comparison for Resign
    visibility in both interfaces. Verify matching signers hide the action even
    when optional signature checks are disabled.
+   Reconcile `morphe-handoff-spec.md`: retain the per-APK Morphe Extended action
+   only for eligible standalone local inputs when its receiver is available,
+   the adjacent labelled bandage Resign icon, original read-only URI handoff and
+   preparation-session retention in both interfaces. Keep Morphe's Expert-mode
+   prerequisite explicit; do not add package-catalogue filtering or automatic routing.
    Reconcile `branding-spec.md`: preserve InstallerX Resigned branding, fork-owned
    product links and the removal of unsupported community/helper/proxy presets.
    Never rotate either release or personal signing identities during a merge.

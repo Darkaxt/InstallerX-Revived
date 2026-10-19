@@ -36,6 +36,7 @@ data class InstallerState(
     val seedColor: Color? = null,
 
     val canResign: Boolean = false,
+    val morpheSourceUri: String? = null,
     val analysisResults: List<PackageAnalysisResult> = emptyList(),
     val config: ConfigModel = ConfigModel.generateOptimalDefault(),
 

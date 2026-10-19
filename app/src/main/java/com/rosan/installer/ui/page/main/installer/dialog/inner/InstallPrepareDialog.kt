@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,6 +38,7 @@ import com.rosan.installer.domain.engine.model.packageinfo.sortedBest
 import com.rosan.installer.domain.engine.model.source.DataType
 import com.rosan.installer.domain.engine.usecase.AnalyzeInstallStateUseCase
 import com.rosan.installer.ui.icons.AppIcons
+import com.rosan.installer.ui.page.main.installer.InstallerPatchActions
 import com.rosan.installer.ui.page.main.installer.InstallerViewAction
 import com.rosan.installer.ui.page.main.installer.InstallerViewModel
 import com.rosan.installer.ui.page.main.installer.components.WarningTextBlock
@@ -364,6 +366,27 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
     val notices = installStateResult.notices
     val buttonTextId = installStateResult.buttonTextId
 
+    val canInstallBaseEntity = (primaryEntity as? AppEntity.BaseEntity)?.let { base ->
+        if (entityToInstall != null) {
+            // Installing Base: Check SDK
+            base.minSdk?.toIntOrNull()?.let { sdk -> sdk <= Build.VERSION.SDK_INT } ?: true
+        } else {
+            // Bundle Split Update: Allowed if installed
+            isSplitUpdateMode
+        }
+    } ?: false
+
+    val canInstallModuleEntity = (primaryEntity as? AppEntity.ModuleEntity)?.let {
+        settings.enableModuleInstall
+    } ?: false
+
+    val canInstallSplitEntity = (primaryEntity as? AppEntity.SplitEntity)?.let {
+        currentPackage.installedAppInfo != null
+    } ?: false
+
+    val canInstall = !installStateResult.isOplusOsdkIncompatible &&
+        (canInstallBaseEntity || canInstallModuleEntity || canInstallSplitEntity)
+
     return baseParams.copy(
         // Subtitle is inherited from InstallInfoDialog (shows new version + package name)
         text = DialogInnerParams(
@@ -467,97 +490,77 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
                 }
             }
         },
-        buttons = dialogButtons(
-            DialogParamsType.InstallerPrepareInstall.id,
-        ) {
-            // --- Use buildList to dynamically create buttons ---
-            buildList {
-                val isAPK =
-                    containerType == DataType.APKS || containerType == DataType.XAPK || containerType == DataType.APKM ||
-                        containerType == DataType.MIXED_MODULE_APK
-
-                val canInstallBaseEntity = (primaryEntity as? AppEntity.BaseEntity)?.let { base ->
-                    if (entityToInstall != null) {
-                        // Installing Base: Check SDK
-                        base.minSdk?.toIntOrNull()?.let { sdk -> sdk <= Build.VERSION.SDK_INT } ?: true
-                    } else {
-                        // Bundle Split Update: Allowed if installed
-                        isSplitUpdateMode
-                    }
-                } ?: false
-
-                val canInstallModuleEntity = (primaryEntity as? AppEntity.ModuleEntity)?.let {
-                    settings.enableModuleInstall
-                } ?: false
-
-                val canInstallSplitEntity = (primaryEntity as? AppEntity.SplitEntity)?.let {
-                    currentPackage.installedAppInfo != null
-                } ?: false
-
-                val canInstall = !installStateResult.isOplusOsdkIncompatible &&
-                    (canInstallBaseEntity || canInstallModuleEntity || canInstallSplitEntity)
-
-                // only when the entity is a split APK, XAPK, or APKM
-                if (canInstall && settings.showExtendedMenu && isAPK) {
-                    add(
-                        DialogButton(stringResource(R.string.install_choice), 1f) {
-                            viewModel.dispatch(InstallerViewAction.InstallChoice)
-                        },
-                    )
-                }
-                if (canInstall) {
-                    add(
-                        DialogButton(
-                            text = stringResource(buttonTextId),
-                            weight = 1f,
-                            onLongClick = {
-                                if (!settings.longClickBackgroundInstall) return@DialogButton
-                                // Trigger install directly
-                                viewModel.dispatch(InstallerViewAction.Install(true))
-                                // Force background auto silent install regardless of settings
-                                if (!viewModel.isInstallingModule) {
-                                    viewModel.dispatch(InstallerViewAction.Background)
-                                }
-                            },
-                            onClick = {
-                                viewModel.dispatch(InstallerViewAction.Install(true))
-                                if (settings.autoSilentInstall && !viewModel.isInstallingModule) {
-                                    viewModel.dispatch(InstallerViewAction.Background)
-                                }
-                            },
-                        ),
-                    )
-                }
-                // else if app can be installed and extended menu is shown
-                if (canInstall && settings.showExtendedMenu && primaryEntity !is AppEntity.ModuleEntity) {
-                    add(
-                        DialogButton(stringResource(R.string.menu), 1f) {
-                            viewModel.dispatch(InstallerViewAction.InstallExtendedMenu)
-                        },
-                    )
-                }
-                if (canInstall && !settings.showExtendedMenu && isAPK) {
-                    add(
-                        DialogButton(stringResource(R.string.install_choice), 1f) {
-                            viewModel.dispatch(InstallerViewAction.InstallChoice)
-                        },
-                    )
-                }
-                // Cancel button always shown
-                if (canInstall && uiState.canResign) {
-                    add(
-                        DialogButton(stringResource(R.string.resign), 1f) {
-                            viewModel.dispatch(InstallerViewAction.Resign)
-                        },
-                    )
-                }
-                add(
-                    DialogButton(stringResource(R.string.cancel), 1f) {
-                        viewModel.dispatch(InstallerViewAction.Close)
-                    },
+        buttons = DialogInnerParams(DialogParamsType.InstallerPrepareInstall.id) {
+            Column(horizontalAlignment = Alignment.End) {
+                InstallerPatchActions(
+                    sourceUri = uiState.morpheSourceUri,
+                    canResign = canInstall && uiState.canResign,
+                    onPatch = { viewModel.dispatch(InstallerViewAction.PatchInMorphe) },
+                    onResign = { viewModel.dispatch(InstallerViewAction.Resign) },
                 )
+                dialogButtons(DialogParamsType.InstallerPrepareInstall.id) {
+                    // --- Use buildList to dynamically create buttons ---
+                    buildList {
+                        val isAPK =
+                            containerType == DataType.APKS || containerType == DataType.XAPK || containerType == DataType.APKM ||
+                                containerType == DataType.MIXED_MODULE_APK
+
+                        // only when the entity is a split APK, XAPK, or APKM
+                        if (canInstall && settings.showExtendedMenu && isAPK) {
+                            add(
+                                DialogButton(stringResource(R.string.install_choice), 1f) {
+                                    viewModel.dispatch(InstallerViewAction.InstallChoice)
+                                },
+                            )
+                        }
+                        if (canInstall) {
+                            add(
+                                DialogButton(
+                                    text = stringResource(buttonTextId),
+                                    weight = 1f,
+                                    onLongClick = {
+                                        if (!settings.longClickBackgroundInstall) return@DialogButton
+                                        // Trigger install directly
+                                        viewModel.dispatch(InstallerViewAction.Install(true))
+                                        // Force background auto silent install regardless of settings
+                                        if (!viewModel.isInstallingModule) {
+                                            viewModel.dispatch(InstallerViewAction.Background)
+                                        }
+                                    },
+                                    onClick = {
+                                        viewModel.dispatch(InstallerViewAction.Install(true))
+                                        if (settings.autoSilentInstall && !viewModel.isInstallingModule) {
+                                            viewModel.dispatch(InstallerViewAction.Background)
+                                        }
+                                    },
+                                ),
+                            )
+                        }
+                        // else if app can be installed and extended menu is shown
+                        if (canInstall && settings.showExtendedMenu && primaryEntity !is AppEntity.ModuleEntity) {
+                            add(
+                                DialogButton(stringResource(R.string.menu), 1f) {
+                                    viewModel.dispatch(InstallerViewAction.InstallExtendedMenu)
+                                },
+                            )
+                        }
+                        if (canInstall && !settings.showExtendedMenu && isAPK) {
+                            add(
+                                DialogButton(stringResource(R.string.install_choice), 1f) {
+                                    viewModel.dispatch(InstallerViewAction.InstallChoice)
+                                },
+                            )
+                        }
+                        // Cancel button always shown
+                        add(
+                            DialogButton(stringResource(R.string.cancel), 1f) {
+                                viewModel.dispatch(InstallerViewAction.Close)
+                            },
+                        )
+                    }
+                    // --- BuildList END ---
+                }.content?.invoke()
             }
-            // --- BuildList END ---
         },
     )
 }

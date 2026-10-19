@@ -27,6 +27,16 @@ maintained product resources. It has no dedicated Telegram channel, external
 locker-helper recommendation or bundled third-party download proxy. Direct GitHub
 downloads and a user-configured custom proxy are available.
 
+## Patch an APK in Morphe Extended
+
+When Morphe Extended is installed, a standalone APK preparation screen shows its
+icon beside the crossed-bandage **Resign** icon. Tap the Morphe icon to send the
+original APK to Morphe for patch selection and installation. Enable **Expert mode**
+in Morphe first; Morphe currently requires it for external APK shares. Long-press
+an action for its label. Importing a signing key is not required for this handoff.
+Containers, split-only inputs, modules and batches do not show the Morphe action.
+The normal Install action and automatic personal-key updates remain available.
+
 ## License and attribution
 
 GPL-3.0-only. Copyright (C) iamr0s and InstallerX Revived contributors; fork changes

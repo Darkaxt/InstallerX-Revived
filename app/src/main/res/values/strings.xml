@@ -1058,4 +1058,6 @@
     <string name="signing_key_alias">Key alias</string>
     <string name="signing_key_password">Key password</string>
     <string name="signing_store_password">Store password (optional)</string>
+    <string name="patch_in_morphe">Patch in Morphe Extended</string>
+    <string name="morphe_handoff_failed">Could not open the APK in Morphe Extended. Check that Morphe is installed and enabled.</string>
 </resources>

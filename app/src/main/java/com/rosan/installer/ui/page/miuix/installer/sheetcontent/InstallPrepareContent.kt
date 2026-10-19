@@ -55,6 +55,7 @@ import com.rosan.installer.domain.engine.model.source.DataType
 import com.rosan.installer.domain.engine.usecase.AnalyzeInstallStateUseCase
 import com.rosan.installer.domain.settings.model.config.Authorizer
 import com.rosan.installer.ui.icons.AppIcons
+import com.rosan.installer.ui.page.main.installer.InstallerPatchActions
 import com.rosan.installer.ui.page.main.installer.InstallerViewAction
 import com.rosan.installer.ui.page.main.installer.InstallerViewModel
 import com.rosan.installer.ui.page.main.installer.mapper.InstallNoticeResources
@@ -725,13 +726,13 @@ fun InstallPrepareContent(
                     modifier = Modifier.weight(1f),
                     interactionSource = interactionSource,
                 )
-                if (canInstall && uiState.canResign) {
-                    TextButton(
-                        onClick = { viewModel.dispatch(InstallerViewAction.Resign) },
-                        text = stringResource(R.string.resign),
-                        modifier = Modifier.weight(1f),
-                    )
-                }
+                InstallerPatchActions(
+                    sourceUri = uiState.morpheSourceUri,
+                    canResign = canInstall && uiState.canResign,
+                    useMiuix = true,
+                    onPatch = { viewModel.dispatch(InstallerViewAction.PatchInMorphe) },
+                    onResign = { viewModel.dispatch(InstallerViewAction.Resign) },
+                )
             }
         }
     }

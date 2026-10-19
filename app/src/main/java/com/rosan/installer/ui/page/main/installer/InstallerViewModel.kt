@@ -13,6 +13,7 @@ import com.rosan.installer.core.bitmask.addFlag
 import com.rosan.installer.core.bitmask.hasFlag
 import com.rosan.installer.core.bitmask.removeFlag
 import com.rosan.installer.domain.device.provider.DeviceCapabilityProvider
+import com.rosan.installer.domain.engine.model.install.MorpheHandoffPolicy
 import com.rosan.installer.domain.engine.model.install.SessionMode
 import com.rosan.installer.domain.engine.model.install.UninstallFlags
 import com.rosan.installer.domain.engine.model.install.sourcePath
@@ -103,6 +104,7 @@ class InstallerViewModel(
         resignEligibility,
     ) { local, prefs, eligibility ->
         local.copy(
+            morpheSourceUri = MorpheHandoffPolicy.sourceUri(local.analysisResults, session.sourceUris),
             canResign = eligibility != null && eligibility.first == (local.analysisResults to local.config) && eligibility.second.isNotEmpty(),
             viewSettings = local.viewSettings.copy(
                 useBlur = prefs.useBlur,
@@ -213,6 +215,14 @@ class InstallerViewModel(
             is InstallerViewAction.Install -> install()
 
             is InstallerViewAction.Resign -> install(resign = true)
+
+            is InstallerViewAction.PatchInMorphe -> {
+                if (_localState.value.stage == InstallerStage.InstallPrepare) {
+                    MorpheHandoffPolicy.sourceUri(_localState.value.analysisResults, session.sourceUris)?.let {
+                        _uiEvents.tryEmit(InstallerViewEvent.PatchInMorphe(it))
+                    }
+                }
+            }
 
             is InstallerViewAction.RequestUnknownSourcePermission -> requestUnknownSourcePermission()
 

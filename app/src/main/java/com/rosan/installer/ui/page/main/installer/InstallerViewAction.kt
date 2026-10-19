@@ -25,6 +25,7 @@ sealed interface InstallerViewAction {
      * @see com.rosan.installer.data.session.repository.InstallerSessionRepositoryImpl.Action.InstallMultiple
      */
     data object InstallMultiple : InstallerViewAction
+    data object PatchInMorphe : InstallerViewAction
     data object InstallPrepare : InstallerViewAction
 
     /**

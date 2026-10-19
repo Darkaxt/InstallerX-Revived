@@ -1034,4 +1034,6 @@
     <string name="signing_exported">签名文件已导出</string>
     <string name="signing_changed">签名身份已激活</string>
     <string name="signing_busy">处理中…</string>
+    <string name="patch_in_morphe">在 Morphe Extended 中打补丁</string>
+    <string name="morphe_handoff_failed">无法在 Morphe Extended 中打开 APK。请检查是否已安装并启用 Morphe。</string>
 </resources>

@@ -23,6 +23,8 @@ sealed interface InstallerViewEvent {
     /**
      * Share a file using its original content URI.
      */
+    data class PatchInMorphe(val uriString: String) : InstallerViewEvent
+
     data class ShareFile(val uriString: String, val mimeType: String) : InstallerViewEvent
 
     /**

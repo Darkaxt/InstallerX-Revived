@@ -44,6 +44,7 @@ import com.rosan.installer.domain.settings.provider.ThemeStateProvider
 import com.rosan.installer.domain.settings.repository.AppSettingsRepository
 import com.rosan.installer.domain.settings.repository.BooleanSetting
 import com.rosan.installer.framework.auth.BiometricAuthBridge
+import com.rosan.installer.framework.morphe.MorpheHandoff
 import com.rosan.installer.framework.packageupdate.SelfUpdateRecoveryManager
 import com.rosan.installer.ui.common.permission.PermissionRequester
 import com.rosan.installer.util.platformLaunchReferrer
@@ -91,7 +92,26 @@ class InstallerActivity :
     private val selfUpdateRecoveryManager: SelfUpdateRecoveryManager by inject()
     private lateinit var permissionRequester: PermissionRequester
 
-    // Flag to track if the activity is stopped due to a permission request
+    // Keep the preparation session and its URI grants while Morphe owns the foreground.
+    private var isExternalApkHandoff = false
+
+    fun openInMorphe(uriString: String) {
+        val handoff = MorpheHandoff.createIntent(this, uriString.toUri())
+        isExternalApkHandoff = true
+        try {
+            startActivity(handoff)
+        } catch (error: Exception) {
+            isExternalApkHandoff = false
+            throw error
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        isExternalApkHandoff = false
+    }
+
+    // Flag to track if the activity is stopped due to a permission request.
     private var isRequestingPermission = false
     private var unknownSourceSettingsLaunchedForFailure = false
     private var pendingUnknownSourcePackageName: String? = null
@@ -359,6 +379,8 @@ class InstallerActivity :
 
     override fun onStop() {
         super.onStop()
+
+        if (isExternalApkHandoff) return
 
         if (BiometricAuthBridge.isAuthenticating) {
             Timber.d("onStop: Ignored background trigger due to active biometric authentication.")

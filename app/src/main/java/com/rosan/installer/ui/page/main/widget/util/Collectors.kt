@@ -135,6 +135,14 @@ fun InstallerEventCollector(viewModel: InstallerViewModel) {
 
                 is InstallerViewEvent.ShowErrorToast -> context.toast(event.error.getErrorMessage(context))
 
+                is InstallerViewEvent.PatchInMorphe -> {
+                    try {
+                        requireNotNull(context as? InstallerActivity).openInMorphe(event.uriString)
+                    } catch (error: Exception) {
+                        context.toast(R.string.morphe_handoff_failed)
+                    }
+                }
+
                 is InstallerViewEvent.ShareFile -> {
                     try {
                         // Parse the original URI string back into an android.net.Uri

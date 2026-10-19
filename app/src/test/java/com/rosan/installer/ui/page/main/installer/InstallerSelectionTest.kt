@@ -26,9 +26,12 @@ import kotlin.test.assertSame
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -496,6 +499,35 @@ class InstallerSelectionTest {
         ),
         selected,
     )
+
+    @Test
+    fun `Morphe dispatch forwards the current original URI and rejects deselected or stale stages`() = fixture { scope ->
+        val original = base("original.apk", true)
+        val entry = original.copy(app = (original.app as AppEntity.BaseEntity).copy(sourceType = DataType.APK))
+        session.sourceUris = listOf("content://downloads/original.apk")
+        load(listOf(group(entry).copy(sessionMode = SessionMode.Single)))
+        session.progress.tryEmit(ProgressEntity.InstallAnalysedSuccess)
+        scope.runCurrent()
+        val events = mutableListOf<InstallerViewEvent>()
+        scope.backgroundScope.launch(UnconfinedTestDispatcher(scope.testScheduler)) { vm.uiEvents.collect { events.add(it) } }
+        val originalResults = session.analysisResults
+        vm.dispatch(InstallerViewAction.PatchInMorphe)
+        scope.runCurrent()
+        assertEquals(listOf<InstallerViewEvent>(InstallerViewEvent.PatchInMorphe("content://downloads/original.apk")), events)
+        assertSame(originalResults, session.analysisResults)
+        assertEquals(InstallerStage.InstallPrepare, vm.uiState.value.stage)
+        vm.dispatch(InstallerViewAction.SetApkSelection(false))
+        scope.runCurrent()
+        vm.dispatch(InstallerViewAction.PatchInMorphe)
+        scope.runCurrent()
+        assertEquals(1, events.size)
+        assertEquals(null, vm.uiState.value.morpheSourceUri)
+        session.progress.tryEmit(ProgressEntity.InstallSuccess)
+        scope.runCurrent()
+        vm.dispatch(InstallerViewAction.PatchInMorphe)
+        scope.runCurrent()
+        assertEquals(1, events.size)
+    }
 
     private fun fixture(block: Harness.(TestScope) -> Unit) = runTest {
         Dispatchers.setMain(StandardTestDispatcher(testScheduler))

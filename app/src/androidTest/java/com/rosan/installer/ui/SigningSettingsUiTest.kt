@@ -48,12 +48,16 @@ class SigningSettingsUiTest {
                             Intent(context, SettingsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                         )
                     }
-                    navigate(R.string.preferred, R.string.signing_settings)
+                    navigate(R.string.preferred, R.string.theme_settings)
+                    scrollTo(R.string.signing_settings)
                     navigate(R.string.signing_settings, R.string.signing_fingerprint)
-                    assertNotNull(find(currentRoot(), context.getString(R.string.signing_import_backup)))
-                    assertNotNull(find(currentRoot(), context.getString(R.string.signing_export_backup)))
+                    for (label in listOf(R.string.signing_export_backup, R.string.signing_import_backup)) {
+                        scrollTo(label)
+                        assertNotNull(find(currentRoot(), context.getString(label)))
+                    }
+                    scrollTo(R.string.signing_generate)
                     navigate(R.string.signing_generate, R.string.signing_replace_title)
-                    navigate(R.string.cancel, R.string.signing_fingerprint)
+                    navigate(R.string.cancel, R.string.signing_generate)
                     assertEquals(originalFingerprint, identities.info()?.fingerprint)
                     val bounds = Rect().also { requireNotNull(currentRoot()).getBoundsInScreen(it) }
                     instrumentation.sendStatus(
@@ -76,6 +80,19 @@ class SigningSettingsUiTest {
         while (!node.isClickable) node = requireNotNull(node.parent)
         assertTrue(node.isEnabled && node.isVisibleToUser)
         assertTrue(node.performAction(AccessibilityNodeInfo.ACTION_CLICK))
+    }
+
+    private fun scrollTo(label: Int) {
+        if (find(currentRoot(), context.getString(label)) != null) return
+        fun scrollable(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
+            node ?: return null
+            if (node.isVisibleToUser && node.actionList.any { it.id == AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_DOWN.id }) return node
+            for (index in 0 until node.childCount) scrollable(node.getChild(index))?.let { return it }
+            return null
+        }
+        observe(label) {
+            assertTrue(requireNotNull(scrollable(currentRoot())).performAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_DOWN.id))
+        }
     }
 
     private fun observe(destination: Int, action: () -> Unit) {
