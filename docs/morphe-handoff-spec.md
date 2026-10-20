@@ -70,11 +70,35 @@ Advancement blockers: none.
 Tracked deferrals: none.
 
 ### Stage 2: verified release
-Status: ACTIVE
+Status: COMPLETE
 Requirements: H6 and integrated H1-H5. Acceptance: exact-source optimized signed
 release, runtime checks applicable to optimized code, public delivery/updater and
 cleanup verified. Final specification reconciliation has no remaining gaps.
-Advancement blockers (internal): optimized signed build, optimized native checks,
-public artifact/updater verification and reviewed cleanup remain. Resolve all
-before release-stage closure and overall completion.
+Satisfied: normal release [26.10.1007](https://github.com/Darkaxt/InstallerX-Revived/releases/tag/26.10.1007),
+code 1585, built and tagged at `d6d2b2aa552224732525515ce5dc2b3b83dea6c5`.
+Upstream main is contained. Stable gate ticket 1525 passed optimization, style,
+two-worker/no-parallel/3 GB Gradle profile and daemon-exit verification.
+Independent local and anonymous public APK checks verified package, branding,
+version/code, existing release certificate, 16 KB alignment and SHA-256:
+`f82898842edcdd204daad5bdf26dd12000e0c73f9db019230cf82c80c663d93b`.
+The compiled Stable updater selected the actual published asset and compared
+1007 greater than 1006. Correct `StableRelease/mapping.txt` output was archived.
+
+The exact optimized APK updated the isolated emulator while preserving its
+existing personal identity fingerprint. Both native interfaces handed the fixture
+to Morphe's actual universal-patch selection screen and retained preparation on
+return. Cancelling patch selection and then leaving Morphe were verified; the
+Morphe home caption changes after its catalogue loads, so the actual destination
+hierarchy, rather than a fixed greeting, establishes cancellation/return.
+Patching/installation inside Morphe was not invoked. No physical device was changed.
+
+Reviewed cleanup transactions `c2722e6f33f7d739e21d9935d93c74c4` and
+`e891bfbf48b21a2849c5d88ce3371dae` are applied. Owned emulator processes exited;
+all six cleanup roots are absent. Release APK, mapping, native/host evidence and
+signing material are preserved outside those roots.
+
+Final reconciliation: H1-H6 satisfied and verified. Signing, backup, branding,
+updater and maintenance contracts remain intact. Stage-closure design assessment
+is unchanged; no required consolidation or additional implementation remains.
+Advancement blockers: none.
 Tracked deferrals: none.
