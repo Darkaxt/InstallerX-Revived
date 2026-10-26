@@ -14,7 +14,7 @@ existing uninstall flow, and translations (three missing commits).
 | Stage | Status | Requirements and acceptance |
 |---|---|---|
 | 1. Integrated upstream synchronization | COMPLETE | Merge all three commits without rebasing; preserve every fork behavior, branding/link/resource contracts and both native UIs. Fresh style, host suite, Preview compilation and relevant isolated Android signing/backup/install checks pass. Review actual merge and test evidence. |
-| 2. Verified signed delivery | ACTIVE | Commit verified integration, build optimized Stable from that exact source with the next numeric version (26.10.1008) and code >1585. Verify APK/package/label/certificate/alignment/hash, updater and applicable optimized runtime behavior; push/tag, publish normal release with APK/checksum, independently verify public download/source/latest feed; clean reviewed expendables. |
+| 2. Verified signed delivery | COMPLETE | Commit verified integration, build optimized Stable from that exact source with the next numeric version (26.10.1008) and code >1585. Verify APK/package/label/certificate/alignment/hash, updater and applicable optimized runtime behavior; push/tag, publish normal release with APK/checksum, independently verify public download/source/latest feed; clean reviewed expendables. |
 
 Stage 1 evidence: automatic merge reviewed; style, full Unstable host tests,
 Preview and Unstable/test APK builds pass (gate ticket 1781). The supervisor
@@ -38,11 +38,9 @@ Stage-closure assessment: upstream reuses the existing notice mapper and uninsta
 session/permission/confirmation path; no duplicate signing state, obsolete path
 or material design debt requiring consolidation was introduced.
 
-Stage 1 blockers: none. Stage 2 advancement blockers: optimized artifact,
-installer-update identity check and verified public delivery remain pending
-(internal; resolve through the recorded final delivery workflow).
+Stage 1 blockers: none. Stage 2 blockers: none.
 
-Tracked deferrals: none. Only Stage 2 is ACTIVE.
+Tracked deferrals: none. No stage is ACTIVE.
 
 Integration inspection: clean automatic merge retains both shared patch-action
 rows and signer policy. Corrected one existing Portuguese module-banner reference
@@ -67,3 +65,50 @@ Scratch: `D:/Temp/installerx-weekly-2026-10-26`; durable release evidence:
 `004914309f0abff7d9608bc1e404186b` inventories that exact scratch root and five
 generated build directories. Existing source, keys, deliverables and prior
 releases remain protected. No physical device installation is authorized.
+
+## Delivered release and final reconciliation
+
+Normal/latest release [26.10.1008](https://github.com/Darkaxt/InstallerX-Revived/releases/tag/26.10.1008),
+code 1590, was built and tagged at
+`dc72f3ccfe2ddef67e36264bcb1539bdeb43eaf9`, containing upstream main. Stable
+gate ticket 1783 waited behind the existing build, then verified its shared mutex,
+two workers, no parallel projects, 3 GB Gradle heap, Kotlin in-process and
+single-use daemon exit. No memory increase or competing emulator was required.
+The optional support notification monitor reported PermissionError; the original
+managed session remained supervised and was observed through verified completion.
+
+Local and independently retrieved anonymous public APKs match SHA-256:
+`e8fb12a5130368f935a0aaa97cc9f600acd83d3f637a01c3cf8011f643c1a0e5`.
+Independent SDK checks verified package, branding, version/code, original release
+certificate, signatures and 16 KB alignment. Packaged SHOW_APP_INFO routing and
+Stable build configuration were inspected. The actual compiled Stable updater
+selects the published APK from the latest normal release and orders 1008 >1007.
+The correct `StableRelease/mapping.txt` output is archived with the evidence.
+
+The optimized APK updated the same isolated emulator installation. Its existing
+encrypted personal identity remained byte-for-byte unchanged and decrypted to
+the displayed certificate fingerprint. Both optimized native preparation screens
+show the first-install Resign icon and hide Morphe when absent. The native Miuix
+theme selector is a UI Engine dropdown; the probe was corrected to open that
+existing control before choosing Material. No product workaround was necessary.
+No physical device was changed. Owned emulator processes exited normally.
+
+Cleanup transaction `004914309f0abff7d9608bc1e404186b` is applied after inspection
+of every signed-manifest member. All six generated roots are absent, with no
+exclusions, residuals or errors. Source, signed deliverables, retrace mapping,
+verification evidence, reproduction scripts and release keys remain preserved.
+
+The weekly heartbeat remains ACTIVE on the same chat. Its saved maintenance
+instructions now explicitly preserve the Morphe handoff contract. The Windows
+host currently uses Bucharest time; the former 09:00 local schedule fired at
+08:00 Berlin after the daylight-saving transition. Updated it through the native
+automation tool to Monday 10:00 host time, corresponding to the requested Monday
+09:00 Berlin. Saved target/status/prompt and winter/summer clock conversions were
+read back and verified; no future scheduled invocation is claimed.
+
+Final requirement reconciliation: R1-R9, B1-B6, M1-M5, H1-H6 and N1-N5 remain
+satisfied under the authoritative documents. Fresh relevant host, crypto, native
+install/backup, both UI, optimized update and public delivery checks are recorded
+above; unchanged feature paths retain their established evidence. The bounded
+stage-closure design assessment is unchanged, with no required consolidation.
+Remaining acceptance criteria, blockers and tracked deferrals: none.

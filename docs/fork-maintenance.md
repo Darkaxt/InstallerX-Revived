@@ -100,5 +100,9 @@ quiet when no upstream changes require action and publishes only a fully
 verified integrated update. Report meaningful completion, failure or required
 user action. Do not create speculative releases or merge unmerged upstream PRs.
 
+On the current Windows host (Europe/Bucharest), its saved local schedule is
+Monday 10:00, corresponding to Monday 09:00 Berlin in winter and summer. Reconcile
+this conversion if the host timezone changes; preserve the intended Berlin time.
+
 Automation ID: `sync-and-release-installerx-resign` (ACTIVE), attached to the
 original implementation task. Its saved recurrence and scope were inspected.
