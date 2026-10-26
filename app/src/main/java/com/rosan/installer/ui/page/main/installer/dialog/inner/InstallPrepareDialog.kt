@@ -173,6 +173,8 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
     val tagSignatureMatch = stringResource(R.string.tag_signature_match)
     val tagSignatureRotation = stringResource(R.string.tag_signature_rotation)
     val tagSignatureRotationUnconfirmed = stringResource(R.string.tag_signature_rotation_unconfirmed)
+    val tagAospSignature = stringResource(R.string.tag_aosp_signature)
+    val textAospSignature = stringResource(R.string.installer_prepare_aosp_signature)
     val sigNewInstall = stringResource(R.string.installer_prepare_signature_new_install)
     val sigMatch = stringResource(R.string.installer_prepare_signature_match)
     val sigRotationCompatible = stringResource(R.string.installer_prepare_signature_rotation_compatible)
@@ -238,7 +240,7 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
     val labelSignatureHybridClassical = stringResource(R.string.installer_signature_hybrid_classical)
     val labelSignatureHybridPqc = stringResource(R.string.installer_signature_hybrid_pqc)
 
-    val installResources = remember(primaryColor, errorColor, tertiaryColor) {
+    val installResources = remember(primaryColor, errorColor, tertiaryColor, tagAospSignature, textAospSignature) {
         InstallNoticeResources(
             tagDowngrade = tagDowngrade,
             textDowngrade = downgradeWarning,
@@ -246,6 +248,8 @@ fun installPrepareDialog(viewModel: InstallerViewModel): DialogParams {
             tagSignatureMatch = tagSignatureMatch,
             tagSignatureRotation = tagSignatureRotation,
             tagSignatureRotationUnconfirmed = tagSignatureRotationUnconfirmed,
+            tagAospSignature = tagAospSignature,
+            textAospSignature = textAospSignature,
             textSigNewInstall = sigNewInstall,
             textSigMatch = sigMatch,
             textSigRotationCompatible = sigRotationCompatible,
