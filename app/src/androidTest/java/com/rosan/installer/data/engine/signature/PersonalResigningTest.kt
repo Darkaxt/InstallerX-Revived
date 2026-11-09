@@ -2,9 +2,13 @@
 package com.rosan.installer.data.engine.signature
 
 import android.os.ParcelFileDescriptor
+import androidx.core.net.toUri
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rosan.installer.data.engine.parser.CommonsZipFileProvider
 import com.rosan.installer.data.engine.repository.ApkResigningRepositoryImpl
+import com.rosan.installer.domain.engine.model.AnalyseExtraEntity
+import com.rosan.installer.domain.engine.model.install.InstallEntity
+import com.rosan.installer.domain.engine.model.install.InstallMetadata
 import com.rosan.installer.domain.engine.model.install.SessionMode
 import com.rosan.installer.domain.engine.model.packageinfo.AppEntity
 import com.rosan.installer.domain.engine.model.packageinfo.InstalledAppInfo
@@ -13,10 +17,22 @@ import com.rosan.installer.domain.engine.model.packageinfo.PackageIdentityStatus
 import com.rosan.installer.domain.engine.model.packageinfo.SignatureMatchStatus
 import com.rosan.installer.domain.engine.model.source.DataEntity
 import com.rosan.installer.domain.engine.model.source.DataType
+import com.rosan.installer.domain.engine.repository.AnalyserRepository
+import com.rosan.installer.domain.engine.repository.AppInstallerRepository
 import com.rosan.installer.domain.session.model.InstallSourceConfidence
 import com.rosan.installer.domain.session.model.SelectInstallEntity
+import com.rosan.installer.domain.session.repository.NetworkResolver
+import com.rosan.installer.domain.settings.model.config.Authorizer
 import com.rosan.installer.domain.settings.model.config.ConfigModel
+import com.rosan.installer.domain.settings.model.config.NetworkSourceMode
+import com.rosan.installer.domain.settings.model.preferences.HttpProfile
+import com.rosan.installer.domain.settings.model.preferences.NetworkAppNameSource
+import com.rosan.installer.domain.settings.repository.AppSettingsRepository
+import com.rosan.installer.domain.settings.repository.BooleanSetting
+import com.rosan.installer.domain.settings.repository.StringSetting
 import java.io.File
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -24,6 +40,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.koin.core.context.GlobalContext
 
 class PersonalResigningTest {
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -35,6 +52,95 @@ class PersonalResigningTest {
     private val stampReader = ApkSourceStampReader(CommonsZipFileProvider(), formatter)
     private val analyzer = PendingApkSignatureAnalyzer(formatter, LightweightApkSignatureReader(formatter, stampReader), stampReader)
     private val repository = ApkResigningRepositoryImpl(context, key, ApkResigner(), analyzer, installedReader)
+
+    /** Run with rangeUrl pointing to the host-owned HTTP Range APK-set fixture. */
+    @Test
+    fun streamedSplitArchiveRetainsSignerRulesAndUpdatesWithPersonalKey() = runBlocking {
+        val settings = GlobalContext.get().get<AppSettingsRepository>()
+        val previous = settings.preferencesFlow.first()
+        val directory = File(context.cacheDir, "streamed-resigning-test").apply { mkdirs() }
+        val base = asset(directory, "base")
+        try {
+            settings.putBoolean(BooleanSetting.AllowInternetAccess, true)
+            settings.putString(StringSetting.LabHttpProfile, HttpProfile.ALLOW_ALL.name)
+            settings.putString(StringSetting.NetworkAppNameSource, NetworkAppNameSource.ServerFilename.value)
+            settings.putBoolean(BooleanSetting.NetworkLoadAppIcon, false)
+            val uri = requireNotNull(InstrumentationRegistry.getArguments().getString("rangeUrl")).toUri()
+            val sources = GlobalContext.get().get<NetworkResolver>().resolve(
+                uri, directory.path, NetworkSourceMode.StreamOnly, MutableSharedFlow(),
+            )
+            assertTrue((sources.single() as DataEntity.FileDescriptorEntity).isNetworkSource)
+            shell("pm uninstall $PACKAGE")
+            install(base)
+            val analysis = GlobalContext.get().get<AnalyserRepository>().doWork(
+                ConfigModel.default, sources, AnalyseExtraEntity(directory.path, checkAppSignature = false),
+            ).single().let { result ->
+                result.copy(appEntities = result.appEntities.map { it.copy(selected = true) })
+            }
+            assertEquals(2, analysis.appEntities.size)
+            assertFalse(analysis.signatureCheckPerformed)
+            assertTrue(repository.explicitEligiblePackages(listOf(analysis), ConfigModel.default).isEmpty())
+            shell("pm uninstall $PACKAGE")
+            repository.prepare(listOf(result(base)), true).use { signed ->
+                install(File((signed.results.single().appEntities.single().app.data as DataEntity.FileEntity).path))
+            }
+            shell("run-as $PACKAGE mkdir -p files")
+            shell("run-as $PACKAGE sh -c 'echo retained > files/streamed-state'")
+            assertEquals(setOf(PACKAGE), repository.explicitEligiblePackages(listOf(analysis), ConfigModel.default))
+            repository.prepare(listOf(analysis), false).use { signed ->
+                assertEquals(setOf(PACKAGE), signed.resignedPackages)
+                val apps = signed.results.single().appEntities.map { it.app }
+                assertTrue(apps.all { analyzer.analyze((it.data as DataEntity.FileEntity).path).signerSha256Set == installedReader.read(PACKAGE)!!.signerSha256Set })
+                installSet(apps)
+            }
+            assertEquals(2L, context.packageManager.getPackageInfo(PACKAGE, 0).longVersionCode)
+            assertEquals("retained", shell("run-as $PACKAGE cat files/streamed-state").trim())
+        } finally {
+            shell("pm uninstall $PACKAGE")
+            settings.putBoolean(BooleanSetting.AllowInternetAccess, previous.allowInternetAccess)
+            settings.putString(StringSetting.LabHttpProfile, previous.labHttpProfile.name)
+            settings.putString(StringSetting.NetworkAppNameSource, previous.networkAppNameSource.value)
+            settings.putBoolean(BooleanSetting.NetworkLoadAppIcon, previous.networkLoadAppIcon)
+        }
+    }
+
+    /** Run only after Shizuku is running and this isolated test installation is authorized. */
+    @Test
+    fun shizukuNonAdbUsesAppOwnedSessionAndPersonalSigner() = runBlocking {
+        val settings = GlobalContext.get().get<AppSettingsRepository>()
+        val previous = settings.preferencesFlow.first().labShizukuNonAdbInstall
+        val directory = File(context.cacheDir, "non-adb-resigning-test").apply { mkdirs() }
+        val base = asset(directory, "base")
+        val installer = GlobalContext.get().get<AppInstallerRepository>()
+        val config = ConfigModel.default.copy(authorizer = Authorizer.Shizuku)
+        var appOwnedSessionObserved = false
+        try {
+            shell("pm uninstall $PACKAGE")
+            settings.putBoolean(BooleanSetting.LabShizukuNonAdbInstall, true)
+            assertEquals(context.packageName, installer.resolveInstallerPackageName(config))
+            repository.prepare(listOf(result(base)), true).use { signed ->
+                val app = signed.results.single().appEntities.single().app
+                installer.doInstallWork(
+                    config = config,
+                    entities = listOf(InstallEntity(app.name, PACKAGE, data = app.data, sourceType = DataType.APK)),
+                    metadata = InstallMetadata(onPlatformSessionActiveChanged = { id, active ->
+                        if (active) {
+                            assertTrue(context.packageManager.packageInstaller.mySessions.any { it.sessionId == id })
+                            appOwnedSessionObserved = true
+                        }
+                    }),
+                    respectPlatformInstallPolicy = true,
+                    blacklist = emptyList(), sharedUserIdBlacklist = emptyList(), sharedUserIdExemption = emptyList(),
+                )
+            }
+            assertTrue(appOwnedSessionObserved)
+            assertEquals(context.packageName, context.packageManager.getInstallSourceInfo(PACKAGE).installingPackageName)
+            assertEquals(setOf(formatter.format(key.getOrCreate().signingCertificate).sha256), installedReader.read(PACKAGE)!!.signerSha256Set)
+        } finally {
+            shell("pm uninstall $PACKAGE")
+            settings.putBoolean(BooleanSetting.LabShizukuNonAdbInstall, previous)
+        }
+    }
 
     @Test
     fun generatedKeySignsRealApkInstallsAndRetainsItsIdentity() = runBlocking {

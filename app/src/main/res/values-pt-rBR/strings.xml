@@ -665,6 +665,7 @@
     <string name="installer_resolving_desc">Analisando conteúdo instalável da entrada…</string>
     <string name="lab_update_github_proxy">Canal de atualização do GitHub</string>
     <string name="lab_update_github_proxy_official">Oficial</string>
+
     <string name="lab_update_github_proxy_custom">GHProxy Personalizado</string>
     <string name="lab_update_github_proxy_url">URL Personalizada</string>
     <string name="notification_settings">Configurações de Notificação</string>
@@ -717,6 +718,7 @@
     <string name="setting_lsposed_module_desc">Ative essa opção se você tiver forçado a substituição do instalador padrão por meio de um módulo Xposed de terceiros. Isso desativa a verificação interna de status, e a página inicial ficará constantemente exibindo “Ativado”</string>
     <string name="home_stat_authorizers">Privilégios Disponíveis</string>
     <string name="home_stat_profiles">Perfis</string>
+
     <string name="shizuku_not_authorized">Por favor, conceda permissão para acessar o Sui ou o Shizuku</string>
     <string name="shizuku_not_available">Por favor, ative o Sui ou o Shizuku</string>
     <string name="dhizuku_not_authorized">Por favor, conceda permissão para acessar o Dhizuku</string>
@@ -919,9 +921,7 @@
     <string name="expand_temporary_settings_by_default">Expandir o painel por padrão</string>
     <string name="expand_temporary_settings_by_default_desc">Expandir as configurações temporárias ao abrir a caixa de diálogo de instalação</string>
     <string name="self_update_install_success">O InstallerX Resigned foi atualizado com sucesso</string>
-    <string name="config_check_split_package_signatures_desc">Analisar as assinaturas de APK em pacotes APKS, APKM e XAPK. Isso pode aumentar significativamente o tempo de análise</string>
     <string name="installer_writing">Gravando…</string>
-    <string name="config_check_split_package_signatures">Analisar assinaturas de pacotes divididos</string>
     <string name="network_access">Acesso à rede</string>
     <string name="allow_internet_access">Permitir acesso à internet</string>
     <string name="allow_internet_access_desc">Permitir que o InstallerX Resigned verifique se há atualizações e baixe APKs a partir de links da internet</string>
@@ -989,4 +989,6 @@
     <string name="lab_enable_abi_override_desc">Tentar instalar bibliotecas nativas dentro da mesma família de arquitetura. Requer suporte do sistema</string>
     <string name="lab_try_different_architecture">Outras arquiteturas</string>
     <string name="lab_try_different_architecture_desc">Tentar também instalar bibliotecas nativas de outras famílias de arquitetura</string>
+    <string name="theme_settings_use_amoled">Fundo AMOLED</string>
+    <string name="theme_settings_use_amoled_desc">Use um fundo preto puro nas telas de configurações no modo escuro</string>
 </resources>
