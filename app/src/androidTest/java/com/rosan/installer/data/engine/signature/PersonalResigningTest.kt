@@ -74,7 +74,8 @@ class PersonalResigningTest {
             )
             assertTrue((sources.single() as DataEntity.FileDescriptorEntity).isNetworkSource)
             shell("pm uninstall $PACKAGE")
-            install(base)
+            // update.apk and split.apk share their signer; base.apk deliberately uses another.
+            install(asset(directory, "update"))
             val analysis = GlobalContext.get().get<AnalyserRepository>().doWork(
                 ConfigModel.default,
                 sources,
@@ -90,7 +91,10 @@ class PersonalResigningTest {
                 install(File((signed.results.single().appEntities.single().app.data as DataEntity.FileEntity).path))
             }
             shell("run-as $PACKAGE mkdir -p files")
-            shell("run-as $PACKAGE sh -c 'echo retained > files/streamed-state'")
+            val marker = instrumentation.uiAutomation.executeShellCommandRwe("run-as $PACKAGE tee files/streamed-state")
+            ParcelFileDescriptor.AutoCloseOutputStream(marker[1]).use { it.write("retained".toByteArray()) }
+            assertEquals("retained", ParcelFileDescriptor.AutoCloseInputStream(marker[0]).use { it.readBytes().decodeToString() })
+            assertEquals("", ParcelFileDescriptor.AutoCloseInputStream(marker[2]).use { it.readBytes().decodeToString() })
             assertEquals(setOf(PACKAGE), repository.explicitEligiblePackages(listOf(analysis), ConfigModel.default))
             repository.prepare(listOf(analysis), false).use { signed ->
                 assertEquals(setOf(PACKAGE), signed.resignedPackages)

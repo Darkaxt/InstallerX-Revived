@@ -37,8 +37,26 @@ Evidence: `source-readiness.json` and `merge-resolutions.json` in the evidence r
 Stage-closure design assessment found no material duplicated ownership or new
 infrastructure; the merge reuses existing source, signing and install boundaries.
 
-Current advancement blocker: Stage 2 compiled/runtime/artifact criteria remain
-unverified (internal; resolve by the recorded gated checks and isolated workflow).
+Stage 2 evidence so far: the full gated style/host/Preview/Unstable/Android-test/
+optimized Stable build passed with verified native daemon exit. Real Android
+backup/import/update/legacy checks passed. A personal identity created natively
+in published 26.10.1008 survived the testable upgrade byte-for-byte. The real
+Shizuku server and its native authorization UI enabled an app-owned installation
+with the expected personal signer. Existing personal signing/update and signer
+visibility checks passed.
+
+The new streaming check exposed an incorrect test-fixture assumption: bundled
+base.apk uses signer fb5dbd3c, while update.apk and split.apk use 681b0e56. The
+observed conflict correctly offered Resign. Its matching-signer setup now installs
+update.apk first; the later personally signed base-to-streamed-update path stays
+unchanged. Marker writing reuses the existing byte-pipe fixture technique.
+`fixture-signers.json` and the original runtime receipt retain the failure evidence.
+The test correction requires fresh affected compilation/runtime checks and final
+versioned packaging; the unchanged application host/UI compilation remains valid.
+
+Current advancement blocker: Stage 2 streaming, remaining native actions and
+final artifact criteria remain unverified (internal; resolve by the corrected
+gated build and isolated workflow). No acceptance criteria were weakened.
 Tracked deferrals: none. Only Stage 2 is ACTIVE.
 
 Storage: exact scratch `D:/Temp/installerx-weekly-2026-11-09` uses the D: exception
