@@ -67,13 +67,18 @@ class PersonalResigningTest {
             settings.putBoolean(BooleanSetting.NetworkLoadAppIcon, false)
             val uri = requireNotNull(InstrumentationRegistry.getArguments().getString("rangeUrl")).toUri()
             val sources = GlobalContext.get().get<NetworkResolver>().resolve(
-                uri, directory.path, NetworkSourceMode.StreamOnly, MutableSharedFlow(),
+                uri,
+                directory.path,
+                NetworkSourceMode.StreamOnly,
+                MutableSharedFlow(),
             )
             assertTrue((sources.single() as DataEntity.FileDescriptorEntity).isNetworkSource)
             shell("pm uninstall $PACKAGE")
             install(base)
             val analysis = GlobalContext.get().get<AnalyserRepository>().doWork(
-                ConfigModel.default, sources, AnalyseExtraEntity(directory.path, checkAppSignature = false),
+                ConfigModel.default,
+                sources,
+                AnalyseExtraEntity(directory.path, checkAppSignature = false),
             ).single().let { result ->
                 result.copy(appEntities = result.appEntities.map { it.copy(selected = true) })
             }
@@ -130,7 +135,9 @@ class PersonalResigningTest {
                         }
                     }),
                     respectPlatformInstallPolicy = true,
-                    blacklist = emptyList(), sharedUserIdBlacklist = emptyList(), sharedUserIdExemption = emptyList(),
+                    blacklist = emptyList(),
+                    sharedUserIdBlacklist = emptyList(),
+                    sharedUserIdExemption = emptyList(),
                 )
             }
             assertTrue(appOwnedSessionObserved)
