@@ -36,10 +36,12 @@ class SigningSettingsUiTest {
         val settings = GlobalContext.get().get<AppSettingsRepository>()
         val identities = GlobalContext.get().get<SigningIdentityRepository>()
         val originalStyle = settings.getBoolean(BooleanSetting.UiUseMiuix).first()
+        val originalOs4 = settings.getBoolean(BooleanSetting.UiUseMiuixOs4).first()
         try {
-            for (miuix in listOf(false, true)) {
+            for ((miuix, os4) in listOf(false to false, true to false, true to true)) {
                 settings.putBoolean(BooleanSetting.UiUseMiuix, miuix)
-                GlobalContext.get().get<ThemeStateProvider>().themeStateFlow.first { it.isLoaded && it.useMiuix == miuix }
+                settings.putBoolean(BooleanSetting.UiUseMiuixOs4, os4)
+                GlobalContext.get().get<ThemeStateProvider>().themeStateFlow.first { it.isLoaded && it.useMiuix == miuix && it.useMiuixOs4 == os4 }
                 val originalFingerprint = identities.info()?.fingerprint
                 var activity: Activity? = null
                 try {
@@ -63,7 +65,7 @@ class SigningSettingsUiTest {
                     instrumentation.sendStatus(
                         0,
                         Bundle().apply {
-                            putString("stream", "SIGNING_UI style=${if (miuix) "miuix" else "material"} bounds=$bounds controls=present replacement=cancelled identity=preserved\n")
+                            putString("stream", "SIGNING_UI style=${if (miuix) "miuix" else "material"} os4=$os4 bounds=$bounds controls=present replacement=cancelled identity=preserved\n")
                         },
                     )
                 } finally {
@@ -72,6 +74,7 @@ class SigningSettingsUiTest {
             }
         } finally {
             settings.putBoolean(BooleanSetting.UiUseMiuix, originalStyle)
+            settings.putBoolean(BooleanSetting.UiUseMiuixOs4, originalOs4)
         }
     }
 

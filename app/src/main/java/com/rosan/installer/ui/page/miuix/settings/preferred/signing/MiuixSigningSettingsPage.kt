@@ -26,7 +26,11 @@ import com.rosan.installer.ui.page.main.settings.preferred.signing.SigningMessag
 import com.rosan.installer.ui.page.main.settings.preferred.signing.SigningSettingsViewModel
 import com.rosan.installer.ui.page.main.settings.preferred.signing.rememberSigningImportPicker
 import com.rosan.installer.ui.page.main.settings.preferred.signing.stringResourceId
-import com.rosan.installer.ui.page.miuix.widgets.MiuixBackButton
+import com.rosan.installer.ui.page.miuix.widgets.InstallerMiuixBackButton
+import com.rosan.installer.ui.page.miuix.widgets.InstallerMiuixBackdropSurface
+import com.rosan.installer.ui.page.miuix.widgets.InstallerMiuixTopAppBar
+import com.rosan.installer.ui.theme.InstallerTheme
+import com.rosan.installer.ui.theme.rememberMiuixBlurBackdrop
 import org.koin.androidx.compose.koinViewModel
 import top.yukonga.miuix.kmp.basic.BasicComponent
 import top.yukonga.miuix.kmp.basic.ButtonDefaults
@@ -36,50 +40,53 @@ import top.yukonga.miuix.kmp.basic.SmallTitle
 import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.basic.TextField
-import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.window.WindowDialog
 
 @Composable
-fun MiuixSigningSettingsPage(viewModel: SigningSettingsViewModel = koinViewModel()) {
+fun MiuixSigningSettingsPage(useBlur: Boolean = false, viewModel: SigningSettingsViewModel = koinViewModel()) {
     val navigator = LocalNavigator.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val importBackup = rememberSigningImportPicker(viewModel)
     var exportPassword by remember { mutableStateOf(false) }
     var restoreLegacy by remember { mutableStateOf(false) }
     val info = state.info
+    val backdrop = rememberMiuixBlurBackdrop(useBlur || InstallerTheme.useMiuixOs4)
     Scaffold(topBar = {
-        TopAppBar(title = stringResource(R.string.signing_settings), navigationIcon = { MiuixBackButton { navigator.pop() } })
+        InstallerMiuixTopAppBar(title = stringResource(R.string.signing_settings), backdrop = backdrop, navigationIcon = { InstallerMiuixBackButton(onClick = { navigator.pop() }) })
     }) { padding ->
-        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = padding) {
-            item {
-                Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(stringResource(R.string.signing_identity_desc))
-                    Text(stringResource(R.string.signing_fingerprint))
-                    Text(info?.fingerprint ?: stringResource(R.string.signing_no_identity))
-                    if (info != null) Text(stringResource(if (info.exportable) R.string.signing_portable else R.string.signing_legacy))
-                    state.message?.let { Text(stringResource(it.stringResourceId())) }
-                    if (state.busy) Text(stringResource(R.string.signing_busy))
+        InstallerMiuixBackdropSurface(backdrop = backdrop, modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = padding) {
+                item {
+                    Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Text(stringResource(R.string.signing_identity_desc))
+                        Text(stringResource(R.string.signing_fingerprint))
+                        Text(info?.fingerprint ?: stringResource(R.string.signing_no_identity))
+                        if (info != null) Text(stringResource(if (info.exportable) R.string.signing_portable else R.string.signing_legacy))
+                        state.message?.let { Text(stringResource(it.stringResourceId())) }
+                        if (state.busy) Text(stringResource(R.string.signing_busy))
+                    }
                 }
-            }
-            item { SmallTitle(stringResource(R.string.signing_backup)) }
-            item {
-                Card(Modifier.padding(horizontal = 12.dp)) {
-                    BasicComponent(title = stringResource(R.string.signing_export_backup), summary = stringResource(R.string.signing_export_backup_desc), enabled = !state.busy && info?.exportable == true, onClick = { exportPassword = true })
-                    BasicComponent(title = stringResource(R.string.signing_import_backup), summary = stringResource(R.string.signing_import_supported_desc), enabled = !state.busy, onClick = importBackup)
-                    BasicComponent(title = stringResource(R.string.signing_export_certificate), summary = stringResource(R.string.signing_export_certificate_desc), enabled = !state.busy && info != null, onClick = { viewModel.export() })
+                item { SmallTitle(stringResource(R.string.signing_backup)) }
+                item {
+                    Card(Modifier.padding(horizontal = 12.dp)) {
+                        BasicComponent(title = stringResource(R.string.signing_export_backup), summary = stringResource(R.string.signing_export_backup_desc), enabled = !state.busy && info?.exportable == true, onClick = { exportPassword = true })
+                        BasicComponent(title = stringResource(R.string.signing_import_backup), summary = stringResource(R.string.signing_import_supported_desc), enabled = !state.busy, onClick = importBackup)
+                        BasicComponent(title = stringResource(R.string.signing_export_certificate), summary = stringResource(R.string.signing_export_certificate_desc), enabled = !state.busy && info != null, onClick = { viewModel.export() })
+                    }
                 }
-            }
-            item { SmallTitle(stringResource(R.string.signing_identity)) }
-            item {
-                Card(Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
-                    BasicComponent(title = stringResource(R.string.signing_generate), summary = stringResource(R.string.signing_generate_desc), enabled = !state.busy, onClick = { viewModel.generateCandidate() })
-                    if (info?.legacyFingerprint != null && info.exportable) {
-                        BasicComponent(title = stringResource(R.string.signing_restore_legacy), summary = stringResource(R.string.signing_restore_legacy_desc), enabled = !state.busy, onClick = { restoreLegacy = true })
+                item { SmallTitle(stringResource(R.string.signing_identity)) }
+                item {
+                    Card(Modifier.padding(horizontal = 12.dp, vertical = 12.dp)) {
+                        BasicComponent(title = stringResource(R.string.signing_generate), summary = stringResource(R.string.signing_generate_desc), enabled = !state.busy, onClick = { viewModel.generateCandidate() })
+                        if (info?.legacyFingerprint != null && info.exportable) {
+                            BasicComponent(title = stringResource(R.string.signing_restore_legacy), summary = stringResource(R.string.signing_restore_legacy_desc), enabled = !state.busy, onClick = { restoreLegacy = true })
+                        }
                     }
                 }
             }
         }
     }
+
     if (state.importPasswordRequired && state.importIsBks) {
         MiuixMorpheCredentialsDialog(
             busy = state.busy,

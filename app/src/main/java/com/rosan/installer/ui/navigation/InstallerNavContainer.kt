@@ -182,7 +182,7 @@ fun InstallerNavContainer(uiState: ThemeState) {
             }
             entry<Route.Signing>(swipeDismiss = swipeBackDirection) {
                 InstallerNavEntry(interceptPredictiveBack, onBack) {
-                    if (uiState.useMiuix) MiuixSigningSettingsPage() else SigningSettingsPage()
+                    if (uiState.useMiuix) MiuixSigningSettingsPage(useBlur = uiState.useBlur) else SigningSettingsPage()
                 }
             }
             entry<Route.InstallerGlobal>(swipeDismiss = swipeBackDirection) {

@@ -28,7 +28,8 @@ class MorpheHandoffTest {
     @Test
     fun prepareRuntimeFixture() = runBlocking {
         val settings = GlobalContext.get().get<AppSettingsRepository>()
-        settings.putString(StringSetting.Authorizer, Authorizer.None.value)
+        val authorizer = if (InstrumentationRegistry.getArguments().getString("authorizer") == "shizuku") Authorizer.Shizuku else Authorizer.None
+        settings.putString(StringSetting.Authorizer, authorizer.value)
         settings.putBoolean(BooleanSetting.UiUseMiuix, InstrumentationRegistry.getArguments().getString("miuix") == "true")
         settings.putBoolean(BooleanSetting.DialogDisableNotificationOnDismiss, true)
         val file = File(context.filesDir, "morphe-runtime-base.apk")
