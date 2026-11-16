@@ -185,7 +185,6 @@ fun MiuixDefaultInstallerPage(useBlur: Boolean, viewModel: HomePageViewModel = k
                             )
                         }
                     }
-
                 }
 
                 item { Spacer(Modifier.navigationBarsPadding()) }
